@@ -47,7 +47,7 @@
 
 - (void)shareBtnClicked {
     NSArray *activity = @[[[WeixinSessionActivity alloc] init], [[WeixinTimelineActivity alloc] init]];
-    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"Welcome to Xike!",[NSURL URLWithString:@""]] applicationActivities:activity];
+    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"Welcome to Xike!",_url] applicationActivities:activity];
     [self presentViewController:activityView animated:YES completion:^{
         
         //[self uploadToServer:_event];
@@ -70,5 +70,14 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
+}
 
 @end
