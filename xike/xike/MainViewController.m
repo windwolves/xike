@@ -50,13 +50,14 @@ const float MoveAnimationDuration = 0.3;
 - (void)viewWillAppear:(BOOL)animated {
     //[self viewDidLoad];
     //TabBar
-    tabbarView = [[TabbarView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-49, self.view.bounds.size.width, 49)];
+    tabbarView = [[TabbarView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-49, self.view.bounds.size.width, 49) withSelectedTag:g_flags];
     tabbarView.delegate = self;
     [self.mainView addSubview:tabbarView];
     //Add gesture
     _panGestureReconginzer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panInMainView:)];
     //[self.mainView addGestureRecognizer:_panGestureReconginzer];
     [contentView addGestureRecognizer:_panGestureReconginzer];
+    [self moveAnimationWithDirection:SideBarShowDirectionNone duration:MoveAnimationDuration];   
 }
 
 - (void)viewDidLoad

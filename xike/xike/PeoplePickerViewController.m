@@ -460,7 +460,7 @@
 
 #pragma alertView
 - (void)showAlertView:(NSString *)message {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
     if ([message  isEqual: MESSAGE_SENT]) {
         alertView.tag = 1;
     } else {

@@ -10,6 +10,10 @@
 #import "ColorHandler.h"
 #import "ImageControl.h"
 #import "PreViewController.h"
+#import "TemplateInfo.h"
+#import "TemplateTableViewCell.h"
+
+#define HOST @"http://121.40.139.180:8081"
 
 @interface ChooseTemplateViewController ()
 
@@ -18,8 +22,8 @@
 @implementation ChooseTemplateViewController {
     UIWebView *templateView;
     UITableView *chooseListTableView;
-    UIGestureRecognizer *tapGestureRecognizer;
     NSString *URL;
+    NSMutableArray *templates;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -32,7 +36,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self viewDidLoad];
+    templates = [_database getAllTemplates];
+    [chooseListTableView reloadData];
 }
 
 - (void)viewDidLoad
@@ -47,7 +52,6 @@
     doneBtn.tintColor = [UIColor whiteColor];
     [self.navigationItem setRightBarButtonItem:doneBtn];
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
-    tapGestureRecognizer = [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(didChoose:)];
     
     //templateView = [[UIWebView alloc] initWithFrame:CGRectMake(31.5, 3.5, 257, 405)];
     templateView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -93,8 +97,32 @@
     previewController.event = _event;
     previewController.database = _database;
     //previewController.previewWebView = templateView;
+    [self updateEventOnserver];
     previewController.URL = URL;
     [self.navigationController pushViewController:previewController animated:YES];
+}
+
+- (void)updateEventOnserver {
+    //TODO
+    NSString *updateEventService = @"/services/activity/update";
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,updateEventService];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    NSString *IDString = [[NSString alloc] initWithFormat:@"id=%@",_event.uuid];
+    NSString *contentString = [[NSString alloc] initWithFormat:@"content=%@",_event.content];
+    NSString *timeString = [[NSString alloc] initWithFormat:@"time=%@ %@:00",_event.date,_event.time];
+    NSString *locationString = [[NSString alloc] initWithFormat:@"place=%@",_event.location];
+    NSString *templateString = [[NSString alloc] initWithFormat:@"templateId=%@",_event.templateID];
+    
+    NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@&%@&%@&%@",IDString,contentString,timeString,locationString,templateString];
+    [request setHTTPBody:[loginDataString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+    }];
+    
+    [sessionDataTask resume];
 }
 
 - (void)didReceiveMemoryWarning
@@ -138,7 +166,7 @@
     }
     ImageControl *tempalteCtl = [[ImageControl alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.height)];
 
-    UIImageView *templateSmallImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 6, 51, 81)];
+    tempalteCtl.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 6, 51, 81)];
     NSString *templateNameString;
     if (indexPath.row+1 < 10) {
         templateNameString = [[NSString alloc] initWithFormat:@"x00%d",indexPath.row+1];
@@ -146,31 +174,30 @@
         templateNameString = [[NSString alloc] initWithFormat:@"x0%d",indexPath.row+1];
     }
 
-    templateSmallImageView.image = [UIImage imageNamed:[[NSString alloc] initWithFormat:@"%@.jpg",templateNameString]];
-    [tempalteCtl addSubview:templateSmallImageView];
+    tempalteCtl.imageView.image = [UIImage imageNamed:[[NSString alloc] initWithFormat:@"%@.jpg",templateNameString]];
+    [tempalteCtl addSubview:tempalteCtl.imageView];
     tempalteCtl.controlID = templateNameString;
     [tempalteCtl addTarget:self action:@selector(didChoose:) forControlEvents:UIControlEventTouchUpInside];
     [cell.contentView addSubview:tempalteCtl];
-    
-    //cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     CGAffineTransform rotateTable = CGAffineTransformMakeRotation(M_PI_2);
     cell.transform = rotateTable;
     
     return cell;
 }
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 /*
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     ImageControl *ctl = (ImageControl *)[[cell.contentView subviews] objectAtIndex:0];
     _event.templateID = ctl.controlID;
     NSString *URL = [self generateURLWithEvent:_event];
     [templateView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URL]]];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-*/
-}
 
+}
+*/
 #pragma private method to generate url parameters
 - (NSString *)generateURLWithEvent:(EventInfo *)event {
     NSString *path = @"http://121.40.139.180:8081/#/activity/?";

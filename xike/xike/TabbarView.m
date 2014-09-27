@@ -9,18 +9,16 @@
 #import "TabbarView.h"
 #import "ColorHandler.h"
 
-@implementation TabbarView {
-    NSInteger g_selectedTag;
-}
+@implementation TabbarView 
 
 @synthesize firstBtn,secondBtn,thirdBtn,delegate;
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame withSelectedTag:(NSInteger)selectTag
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        g_selectedTag=3;
+        _g_selectedTag=selectTag;
         UIImageView *btnImgView;
         
         //discover btn
@@ -65,7 +63,12 @@
         [thirdBtn addTarget:self action:@selector(buttonClickAction:) forControlEvents:UIControlEventTouchUpInside];
         [thirdBtn addSubview:btnImgView];
         [self addSubview:thirdBtn];
-        ((UIImageView *)thirdBtn.subviews[0]).highlighted=YES; //make the thirdBtn highlighted at the beginning
+        if (_g_selectedTag == 1) {
+            ((UIImageView *)firstBtn.subviews[0]).highlighted=YES;
+        } else if (_g_selectedTag == 3) {
+            ((UIImageView *)thirdBtn.subviews[0]).highlighted=YES; 
+        }
+        
     }
     return self;
 }
@@ -73,10 +76,10 @@
 - (void)buttonClickAction:(id)sender {
     UIButton *btn=(UIButton *)sender;
     
-    if(g_selectedTag==btn.tag) {
+    if(_g_selectedTag==btn.tag) {
         return;
     } else {
-        g_selectedTag=btn.tag;
+        _g_selectedTag=btn.tag;
     }
     
     if (firstBtn.tag!=btn.tag) {

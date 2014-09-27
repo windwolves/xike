@@ -106,17 +106,15 @@
 
 - (void)done {
     
-    _user.photo = UIImageJPEGRepresentation(picImageView.image,1.0);
+    _user.photo = UIImagePNGRepresentation(picImageView.image);
     _user.name = nicknameTextField.text;
-    if ([_database updateUser:_user]) {
+    if ([_database updateUser:_user]) {//update by user_id?uuid?
         [self updateAccountOnServer];
     }
     MainViewController *mainViewController = [MainViewController new];
     mainViewController.database = _database;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
     [self presentViewController:navigationController animated:YES completion:nil];
-
-   // [self.navigationController pushViewController:mainViewController animated:YES];
 }
 
 - (void)updateAccountOnServer {
@@ -127,9 +125,10 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
+    NSString *IDString = [[NSString alloc] initWithFormat:@"id=%@",_user.ID];
     NSString *nicknameString = [[NSString alloc] initWithFormat:@"nickname=%@",nicknameTextField.text];
-    NSString *photoString = [[NSString alloc] initWithFormat:@"photo=%@",[self get64BasedPhoto]];
-    NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@",nicknameString,photoString];
+    NSString *profileString = [[NSString alloc] initWithFormat:@"profile=data:image/png;base64,%@",[self get64BasedPhoto]];
+    NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@&%@",IDString,nicknameString,profileString];
     [request setHTTPBody:[loginDataString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
        

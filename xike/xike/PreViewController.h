@@ -11,7 +11,7 @@
 #import "XikeDatabase.h"
 #import "PeoplePickerViewController.h"
 
-@interface PreViewController : UIViewController <PeoplePickerViewControllerDelegate, UIWebViewDelegate>
+@interface PreViewController : UIViewController <PeoplePickerViewControllerDelegate, UIWebViewDelegate,NSURLSessionDataDelegate>
 @property (nonatomic, strong) XikeDatabase *database;
 @property (nonatomic, strong) EventInfo *event;
 @property (nonatomic, strong) UIWebView *previewWebView;

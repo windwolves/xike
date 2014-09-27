@@ -12,6 +12,7 @@
 #import "UserLogonViewController.h"
 
 #define ORIGINAL_MAX_WIDTH 640.0f
+#define HOST @"http://121.40.139.180:8081"
 
 @interface AccountSettingViewController () {
     UIActionSheet *myActionSheet;
@@ -184,7 +185,7 @@
 }
 
 - (void)saveAccountSetting {
-    _user.photo = UIImageJPEGRepresentation(_pictureView.image,1.0);
+    _user.photo = UIImagePNGRepresentation(_pictureView.image);
     _user.name = nicknameField.text;
     _user.gender = genderLabel2.text;
     if ([_database updateUser:_user]) {
@@ -195,28 +196,34 @@
 }
 
 - (void)updateAccountOnServer {
-    /*
-    NSString *updateAccountService = @"/services/user/login";
-    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,loginService];
+    
+    NSString *updateAccountService = @"/services/user/update";
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,updateAccountService];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
-    NSString *emailString = [[NSString alloc] initWithFormat:@"username=%@",emailTextField.text];
-    NSString *passwordString = [[NSString alloc] initWithFormat:@"password=%@",passwordTextField.text];
-    NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@",emailString,passwordString];
-    [request setHTTPBody:[loginDataString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSString *IDString = [[NSString alloc] initWithFormat:@"id=%@",_user.ID];
+    NSString *nicknameString = [[NSString alloc] initWithFormat:@"nickname=%@",nicknameField.text];
+    NSString *profileString = [[NSString alloc] initWithFormat:@"profile=data:image/png;base64,%@",[_user.photo base64EncodedStringWithOptions:0]];
+    NSString *parameterString = [[NSString alloc] initWithFormat:@"%@&%@&%@",IDString,nicknameString,profileString];
+    [request setHTTPBody:[parameterString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        //if success then login
-        [self loginApp];
+        NSError *err;
+        NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
+        //NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
+           // NSLog(@"aaa");
+            //What to do?
+        } else {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"同步失败" message:@"请稍后再试" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定！", nil];
+            [alertView show];
+        }
+        
     }];
     
     [sessionDataTask resume];
     
-    UIImage *a = [UIImage imageNamed:@"x001.jpg"];
-    NSData *b = UIImageJPEGRepresentation(a, 1.0);
-    NSString *c = [b base64EncodedStringWithOptions:0];
-    */
 }
 
 - (void)resignKeyBoard {
@@ -324,7 +331,7 @@
     if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
         picker.delegate = self;
-        picker.allowsEditing = YES;
+        //picker.allowsEditing = YES;
         picker.sourceType = sourceType;
         [self presentViewController:picker animated:YES completion:nil];
     } else {

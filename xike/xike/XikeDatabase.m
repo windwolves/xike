@@ -33,11 +33,11 @@ static sqlite3 *_database;
 - (BOOL)createAllTables {
     [self openDatabase];
     char *errMsg;
-    const char *createUserInfoSQL = "create table if not exists userinfo (user_id text, name text default null,phone text default null,photo blob defalut null,background_pic blob default null,QQ text default null,weibo text default null,weixin text default null,password text,gender text default null,deviceToken text,last_used integer)";
+    const char *createUserInfoSQL = "create table if not exists userinfo (user_id text, name text default null,phone text default null,photo blob defalut null,background_pic blob default null,QQ text default null,weibo text default null,weixin text default null,password text,gender text default null,deviceToken text,last_used integer,ID text)";
     const char *createEventInfoSQL = "create table if not exists eventinfo (event_id integer primary key, theme_type text, theme text, content text, location text, date text, time text, host_id text, host_name text, host_pic blob, host_phone text,template_id text,send_status integer, create_datetime timestamp default current_timestamp,user_id text,uuid text default null)";
-    const char *createGuestInfoSQL = "create table if not exists guestinfo (event_id integer,guest_id text,guest_name text, guest_phone text,guest_pic blob defalut null)";
+    const char *createGuestInfoSQL = "create table if not exists guestinfo (event_uuid integer,guest_id text,guest_name text, guest_phone text,guest_pic blob defalut null)";
     const char *createFriendInfoSQL = "create table if not exists friendinfo (user_id text, name text,phone text,photo blob defalut null)";
-    const char *createTemplateInfoSQL = "create table if not exists templateinfo (template_id text, name text, description text,photo blob defalut null)";
+    const char *createTemplateInfoSQL = "create table if not exists templateinfo (uuid text, name text, desc text,thumbnail blob defalut null,category text,recommendation int)";
     
     if (sqlite3_exec(_database, createUserInfoSQL, NULL, NULL, &errMsg) == SQLITE_OK) {
         NSLog(@"userinfo created");
@@ -86,12 +86,13 @@ static sqlite3 *_database;
 
 - (BOOL)setUser:(UserInfo *)user {
     [self openDatabase];
-    const char *insertUserInfoSQL = "Insert into userinfo (user_id,password,deviceToken) values (?,?,?)";
+    const char *insertUserInfoSQL = "Insert into userinfo (user_id,password,deviceToken,ID) values (?,?,?,?)";
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(_database, insertUserInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_text(stmt, 1, [user.userID UTF8String], -1, NULL);
         sqlite3_bind_text(stmt, 2, [user.password UTF8String], -1, NULL);
         sqlite3_bind_text(stmt, 3, [user.deviceToken UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 4, [user.ID UTF8String], -1, NULL);
         
         if (sqlite3_step(stmt) == SQLITE_DONE) {
             sqlite3_finalize(stmt);
@@ -210,7 +211,7 @@ static sqlite3 *_database;
 - (UserInfo *)getUserInfo {
     UserInfo *user = [UserInfo new];
     [self openDatabase];
-    const char *getUserInfoSQL = "select user_id,name,phone,photo,background_pic,QQ,weibo,weixin,gender from userinfo where last_used = 1";
+    const char *getUserInfoSQL = "select user_id,name,phone,photo,background_pic,QQ,weibo,weixin,gender,ID from userinfo where last_used = 1";
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(_database, getUserInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
         while (sqlite3_step(stmt) == SQLITE_ROW) {
@@ -243,6 +244,9 @@ static sqlite3 *_database;
             }
             if (sqlite3_column_text(stmt, 8)) {
                 user.gender = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 8)];
+            }
+            if (sqlite3_column_text(stmt, 9)) {
+                user.ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 9)];
             }
         }
     }
@@ -284,26 +288,26 @@ static sqlite3 *_database;
 - (NSMutableArray *)getAllEvents:(UserInfo *)user {
     [self openDatabase];
     NSMutableArray *Events = [NSMutableArray new];
-    const char *getEventInfoSQL = "select event_id,theme_type,theme,content,location,date,time,host_id,host_name,host_pic,host_phone,template_id,send_status from eventinfo where user_id = ? order by date desc,time desc";
+    const char *getEventInfoSQL = "select uuid,theme_type,theme,content,location,date,time,host_id,host_name,host_pic,host_phone,template_id,send_status from eventinfo where user_id = ? order by date desc,time desc";
     sqlite3_stmt *stmt;
     
     if (sqlite3_prepare_v2(_database, getEventInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_text(stmt, 1, [user.userID UTF8String], -1, NULL);
         while (sqlite3_step(stmt) == SQLITE_ROW) {
-            NSInteger event_id = sqlite3_column_int(stmt, 0);
-            NSString *themeType = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
-            NSString *theme = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
-            NSString *content = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 3)];
-            NSString *location = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 4)];
-            NSString *date = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 5)];
-            NSString *time = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 6)];
+            EventInfo *event = [EventInfo new];
+            event.uuid = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 0)];
+            event.themeType = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
+            event.theme = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
+            event.content = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 3)];
+            event.location = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 4)];
+            event.date = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 5)];
+            event.time = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 6)];
             NSString *host_id;
             if (sqlite3_column_text(stmt, 7)) {
                 host_id = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 7)];
             } else {
                 host_id = @"";
             }
-            
             NSString *host_name;
             if (sqlite3_column_text(stmt, 8)) {
                 host_name = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 8)];
@@ -322,19 +326,16 @@ static sqlite3 *_database;
             } else {
                 host_phone = @"";
             }
-            NSString *template_id;
             if (sqlite3_column_text(stmt, 11)) {
-                template_id = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 11)];
+                event.templateID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 11)];
             } else {
-                template_id = @"x001";
+                event.templateID = @"x001";
             }
-            NSInteger send_status = (NSInteger)sqlite3_column_int(stmt, 12);
+            event.send_status = (NSInteger)sqlite3_column_int(stmt, 12);
             
-            PeopleInfo *host = [[PeopleInfo alloc] initWithID:host_id Name:host_name Phone:host_phone Photo:host_pic];
-            NSMutableArray *guestList = [self getGuestListwith:event_id];
-            
-            EventInfo *event = [[EventInfo alloc] initWithID:event_id ThemeType:themeType Theme:theme Content:content Location:location Date:date Time:time Host:host GuestList:guestList TemplateID:template_id ];
-            event.send_status = send_status;
+            event.host = [[PeopleInfo alloc] initWithID:host_id Name:host_name Phone:host_phone Photo:host_pic];
+            event.guestList = [self getGuestListwith:event.uuid];
+
             [Events addObject:event];
         }
     }
@@ -343,12 +344,12 @@ static sqlite3 *_database;
     return Events;
 }
 
-- (NSMutableArray *)getGuestListwith:(NSInteger)event_id {
+- (NSMutableArray *)getGuestListwith:(NSString *)uuid {
     NSMutableArray *guestList = [NSMutableArray new];
     const char *getGuestInfoSQL = "select guest_id,guest_name,guest_phone,guest_pic from guestinfo where event_id = ?";
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(_database, getGuestInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
-        sqlite3_bind_int(stmt, 1, event_id);
+        sqlite3_bind_text(stmt, 1, [uuid UTF8String], -1, NULL);
         while (sqlite3_step(stmt) == SQLITE_ROW) {
             NSString *guest_id, *guest_name, *guest_phone;
             NSData *guest_pic;
@@ -390,7 +391,7 @@ static sqlite3 *_database;
 
 - (NSInteger)createEvent:(EventInfo *)event :(UserInfo *)user {
     [self openDatabase];
-    const char *insertNewEventSQL = "insert into eventinfo (theme_type,theme,content,location,date,time,host_id,host_name,host_pic,host_phone,template_id,send_status,user_id) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    const char *insertNewEventSQL = "insert into eventinfo (theme_type,theme,content,location,date,time,host_id,host_name,host_pic,host_phone,template_id,send_status,user_id,uuid) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(_database, insertNewEventSQL, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_text(stmt, 1, [event.themeType UTF8String], -1, NULL);
@@ -406,6 +407,7 @@ static sqlite3 *_database;
         sqlite3_bind_text(stmt, 11,[event.templateID UTF8String], -1, NULL);
         sqlite3_bind_int(stmt, 12, event.send_status);
         sqlite3_bind_text(stmt, 13, [user.userID UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 14, [event.uuid UTF8String], -1, NULL);
         
         if (sqlite3_step(stmt) == SQLITE_DONE) {
             sqlite3_finalize(stmt);
@@ -429,12 +431,12 @@ static sqlite3 *_database;
 
 - (BOOL)createEventGuestList:(EventInfo *)event {
     [self openDatabase];
-    const char *insertEventGuestListSQL = "Insert into guestinfo (event_id,guest_id,guest_name,guest_phone,guest_pic) values (?,?,?,?,?)";
+    const char *insertEventGuestListSQL = "Insert into guestinfo (event_uuid,guest_id,guest_name,guest_phone,guest_pic) values (?,?,?,?,?)";
     sqlite3_stmt *stmt;
     for (int i=0; i<[event.guestList count]; i++) {
         PeopleInfo *guest = [event.guestList objectAtIndex:i];
         if (sqlite3_prepare_v2(_database, insertEventGuestListSQL, -1, &stmt, nil) == SQLITE_OK) {
-            sqlite3_bind_int(stmt, 1, event.eventID);
+            sqlite3_bind_text(stmt, 1, [event.uuid UTF8String], -1, NULL);
             sqlite3_bind_text(stmt, 2, [guest.user_id UTF8String], -1, NULL);
             sqlite3_bind_text(stmt, 3, [guest.name UTF8String], -1, NULL);
             sqlite3_bind_text(stmt, 4, [guest.phone UTF8String], -1, NULL);
@@ -462,7 +464,7 @@ static sqlite3 *_database;
 
 - (BOOL)updateEvent:(EventInfo *)event {
     [self openDatabase];
-    const char *updateEventSQL = "update eventinfo set theme_type=?,theme=?,content=?,location=?,date=?,time=?,host_id=?,host_name=?,host_pic=?,host_phone=?,template_id=?,send_status=? where event_id = ?";
+    const char *updateEventSQL = "update eventinfo set theme_type=?,theme=?,content=?,location=?,date=?,time=?,host_id=?,host_name=?,host_pic=?,host_phone=?,template_id=?,send_status=? where uuid = ?";
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(_database, updateEventSQL, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_text(stmt, 1, [event.themeType UTF8String], -1, NULL);
@@ -477,7 +479,7 @@ static sqlite3 *_database;
         sqlite3_bind_text(stmt, 10,[event.host.phone UTF8String], -1, NULL);
         sqlite3_bind_text(stmt, 11,[event.templateID UTF8String], -1, NULL);
         sqlite3_bind_int(stmt, 12,event.send_status);
-        sqlite3_bind_int(stmt, 13, event.eventID);
+        sqlite3_bind_text(stmt, 13, [event.uuid UTF8String], -1, NULL);
         
         if (sqlite3_step(stmt) == SQLITE_DONE) {
             sqlite3_finalize(stmt);
@@ -502,10 +504,10 @@ static sqlite3 *_database;
 
 - (BOOL)deleteEvent:(EventInfo *)event {
     [self openDatabase];
-    const char *deleteEventSQL = "delete from eventinfo where event_id = ?";
+    const char *deleteEventSQL = "delete from eventinfo where uuid = ?";
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(_database, deleteEventSQL, -1, &stmt, nil) == SQLITE_OK) {
-        sqlite3_bind_int(stmt, 1, event.eventID);
+        sqlite3_bind_text(stmt, 1, [event.uuid UTF8String], -1, NULL);
         
         if (sqlite3_step(stmt) == SQLITE_DONE) {
             sqlite3_finalize(stmt);
@@ -530,10 +532,10 @@ static sqlite3 *_database;
 
 - (BOOL)deleteEventGuestList:(EventInfo *)event {
     [self openDatabase];
-    const char *deleteEventGuestSQL = "delete from guestinfo where event_id = ?";
+    const char *deleteEventGuestSQL = "delete from guestinfo where uuid = ?";
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(_database, deleteEventGuestSQL, -1, &stmt, nil) == SQLITE_OK) {
-        sqlite3_bind_int(stmt, 1, event.eventID);
+        sqlite3_bind_text(stmt, 1, [event.uuid UTF8String], -1, NULL);
         
         if (sqlite3_step(stmt) == SQLITE_DONE) {
             sqlite3_finalize(stmt);
@@ -574,6 +576,85 @@ static sqlite3 *_database;
     return eventID;
 }
 
+
+- (BOOL)insertTemplate:(TemplateInfo *)template {
+    [self openDatabase];
+    const char *insertTemplateInfoSQL = "Insert into templateinfo (uuid,name,desc,thumbnail,category,recommendation) values (?,?,?,?,?,?)";
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(_database, insertTemplateInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [template.ID UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 2, [template.name UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 3, [template.desc UTF8String], -1, NULL);
+        sqlite3_bind_blob(stmt, 4, [template.thumbnail bytes], -1, NULL);
+        sqlite3_bind_text(stmt, 5, [template.category UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 6, template.recommendation);
+        
+        if (sqlite3_step(stmt) == SQLITE_DONE) {
+            sqlite3_finalize(stmt);
+            [self closeDatabase];
+            return YES;
+        } else {
+            NSLog(@"insert template failed!");
+            [self ErrorReport:insertTemplateInfoSQL];
+            sqlite3_finalize(stmt);
+            [self closeDatabase];
+            return NO;
+        }
+    } else {
+        NSLog(@"prepareStatement failed!");
+        sqlite3_finalize(stmt);
+        [self closeDatabase];
+        return NO;
+    }
+}
+
+- (NSMutableArray *)getAllTemplates {
+    [self openDatabase];
+    NSMutableArray *templates = [NSMutableArray new];
+    const char *getEventInfoSQL = "select uuid,name,desc,thumbnail,category,recommendation from templateinfo";
+    sqlite3_stmt *stmt;
+    
+    if (sqlite3_prepare_v2(_database, getEventInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            TemplateInfo *template = [TemplateInfo new];
+            if (sqlite3_column_text(stmt, 0)) {
+                template.ID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 0)];
+            } else {
+                template.ID = @"";
+            }
+            if (sqlite3_column_text(stmt, 1)) {
+                template.name = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
+            } else {
+                template.name = @"";
+            }
+            if (sqlite3_column_text(stmt, 2)) {
+                template.desc = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
+            } else {
+                template.desc = @"";
+            }
+            if (sqlite3_column_bytes(stmt, 3) != 0) {
+                template.thumbnail = [NSData dataWithBytes:sqlite3_column_blob(stmt, 3) length:sqlite3_column_bytes(stmt, 3)];
+            } else {
+                template.thumbnail = nil;
+            }
+            if (sqlite3_column_text(stmt, 4)) {
+                template.category = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 4)];
+            } else {
+                template.category = @"";
+            }
+            if (sqlite3_column_int(stmt, 5)) {
+                template.recommendation = sqlite3_column_int(stmt, 5);
+            } else {
+                template.recommendation = 0;
+            }
+            [templates addObject:template];
+        }
+    }
+    sqlite3_finalize(stmt);
+    [self closeDatabase];
+    return templates;
+
+}
 
 //error handling
 - (void)ErrorReport: (const char *)item

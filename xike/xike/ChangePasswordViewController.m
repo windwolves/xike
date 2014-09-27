@@ -103,7 +103,7 @@
 }
 - (BOOL)verifyPassword {
     if (![[_database getUserPassword:_user] isEqualToString:oldPwdField.text]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"修改密码" message:@"旧密码错误" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒！", nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"修改密码" message:@"旧密码错误" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         alertView.tag = 1;
         [alertView show];
 
@@ -111,12 +111,12 @@
     }
     if ([oldPwdField.text length] == 0 || [newPwdField.text length] == 0 || [confirmPwdField.text length] == 0) {
         return NO;
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"修改密码" message:@"密码不能为空" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒！", nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"修改密码" message:@"密码不能为空" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         alertView.tag = 1;
         [alertView show];
     }
     if (![self confirmPassword]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"修改密码" message:@"两次输入的新密码不匹配" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒！", nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"修改密码" message:@"两次输入的新密码不匹配" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         alertView.tag = 1;
         [alertView show];
         return NO;

@@ -15,6 +15,8 @@
 #import "CreateNewEventViewController.h"
 #import "MainViewController.h"
 
+#define HOST @"http://121.40.139.180:8081"
+
 @interface PreViewController ()
 
 @end
@@ -86,12 +88,12 @@
 
 - (void)saveEvent:(EventInfo *)event {
     if ([_database updateEvent:_event]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"保存" message:@"保存成功!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"朕知道了", nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"保存" message:@"保存成功!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         alertView.tag = 1;
         [alertView show];
-        [self uploadEventToServer];
+        //[self uploadEventToServer];
     } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"保存" message:@"保存失败!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"朕知道了", nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"保存" message:@"保存失败!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         alertView.tag = 2;
         [alertView show];
     }
@@ -100,7 +102,7 @@
 
 - (void)sendEvent:(EventInfo *)event {
     PeoplePickerViewController *peoplePickerViewController = [[PeoplePickerViewController alloc] init];
-    peoplePickerViewController.sendOutContent = [[NSString alloc] initWithFormat:@"%@,%@", @"Welcome to Xike!", _URL];
+    peoplePickerViewController.sendOutContent = [[NSString alloc] initWithFormat:@"%@,%@", @"和喜欢的人，做喜欢的事。 from 稀客", _URL];
     peoplePickerViewController.delegate = self;
     peoplePickerViewController.event = _event;
     peoplePickerViewController.database = _database;
@@ -110,7 +112,7 @@
 - (void)shareEvent:(EventInfo *)event {
     //the event shall be created on the server first! then the URL can be finalized.
     NSArray *activity = @[[[WeixinSessionActivity alloc] init], [[WeixinTimelineActivity alloc] init]];
-    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"Welcome to Xike!",[NSURL URLWithString:_URL]] applicationActivities:activity];
+    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"和喜欢的人，做喜欢的事。 from 稀客",[NSURL URLWithString:_URL]] applicationActivities:activity];
     [self presentViewController:activityView animated:YES completion:^{
         shareCtl.imageView.highlighted = NO;
          [self uploadEventToServer];
@@ -132,13 +134,14 @@
     
     //_previewWebView.frame = self.view.bounds;
     _previewWebView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-    NSString *a = [_URL substringToIndex:([_URL length]-11)];
+    //_URL = [_URL substringToIndex:([_URL length]-11)];
+    _URL = [self generateURLWithEvent:_event];
     if ([_fromController isEqualToString:@"eventsTable"]) {
         _URL = [self generateURLWithEvent:_event];
         [_previewWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_URL]]];
     } else {
-        [_previewWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:a]]];
-        NSLog(@"%@",a);
+        [_previewWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_URL]]];
+        NSLog(@"%@",_URL);
     }
     [self.view addSubview:_previewWebView];
 
@@ -157,12 +160,29 @@
 }
 
 - (void)uploadEventToServer {
+    NSString *updateEventService = @"/services/activity/update";
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,updateEventService];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    NSString *IDString = [[NSString alloc] initWithFormat:@"id=%@",_event.uuid];
+    NSString *sendStatusString = [[NSString alloc] initWithFormat:@"send_status=%d",_event.send_status];
     
+    NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@",IDString,sendStatusString];
+    [request setHTTPBody:[loginDataString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+    }];
+    
+    [sessionDataTask resume];
 }
 
 #pragma private method to generate url parameters
 - (NSString *)generateURLWithEvent:(EventInfo *)event {
-    NSString *path = @"http://121.40.139.180:8081/#/activity/?";
+    NSString *path = @"http://121.40.139.180:8081/#/activity/";
+    NSString *uuid = event.uuid;
+    /*
     NSString *userString = [[NSString alloc] initWithFormat:@"user={\"nickname\":\"%@\"}",event.host.name];
     NSString *templateString = [[NSString alloc] initWithFormat:@"template={\"name\":\"%@\"}",event.templateID];
     NSString *titleString = [[NSString alloc] initWithFormat:@"title=%@",event.theme];
@@ -170,8 +190,8 @@
     NSString *timeString = [[NSString alloc] initWithFormat:@"time=%@ %@:00",event.date,event.time];
     NSString *placeString = [[NSString alloc] initWithFormat:@"place=%@",event.location];
     NSString *parameterString = [[[NSString alloc] initWithFormat:@"%@&%@&%@&%@&%@&%@",userString,templateString,titleString,contentString,timeString,placeString] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
-    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",path,parameterString];
+    */
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",path,uuid];
     return urlString;
     
 }

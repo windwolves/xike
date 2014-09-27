@@ -102,10 +102,10 @@
 - (void)resetPassword {
     if ([self isValidEmail:emailTextField.text]) {
         [self sendResetPassword];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"重置密码" message:@"重置密码已发送，请去注册邮箱查看并尽快更换新密码" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒", nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"重置密码" message:@"重置密码已发送，请去注册邮箱查看并尽快更换新密码" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alertView show];
     } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"重置密码" message:@"请输入正确邮箱" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒", nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"重置密码" message:@"请输入正确邮箱" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alertView show];
     }
 

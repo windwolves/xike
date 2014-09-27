@@ -87,7 +87,7 @@
     forgotPasswordLabel.textColor = [UIColor colorWithRed:1.0f/255.0f green:191.0f/255.0f blue:165.0f/255.0f alpha:1.0f];
     [forgotPasswordCtl addSubview:forgotPasswordLabel];
     [forgotPasswordCtl addTarget:self action:@selector(forgetPassword) forControlEvents:UIControlEventTouchUpInside];
-    UIImageView *underLine1 = [[UIImageView alloc] initWithFrame:CGRectMake(31, 191-160, 75, 0.5)];
+    UIImageView *underLine1 = [[UIImageView alloc] initWithFrame:CGRectMake(31, 191-160, 55, 0.5)];
     underLine1.backgroundColor = [ColorHandler colorWithHexString:@"#01bfa5"];
     [logonView addSubview:forgotPasswordCtl];
     [logonView addSubview:underLine1];
@@ -107,7 +107,7 @@
     registerLabel.textColor = [UIColor colorWithRed:1.0f/255.0f green:191.0f/255.0f blue:165.0f/255.0f alpha:1.0f];
     [registerCtl addSubview:registerLabel];
     [registerCtl addTarget:self action:@selector(changeMainView) forControlEvents:UIControlEventTouchUpInside];
-    UIImageView *underLine2 = [[UIImageView alloc] initWithFrame:CGRectMake(259, 191-160, 32, 0.5)];
+    UIImageView *underLine2 = [[UIImageView alloc] initWithFrame:CGRectMake(259, 191-160, 24, 0.5)];
     underLine2.backgroundColor = [ColorHandler colorWithHexString:@"#01bfa5"];
     [logonView addSubview:registerCtl];
     [logonView addSubview:underLine2];
@@ -188,7 +188,7 @@
     logonLabel.textColor = [UIColor colorWithRed:1.0f/255.0f green:191.0f/255.0f blue:165.0f/255.0f alpha:1.0f];
     [logonCtl addSubview:logonLabel];
     [logonCtl addTarget:self action:@selector(changeMainView) forControlEvents:UIControlEventTouchUpInside];
-    UIImageView *underLine2 = [[UIImageView alloc] initWithFrame:CGRectMake(259, 191-160, 32, 0.5)];
+    UIImageView *underLine2 = [[UIImageView alloc] initWithFrame:CGRectMake(259, 191-160, 24, 0.5)];
     underLine2.backgroundColor = [ColorHandler colorWithHexString:@"#01bfa5"];
     [registerView addSubview:logonCtl];
     [registerView addSubview:underLine2];
@@ -260,17 +260,17 @@
 - (void)registerAccount {
     //account verification
     if (!accountIsValid) {
-        UIAlertView *accountAlertView = [[UIAlertView alloc] initWithTitle:@"创建账户" message:@"用户名可能已被占用，请换一个用户名" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒", nil];
+        UIAlertView *accountAlertView = [[UIAlertView alloc] initWithTitle:@"创建账户" message:@"用户名可能已被占用，请换一个用户名" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [accountAlertView show];
         return;
     }
     if (![self verifyPassword]) {
-        UIAlertView *passwordAlertView = [[UIAlertView alloc] initWithTitle:@"设置密码" message:@"密码不能为空" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒！", nil];
+        UIAlertView *passwordAlertView = [[UIAlertView alloc] initWithTitle:@"设置密码" message:@"密码不能为空" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [passwordAlertView show];
         return;
     }
     if (![self confirmPassword]) {
-        UIAlertView *confirmPasswordAlertView = [[UIAlertView alloc] initWithTitle:@"设置密码" message:@"密码不一致，请重新输入密码" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒！", nil];
+        UIAlertView *confirmPasswordAlertView = [[UIAlertView alloc] initWithTitle:@"设置密码" message:@"密码不一致，请重新输入密码" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [confirmPasswordAlertView show];
         return;
     }
@@ -290,11 +290,14 @@
         //if success register on phone
         NSError *err;
         NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
-       // NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        //NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        //NSString *a = (NSString *)[dataDic valueForKey:@"data"];
+        NSString *ID = [[dataDic valueForKey:@"data"] valueForKey:@"id"];
+        
         if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
-            [self createAccount];
+            [self createAccount:ID];
         } else {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"注册账号" message:@"邮箱已被注册" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒！", nil];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"注册账号" message:@"邮箱已被注册" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
         }
         
@@ -305,10 +308,12 @@
     
 }
 
-- (void)createAccount {
+
+- (void)createAccount:(NSString *)ID {
     UserInfo *user = [UserInfo new];
     user.userID = emailTextField.text;
     user.password = passwordTextField.text;
+    user.ID = ID;
     if (_deviceToken) {
         user.deviceToken = _deviceToken;
     } else {
@@ -336,12 +341,12 @@
         accountIsValid = NO;
         verifyImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 220-160, 12, 12)];
         verifyImageView.image = [UIImage imageNamed:@"invalid"];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"登录" message:@"请输入正确的邮箱" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒", nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"登录" message:@"请输入正确的邮箱" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alertView show];
         return;
     }
     if (![self verifyPassword]) {
-        UIAlertView *passwordAlertView = [[UIAlertView alloc] initWithTitle:@"设置密码" message:@"密码不能为空" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒", nil];
+        UIAlertView *passwordAlertView = [[UIAlertView alloc] initWithTitle:@"设置密码" message:@"密码不能为空" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [passwordAlertView show];
         return;
     }
@@ -362,9 +367,10 @@
         NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
         //NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
-            [self loginApp];
+            NSString *ID = [[dataDic valueForKey:@"data"] valueForKey:@"id"];
+            [self loginApp:ID];
         } else {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"登录失败" message:@"邮箱或密码不正确" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒！", nil];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"登录失败" message:@"邮箱或密码不正确" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
         }
     }];
@@ -373,27 +379,28 @@
     
 }
 
-- (void)loginApp {
+- (void)loginApp:(NSString *)ID {
     UserInfo *user = [UserInfo new];
     user.userID = emailTextField.text;
     user.password = passwordTextField.text;
-    if (![_database whetherUserExisted:user]) {
-        [_database setUser:user];
-        //DownLoad From Server
-    }
-    [_database setLastUesdUser:user];
+    user.ID = ID;
     if (_deviceToken) {
         user.deviceToken = _deviceToken;
     } else {
         user.deviceToken = @"";
     }
     
+    if (![_database whetherUserExisted:user]) {
+        [_database setUser:user];
+        //DownLoad From Server
+    }
+    [_database setLastUesdUser:user];
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     MainViewController *mainViewController = [MainViewController new];
     mainViewController.database = _database;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
     [self presentViewController:navigationController animated:YES completion:^{
-        [defaults setBool:YES forKey:@"everLaunched"];
         [defaults setBool:YES forKey:@"isLogin"];
     }];
 
@@ -418,7 +425,7 @@
         accountIsValid = NO;
         verifyImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 220-160, 12, 12)];
         verifyImageView.image = [UIImage imageNamed:@"invalid"];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"注册" message:@"请输入正确的邮箱" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒", nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"注册" message:@"请输入正确的邮箱" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         [alertView show];
         return;
     }
@@ -434,7 +441,7 @@
        // NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         //NSInteger cnt = [[dataDic valueForKey:@"data"] intValue];
         if ([[dataDic valueForKey:@"data"] intValue] == 0) {
-            verifyImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 220-160, 12, 12)];
+            verifyImageView = [[UIImageView alloc] initWithFrame:CGRectMake(268, 220-160, 12, 12)];
             verifyImageView.image = [UIImage imageNamed:@"valid"];
             [registerView addSubview:verifyImageView];
             accountIsValid = YES;
@@ -444,7 +451,7 @@
         } else {
             accountIsValid = NO;
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"注册账号" message:@"邮箱已被注册" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒！", nil];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"注册账号" message:@"邮箱已被注册" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
         }
         

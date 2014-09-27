@@ -81,10 +81,7 @@
     
     //default setting
     if (!_event) {
-        _event = [EventInfo new];
-        _event.user = _user;
-        _event.eventID = [_database createEvent:_event :_user];
-       // _event.uuid = [self createEventOnServer];
+        [self createEvent];
     }
     flag = 1;
     isInitial = YES;
@@ -174,17 +171,48 @@
     [themeView addSubview:limitationLable1];
 }
 
-- (NSString *)createEventOnServer {
-    NSString *uuid = [NSString new];
+- (void)createEvent {
+    _event = [EventInfo new];
+    _event.user = _user;
+    [self createEventOnServer];//fetch and set the uuid
+
+}
+
+- (void)deleteEvent:(EventInfo *)event {
+    [_database deleteEvent:_event];
+    [self deleteEventFromServer:_event];
+}
+
+- (void)deleteEventFromServer:(EventInfo *)event {
+    NSString *deleteEventService = @"/services/activity/delete/";
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@%@",HOST,deleteEventService,_event.uuid];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        //if success then login //need response
+        NSError *err;
+        NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
+        //NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
+            
+        } else {
+            //UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"登录失败" message:@"邮箱或密码不正确" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            //[alertView show];
+        }
+    }];
     
+    [sessionDataTask resume];
+}
+- (void)createEventOnServer {
     NSString *createEventService = @"/services/activity";
     NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,createEventService];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
-    NSString *hostIdString = [[NSString alloc] initWithFormat:@"hostId=%@",_user.userID];
-    NSString *templateIdString = [[NSString alloc] initWithFormat:@"templateId=%@",@""];
+    NSString *hostIdString = [[NSString alloc] initWithFormat:@"hostId=%@",_user.ID];
+    NSString *templateIdString = [[NSString alloc] initWithFormat:@"templateId=%@",@"ff8845e1-ec9f-4f3e-aeb9-e6b6179817e5"];
     NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@",hostIdString,templateIdString];
     [request setHTTPBody:[loginDataString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -193,19 +221,17 @@
         NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
         //NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
-           
+            _event.uuid = [[dataDic valueForKey:@"data"] valueForKey:@"id"];
+            _event.templateID = [[dataDic valueForKey:@"data"] valueForKey:@"templateId"];
+            [_database createEvent:_event :_user];
         } else {
-            //UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"登录失败" message:@"邮箱或密码不正确" delegate:self cancelButtonTitle:nil otherButtonTitles:@"好哒！", nil];
-            //[alertView show];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"创建活动失败" message:@"请重新尝试" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            alertView.tag = 1;
+            [alertView show];
         }
     }];
     
     [sessionDataTask resume];
-    
-
-    
-    
-    return uuid;
 }
 - (void)buildTimeView {
     //canlendar View
@@ -456,18 +482,27 @@
 
 - (void)returnToPreviousView {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"取消创建" message:@"新活动尚未保存，真的要离开么？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alertView.tag = 2;
     [alertView show];
 }
 
 //AlertView Action
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        //when user did cancel creating this new event
-        if (_isCreate) {
-            [_database deleteEvent:_event];
+    if (alertView.tag == 1) {
+        if (buttonIndex == 1) {
+            [self.navigationController popViewControllerAnimated:YES];
         }
-        [self.navigationController popViewControllerAnimated:YES];
     }
+    if (alertView.tag == 2) {
+        if (buttonIndex == 1) {
+            //when user did cancel creating this new event
+            if (_isCreate) {
+                [self deleteEvent:_event];
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+
 }
 
 - (void)resignKeyBoard

@@ -49,13 +49,13 @@
     UIView *suggestionView = [[UIView alloc] initWithFrame:CGRectMake(3, 0, 314, 303)];
     suggestionView.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
     
-    UIImageView *border1 = [[UIImageView alloc] initWithFrame:CGRectMake(7, 28, 302, 0.5)];
+    UIImageView *border1 = [[UIImageView alloc] initWithFrame:CGRectMake(7, 28, 300, 0.5)];
     border1.backgroundColor = [UIColor blackColor];
     UIImageView *border2 = [[UIImageView alloc] initWithFrame:CGRectMake(7, 28, 0.5, 200)];
     border2.backgroundColor = [UIColor blackColor];
-    UIImageView *border3 = [[UIImageView alloc] initWithFrame:CGRectMake(7, 228, 302, 0.5)];
+    UIImageView *border3 = [[UIImageView alloc] initWithFrame:CGRectMake(7, 228, 300, 0.5)];
     border3.backgroundColor = [UIColor blackColor];
-    UIImageView *border4 = [[UIImageView alloc] initWithFrame:CGRectMake(309, 28, 0.5, 200)];
+    UIImageView *border4 = [[UIImageView alloc] initWithFrame:CGRectMake(307, 28, 0.5, 200)];
     border4.backgroundColor = [UIColor blackColor];
     [suggestionView addSubview:border1];
     [suggestionView addSubview:border2];
@@ -80,14 +80,14 @@
 - (void)send {
     //TODO still miss sending
     
-    NSString *feedbackService = @"/services/feedback/sendfeedback";
+    NSString *feedbackService = @"/services/suggestion/create";
     NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,feedbackService];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
-    NSString *userString = [[NSString alloc] initWithFormat:@"username=%@",_user.userID];
-    NSString *suggestionString = [[NSString alloc] initWithFormat:@"suggestion=%@",suggestionTextView.text];
+    NSString *userString = [[NSString alloc] initWithFormat:@"senderId=%@",_user.ID];
+    NSString *suggestionString = [[NSString alloc] initWithFormat:@"content=%@",suggestionTextView.text];
     NSString *suggestionDataString = [[NSString alloc] initWithFormat:@"%@&%@",userString,suggestionString];
     [request setHTTPBody:[suggestionDataString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -96,7 +96,7 @@
     
     [sessionDataTask resume];
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"建议或意见" message:@"谢谢你的宝贵建议或意见！" delegate:self cancelButtonTitle:nil otherButtonTitles:@"收到！", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"建议或意见" message:@"谢谢你的宝贵建议或意见！" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
     [alertView show];
 }
 

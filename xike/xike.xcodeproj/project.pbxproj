@@ -107,6 +107,8 @@
 		04BD1A3B19BF5CB300F03804 /* aboutUS.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BD1A3A19BF5CB300F03804 /* aboutUS.png */; };
 		04BD1A3E19BF5FD400F03804 /* SuggestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BD1A3D19BF5FD400F03804 /* SuggestionViewController.m */; };
 		04BD1A5A19C072CF00F03804 /* PreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BD1A5919C072CF00F03804 /* PreViewController.m */; };
+		04DC9E7919D62675009E8E20 /* TemplateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC9E7819D62675009E8E20 /* TemplateInfo.m */; };
+		04DC9E7C19D66F36009E8E20 /* TemplateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC9E7B19D66F36009E8E20 /* TemplateTableViewCell.m */; };
 		04F10E9719D146F800094A52 /* x001.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04F10E8B19D146F800094A52 /* x001.jpg */; };
 		04F10E9819D146F800094A52 /* x002.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04F10E8C19D146F800094A52 /* x002.jpg */; };
 		04F10E9919D146F800094A52 /* x003.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04F10E8D19D146F800094A52 /* x003.jpg */; };
@@ -287,6 +289,10 @@
 		04BD1A3D19BF5FD400F03804 /* SuggestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionViewController.m; sourceTree = "<group>"; };
 		04BD1A5819C072CF00F03804 /* PreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreViewController.h; sourceTree = "<group>"; };
 		04BD1A5919C072CF00F03804 /* PreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreViewController.m; sourceTree = "<group>"; };
+		04DC9E7719D62675009E8E20 /* TemplateInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateInfo.h; sourceTree = "<group>"; };
+		04DC9E7819D62675009E8E20 /* TemplateInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateInfo.m; sourceTree = "<group>"; };
+		04DC9E7A19D66F36009E8E20 /* TemplateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateTableViewCell.h; sourceTree = "<group>"; };
+		04DC9E7B19D66F36009E8E20 /* TemplateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateTableViewCell.m; sourceTree = "<group>"; };
 		04F10E8B19D146F800094A52 /* x001.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = x001.jpg; sourceTree = "<group>"; };
 		04F10E8C19D146F800094A52 /* x002.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = x002.jpg; sourceTree = "<group>"; };
 		04F10E8D19D146F800094A52 /* x003.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = x003.jpg; sourceTree = "<group>"; };
@@ -463,6 +469,8 @@
 				04A99ACC19BD8C42009AE0E0 /* MonthHeaderView.m */,
 				04BD1A3119BF160E00F03804 /* ChooseTemplateViewController.h */,
 				04BD1A3219BF160E00F03804 /* ChooseTemplateViewController.m */,
+				04DC9E7A19D66F36009E8E20 /* TemplateTableViewCell.h */,
+				04DC9E7B19D66F36009E8E20 /* TemplateTableViewCell.m */,
 			);
 			name = CreateNewEvent;
 			sourceTree = "<group>";
@@ -583,6 +591,8 @@
 				04BCEC1F19A7352F00F22284 /* PeopleInfo.m */,
 				04BCEC2119A7358400F22284 /* EventInfo.h */,
 				04BCEC2219A7358400F22284 /* EventInfo.m */,
+				04DC9E7719D62675009E8E20 /* TemplateInfo.h */,
+				04DC9E7819D62675009E8E20 /* TemplateInfo.m */,
 				04BCEC2419A735E600F22284 /* XikeDatabase.h */,
 				04BCEC2519A735E600F22284 /* XikeDatabase.m */,
 			);
@@ -731,6 +741,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Leading;
 				TargetAttributes = {
+					04BCEBE719A7313200F22284 = {
+						DevelopmentTeam = PLU3EQSAF9;
+					};
 					04BCEC0219A7313300F22284 = {
 						TestTargetID = 04BCEBE719A7313200F22284;
 					};
@@ -855,12 +868,14 @@
 			files = (
 				04404B0119ADD64E003CBF8D /* MainViewController.m in Sources */,
 				04404B0819ADD858003CBF8D /* ColorHandler.m in Sources */,
+				04DC9E7919D62675009E8E20 /* TemplateInfo.m in Sources */,
 				0419FDA719C1BAF400D45030 /* CRJContactTableViewCell.m in Sources */,
 				04F10EBE19D1AC6700094A52 /* ExploreDetailsViewController.m in Sources */,
 				04404B2E19B05ADE003CBF8D /* ForgetPasswordViewController.m in Sources */,
 				04BCEC2019A7352F00F22284 /* PeopleInfo.m in Sources */,
 				04BCEC4D19A73D4900F22284 /* WeixinTimelineActivity.m in Sources */,
 				04404B0F19AF0772003CBF8D /* TabbarView.m in Sources */,
+				04DC9E7C19D66F36009E8E20 /* TemplateTableViewCell.m in Sources */,
 				04BCEC2319A7358400F22284 /* EventInfo.m in Sources */,
 				04A83BCA19C9A5530069F4AB /* EventsTableViewCell.m in Sources */,
 				04A99AB719B5CCB8009AE0E0 /* CanlendarView.m in Sources */,
@@ -948,6 +963,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -966,6 +982,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "bd28e79f-3782-4929-bca0-0126d975659b";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -997,6 +1014,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PROVISIONING_PROFILE = "bd28e79f-3782-4929-bca0-0126d975659b";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1006,6 +1024,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xike/xike-Prefix.pch";
 				INFOPLIST_FILE = "xike/xike-Info.plist";
@@ -1016,6 +1036,7 @@
 					"$(PROJECT_DIR)/xike/Resources",
 				);
 				PRODUCT_NAME = xike;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1024,6 +1045,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xike/xike-Prefix.pch";
 				INFOPLIST_FILE = "xike/xike-Info.plist";
@@ -1034,6 +1057,7 @@
 					"$(PROJECT_DIR)/xike/Resources",
 				);
 				PRODUCT_NAME = xike;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

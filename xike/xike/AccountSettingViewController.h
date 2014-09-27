@@ -18,7 +18,7 @@
 
 @end
 
-@interface AccountSettingViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate,UIActionSheetDelegate,UITextFieldDelegate,ImageCropperDelegate>
+@interface AccountSettingViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate,UIActionSheetDelegate,UITextFieldDelegate,ImageCropperDelegate,NSURLSessionDataDelegate>
 @property (strong, nonatomic) id <AccountSettingViewControllerDelegate> delegate;
 @property (strong, nonatomic) UIImageView *backgroundImageView;
 @property (strong, nonatomic) UIImageView *pictureView;

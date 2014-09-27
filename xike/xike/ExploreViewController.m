@@ -33,17 +33,14 @@
     [_exploreView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
     _exploreView.delegate = self;
         [self.view addSubview:_exploreView];
-    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
     UIControl *view1 = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, 320, (self.view.bounds.size.height-49)/3)];
     view1.tag = 1;
     [view1 addTarget:self action:@selector(viewTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:view1];
-    UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
     UIControl *view2 = [[UIControl alloc] initWithFrame:CGRectMake(0, (self.view.bounds.size.height-49)/3, 320, (self.view.bounds.size.height-49)/3)];
     view2.tag = 2;
     [view2 addTarget:self action:@selector(viewTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:view2];
-    UITapGestureRecognizer *tap3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
     UIControl *view3 = [[UIControl alloc] initWithFrame:CGRectMake(0, 2*(self.view.bounds.size.height-49)/3, 320, (self.view.bounds.size.height-49)/3)];
     view3.tag = 3;
     [view3 addTarget:self action:@selector(viewTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -52,14 +49,14 @@
 }
 
 - (void)viewTapped:(UIControl *)view {
-
+//WILL CHANGE
     ExploreDetailsViewController *exploreDetailsViewController = [ExploreDetailsViewController new];
     if (view.tag == 1) {
-        exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/7ce1f331-df82-4c89-a892-038231d7d04d"];
+        exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/ae667929-ff45-4769-839c-009a22dd5922"];
     } else if (view.tag == 2) {
-        exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/cfbd973f-7c06-4f30-941a-f5656555e1f9"];
+        exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/233eb5c5-b790-47db-942b-1832bf37fb7a"];
     } else if (view.tag == 3) {
-        exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/cf349ef5-ab85-48ee-a5e9-82b58154af64"];
+        exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/f536c5cf-5f15-449e-9902-819b758c31fe"];
     }
     
     

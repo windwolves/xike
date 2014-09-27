@@ -15,7 +15,7 @@
 
 @end
 
-@interface ChooseTemplateViewController : UIViewController <UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface ChooseTemplateViewController : UIViewController <UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate,NSURLSessionDataDelegate>
 @property (nonatomic, strong) EventInfo *event;
 @property (nonatomic, strong) XikeDatabase *database;
 @property (nonatomic, strong) id <ChooseTemplateViewControllerDelegate> delegate;

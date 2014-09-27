@@ -11,6 +11,7 @@
 #import "UserInfo.h"
 #import "EventInfo.h"
 #import "PeopleInfo.h"
+#import "TemplateInfo.h"
 
 @interface XikeDatabase : NSObject
 - (void)openDatabase;
@@ -23,12 +24,13 @@
 - (UserInfo *)getUserInfo;
 - (BOOL)setLastUesdUser:(UserInfo *)user;
 - (BOOL)whetherUserExisted:(UserInfo *)user;
-
 - (NSMutableArray *)getAllEvents:(UserInfo *)user;
 - (NSInteger)createEvent:(EventInfo *)event :(UserInfo *)user;
 - (BOOL)updateEvent:(EventInfo *)event;
 - (BOOL)deleteEvent:(EventInfo *)event;
 - (NSString *)getCurrentEventID;
+- (NSMutableArray *)getAllTemplates;
+- (BOOL)insertTemplate:(TemplateInfo *)template;
 
 //- (BOOL)insertTestUser; //test use;
 @end

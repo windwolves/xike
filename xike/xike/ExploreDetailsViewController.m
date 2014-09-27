@@ -10,7 +10,9 @@
 #import "WeixinSessionActivity.h"
 #import "WeixinTimelineActivity.h"
 
-@interface ExploreDetailsViewController ()
+@interface ExploreDetailsViewController () {
+
+}
 
 @end
 
@@ -30,15 +32,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     UIBarButtonItem *returnBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(returnBtnClicked)];
+    returnBtn.tintColor = [UIColor whiteColor];
     [self.navigationItem setLeftBarButtonItem:returnBtn];
     UIBarButtonItem *shareBtn = [[UIBarButtonItem alloc] initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(shareBtnClicked)];
+    shareBtn.tintColor = [UIColor whiteColor];
     [self.navigationItem setRightBarButtonItem:shareBtn];
     
     _detailsView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     _detailsView.delegate = self;
     [_detailsView loadRequest:[NSURLRequest requestWithURL:_url]];
     
-    [self.view addSubview:_detailsView];
+    //[self.view addSubview:_detailsView];
 }
 
 - (void)returnBtnClicked {
@@ -77,6 +81,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    [self.view addSubview:_detailsView];
     
 }
 
