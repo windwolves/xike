@@ -52,12 +52,16 @@
     doneBtn.tintColor = [UIColor whiteColor];
     [self.navigationItem setRightBarButtonItem:doneBtn];
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
-    
+    templates = [_database getAllTemplates];
     //templateView = [[UIWebView alloc] initWithFrame:CGRectMake(31.5, 3.5, 257, 405)];
     templateView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     templateView.delegate = self;
     //default choose
-    _event.templateID = @"x001";
+    if (_event.templateID.length == 0) {
+        _event.templateID = @"ff8845e1-ec9f-4f3e-aeb9-e6b6179817e5";
+        _event.template = [templates objectAtIndex:0];
+    }
+    
     URL = [self generateURLWithEvent:_event];
     [templateView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URL]]];
     [self.view addSubview:templateView];
@@ -83,7 +87,8 @@
 }
 
 - (void)didChoose:(ImageControl *)sender {
-    _event.templateID = sender.controlID;
+    _event.templateID = sender.template.ID;
+    _event.template = sender.template;
     URL = [self generateURLWithEvent:_event];
     [templateView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URL]]];
 }
@@ -148,7 +153,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 12;
+    return [templates count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -164,19 +169,24 @@
         [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
         cell.contentView.backgroundColor = [UIColor clearColor];
     }
+    
     ImageControl *tempalteCtl = [[ImageControl alloc] initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.height)];
+    TemplateInfo *template = [templates objectAtIndex:indexPath.row];
+    tempalteCtl.template = template;
 
     tempalteCtl.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 6, 51, 81)];
+/*
     NSString *templateNameString;
     if (indexPath.row+1 < 10) {
         templateNameString = [[NSString alloc] initWithFormat:@"x00%d",indexPath.row+1];
     } else {
         templateNameString = [[NSString alloc] initWithFormat:@"x0%d",indexPath.row+1];
     }
-
-    tempalteCtl.imageView.image = [UIImage imageNamed:[[NSString alloc] initWithFormat:@"%@.jpg",templateNameString]];
+*/
+    tempalteCtl.imageView.image = [UIImage imageWithData:template.thumbnail];
+    //[UIImage imageNamed:[[NSString alloc] initWithFormat:@"%@.jpg",templateNameString]];
     [tempalteCtl addSubview:tempalteCtl.imageView];
-    tempalteCtl.controlID = templateNameString;
+    tempalteCtl.controlID = template.name;
     [tempalteCtl addTarget:self action:@selector(didChoose:) forControlEvents:UIControlEventTouchUpInside];
     [cell.contentView addSubview:tempalteCtl];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -202,7 +212,7 @@
 - (NSString *)generateURLWithEvent:(EventInfo *)event {
     NSString *path = @"http://121.40.139.180:8081/#/activity/?";
     NSString *userString = [[NSString alloc] initWithFormat:@"user={\"nickname\":\"%@\"}",event.host.name];
-    NSString *templateString = [[NSString alloc] initWithFormat:@"template={\"name\":\"%@\"}",event.templateID];
+    NSString *templateString = [[NSString alloc] initWithFormat:@"template={\"name\":\"%@\"}",event.template.name];
     NSString *titleString = [[NSString alloc] initWithFormat:@"title=%@",event.theme];
     NSString *contentString = [[NSString alloc] initWithFormat:@"content=%@",event.content];
     NSString *timeString = [[NSString alloc] initWithFormat:@"time=%@ %@:00",event.date,event.time];

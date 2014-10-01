@@ -61,7 +61,7 @@
 - (void)setEvent:(EventInfo *)event {
     _event = event;
     NSDateFormatter *formatter = [NSDateFormatter new];
-    [formatter setDateFormat:@"yyyymmdd"];
+    [formatter setDateFormat:@"yyyyMMdd"];
     
     NSString *YYYY;
     NSString *MM;
@@ -89,7 +89,7 @@
         _contentLabel.text = _event.content;
     }
     if (_contentLabel.text.length > 10) {
-        _contentLabel.text = [[NSString alloc] initWithFormat:@"%@…",[_contentLabel.text substringToIndex:15]];
+        _contentLabel.text = [[NSString alloc] initWithFormat:@"%@…",[_contentLabel.text substringToIndex:10]];
     }
     
     if (_event.location.length > 6) {
@@ -103,14 +103,13 @@
     } else {
         _timeLabel.text = @"待定";
     }
-    
-    _tempalteImageView.image = [self getTemplateImage];
+    _tempalteImageView.image = [UIImage imageWithData:_event.template.thumbnail];
 }
 
 - (UIImage *)getTemplateImage {
-    NSString *imageName = [[NSString alloc] initWithFormat:@"%@.jpg",_event.templateID];
-    UIImage *tempalteImage = [UIImage imageNamed:imageName];
-    return tempalteImage;
+    TemplateInfo *template = [self.delegate getTemplateByID:_event.templateID];
+    UIImage *thumbnail = [UIImage imageWithData:template.thumbnail];
+    return thumbnail;
 }
 
 - (NSString *)getWeekdayString:(NSInteger)number {

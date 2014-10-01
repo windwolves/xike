@@ -9,6 +9,7 @@
 #import "ExploreDetailsViewController.h"
 #import "WeixinSessionActivity.h"
 #import "WeixinTimelineActivity.h"
+#import "ColorHandler.h"
 
 @interface ExploreDetailsViewController () {
 
@@ -37,8 +38,9 @@
     UIBarButtonItem *shareBtn = [[UIBarButtonItem alloc] initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(shareBtnClicked)];
     shareBtn.tintColor = [UIColor whiteColor];
     [self.navigationItem setRightBarButtonItem:shareBtn];
+    self.view.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
     
-    _detailsView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    _detailsView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-64)];
     _detailsView.delegate = self;
     [_detailsView loadRequest:[NSURLRequest requestWithURL:_url]];
     
@@ -51,7 +53,7 @@
 
 - (void)shareBtnClicked {
     NSArray *activity = @[[[WeixinSessionActivity alloc] init], [[WeixinTimelineActivity alloc] init]];
-    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"Welcome to Xike!",_url] applicationActivities:activity];
+    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"Welcome to Xike!",[UIImage imageNamed:@"logo_120"],_url] applicationActivities:activity];
     [self presentViewController:activityView animated:YES completion:^{
         
         //[self uploadToServer:_event];

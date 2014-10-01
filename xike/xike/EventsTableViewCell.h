@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "EventInfo.h"
+#import "TemplateInfo.h"
+
+@class EventsTableViewCell;
+@protocol EventsTableViewCellDelegate <NSObject>
+
+- (TemplateInfo *)getTemplateByID:(NSString *)templateID;
+
+@end
 
 @interface EventsTableViewCell : UITableViewCell
 
@@ -19,6 +27,7 @@
 @property (nonatomic, strong) UILabel *contentLabel;
 @property (nonatomic, strong) UILabel *locationLaebl;
 @property (nonatomic, strong) EventInfo *event;
+@property (nonatomic, strong) id <EventsTableViewCellDelegate> delegate;
 
 - (void)setEvent:(EventInfo *)event;
 @end

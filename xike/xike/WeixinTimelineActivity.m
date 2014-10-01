@@ -19,10 +19,9 @@
     return self;
 }
 
-- (UIImage *)activityImage
+- (UIImage *)_activityImage
 {
-    UIImage *a = [UIImage imageNamed:@"icon_timeline.png"];
-    return a;
+    return [UIImage imageNamed:@"icon_timeline1"];;
 }
 
 - (NSString *)activityTitle

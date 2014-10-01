@@ -175,7 +175,8 @@
     _event = [EventInfo new];
     _event.user = _user;
     [self createEventOnServer];//fetch and set the uuid
-
+    _event.template = [_database getTemplate:@"ff8845e1-ec9f-4f3e-aeb9-e6b6179817e5"];
+    _event.templateID = _event.template.ID;
 }
 
 - (void)deleteEvent:(EventInfo *)event {

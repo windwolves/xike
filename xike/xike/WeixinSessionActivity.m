@@ -10,9 +10,9 @@
 
 @implementation WeixinSessionActivity
 
-- (UIImage *)activityImage
+- (UIImage *)_activityImage
 {
-    return [UIImage imageNamed:@"icon_session.png"];
+    return [UIImage imageNamed:@"icon_session1"];
 }
 
 - (NSString *)activityTitle

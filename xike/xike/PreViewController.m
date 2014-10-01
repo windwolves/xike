@@ -112,7 +112,7 @@
 - (void)shareEvent:(EventInfo *)event {
     //the event shall be created on the server first! then the URL can be finalized.
     NSArray *activity = @[[[WeixinSessionActivity alloc] init], [[WeixinTimelineActivity alloc] init]];
-    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"和喜欢的人，做喜欢的事。 from 稀客",[NSURL URLWithString:_URL]] applicationActivities:activity];
+    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"和喜欢的人，做喜欢的事。 from 稀客",[UIImage imageNamed:@"logo_120"],[NSURL URLWithString:_URL]] applicationActivities:activity];
     [self presentViewController:activityView animated:YES completion:^{
         shareCtl.imageView.highlighted = NO;
          [self uploadEventToServer];
@@ -136,13 +136,8 @@
     _previewWebView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     //_URL = [_URL substringToIndex:([_URL length]-11)];
     _URL = [self generateURLWithEvent:_event];
-    if ([_fromController isEqualToString:@"eventsTable"]) {
-        _URL = [self generateURLWithEvent:_event];
-        [_previewWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_URL]]];
-    } else {
-        [_previewWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_URL]]];
-        NSLog(@"%@",_URL);
-    }
+    [_previewWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_URL]]];
+
     [self.view addSubview:_previewWebView];
 
 }
@@ -160,16 +155,15 @@
 }
 
 - (void)uploadEventToServer {
-    NSString *updateEventService = @"/services/activity/update";
-    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,updateEventService];
+    NSString *sendEventService = @"/services/activity/send";
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,sendEventService];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
     NSString *IDString = [[NSString alloc] initWithFormat:@"id=%@",_event.uuid];
-    NSString *sendStatusString = [[NSString alloc] initWithFormat:@"send_status=%d",_event.send_status];
     
-    NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@",IDString,sendStatusString];
+    NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@",IDString];
     [request setHTTPBody:[loginDataString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         

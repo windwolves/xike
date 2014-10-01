@@ -10,8 +10,9 @@
 #import "UserInfo.h"
 #import "XikeDatabase.h"
 #import "SettingViewController.h"
+#import "EventsTableViewCell.h"
 
-@interface MyEventsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface MyEventsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,EventsTableViewCellDelegate>
 @property (nonatomic, strong) XikeDatabase *database;
 @property (nonatomic, strong) UserInfo *user;
 @property (nonatomic, strong) UIImageView *backImageView;

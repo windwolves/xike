@@ -49,7 +49,7 @@
 - (void)share {
     //TODO
     NSArray *activity = @[[[WeixinSessionActivity alloc] init], [[WeixinTimelineActivity alloc] init]];
-    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"我正在稀客和喜欢的人做喜欢的事，快来一起体验吧！",[NSURL URLWithString:@""]] applicationActivities:activity];
+    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"我正在稀客和喜欢的人做喜欢的事，快来一起体验吧！",[UIImage imageNamed:@"logo_120"],[NSURL URLWithString:@""]] applicationActivities:activity];
     [self presentViewController:activityView animated:YES completion:^{
         
     }];

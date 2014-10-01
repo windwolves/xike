@@ -127,7 +127,7 @@
     [request setHTTPMethod:@"POST"];
     NSString *IDString = [[NSString alloc] initWithFormat:@"id=%@",_user.ID];
     NSString *nicknameString = [[NSString alloc] initWithFormat:@"nickname=%@",nicknameTextField.text];
-    NSString *profileString = [[NSString alloc] initWithFormat:@"profile=data:image/png;base64,%@",[self get64BasedPhoto]];
+    NSString *profileString = [[NSString alloc] initWithFormat:@"profile=%@",[self get64BasedPhoto]];
     NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@&%@",IDString,nicknameString,profileString];
     [request setHTTPBody:[loginDataString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -140,7 +140,8 @@
 }
 
 - (NSString *)get64BasedPhoto {
-    NSString *photo64BasedString = [_user.photo base64EncodedStringWithOptions:0];
+    NSString *photo64BasedString = [_user.photo base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    //NSString *photo64BasedString = [_user.photo base64Encoding];
     return photo64BasedString;
 }
 

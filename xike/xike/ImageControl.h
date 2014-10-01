@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateInfo.h"
 
 @interface ImageControl : UIControl
 
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) NSString *controlID;
+@property (nonatomic, strong) TemplateInfo *template;
 
 @end

@@ -154,10 +154,11 @@
     [logonButton setTitle:@"登录" forState:UIControlStateNormal];
     [logonButton addTarget:self action:@selector(logon) forControlEvents:UIControlEventTouchUpInside];
     [logonView addSubview:logonButton];
-    
+    /* will release on v1.1
     UIImageView *leftLine = [[UIImageView alloc] initWithFrame:CGRectMake(31, 400-160, 77, 0.5)];
     leftLine.backgroundColor = [ColorHandler colorWithHexString:@"#01bfa5"];
     [logonView addSubview:leftLine];
+
     UILabel *otherLogonLable = [[UILabel alloc] initWithFrame:CGRectMake(112, 394-160, 100, 12)];
     otherLogonLable.text = @"或从以下方式登录";
     otherLogonLable.textColor = [ColorHandler colorWithHexString:@"#01bfa5"];
@@ -173,7 +174,7 @@
     UIImageView *weiboImageView = [[UIImageView alloc] initWithFrame:CGRectMake(195, 428-160, 29, 24)];
     weiboImageView.image = [UIImage imageNamed:@"weibo_logon"];
     [logonView addSubview:weiboImageView];
-    
+    */
     mainView = @"logon";
     [self.view addSubview:logonView];
 }

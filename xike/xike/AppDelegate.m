@@ -35,6 +35,7 @@
         //if it's the first time, then create all tables and set defaults.
         if ([database createAllTables]) {
             [defaults setBool:YES forKey:@"everLaunched"];
+            [self setUpBasicTemplate];
             //Register APN service
             [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
             

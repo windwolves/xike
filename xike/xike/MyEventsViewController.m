@@ -10,7 +10,7 @@
 #import "ColorHandler.h"
 #import "EventCell.h"
 #import "PreViewController.h"
-#import "EventsTableViewCell.h"
+
 
 @interface MyEventsViewController ()
 
@@ -137,6 +137,7 @@
     */
     EventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"EventCell" forIndexPath:indexPath];
     [cell setEvent:[eventsArray objectAtIndex:indexPath.row]];
+    cell.delegate = self;
     
     return cell;
 }
@@ -160,5 +161,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     preViewController.fromController = @"eventsTable";
     [self.navigationController pushViewController:preViewController animated:YES];
 }
+
+#pragma mark EventsTableViewCellDelegate
+- (TemplateInfo *)getTemplateByID:(NSString *)templateID {
+    TemplateInfo *template = [_database getTemplate:templateID];
+    return template;
+}
+
 
 @end

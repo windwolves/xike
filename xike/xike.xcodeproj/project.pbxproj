@@ -31,10 +31,6 @@
 		0419FDB219C1C6B300D45030 /* logo_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 0419FDB019C1C6B300D45030 /* logo_120.png */; };
 		0419FDB619C29AC000D45030 /* EventCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0419FDB519C29AC000D45030 /* EventCell.m */; };
 		0419FDB819C43F9000D45030 /* location_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0419FDB719C43F9000D45030 /* location_icon.png */; };
-		0429862A19CF693D00D57F28 /* icon_session.png in Resources */ = {isa = PBXBuildFile; fileRef = 0429862619CF693D00D57F28 /* icon_session.png */; };
-		0429862B19CF693D00D57F28 /* icon_session@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0429862719CF693D00D57F28 /* icon_session@2x.png */; };
-		0429862C19CF693D00D57F28 /* icon_timeline.png in Resources */ = {isa = PBXBuildFile; fileRef = 0429862819CF693D00D57F28 /* icon_timeline.png */; };
-		0429862D19CF693D00D57F28 /* icon_timeline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0429862919CF693D00D57F28 /* icon_timeline@2x.png */; };
 		04404B0119ADD64E003CBF8D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04404B0019ADD64E003CBF8D /* MainViewController.m */; };
 		04404B0519ADD75F003CBF8D /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04404B0419ADD75F003CBF8D /* SettingViewController.m */; };
 		04404B0819ADD858003CBF8D /* ColorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 04404B0719ADD858003CBF8D /* ColorHandler.m */; };
@@ -93,7 +89,6 @@
 		04BCEC4B19A73D4900F22284 /* WeixinActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BCEC4619A73D4900F22284 /* WeixinActivity.m */; };
 		04BCEC4C19A73D4900F22284 /* WeixinSessionActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BCEC4819A73D4900F22284 /* WeixinSessionActivity.m */; };
 		04BCEC4D19A73D4900F22284 /* WeixinTimelineActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BCEC4A19A73D4900F22284 /* WeixinTimelineActivity.m */; };
-		04BCEC5A19A73D5B00F22284 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BCEC5319A73D5B00F22284 /* libWeChatSDK.a */; };
 		04BCEC5D19A8BECD00F22284 /* UserLogonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BCEC5C19A8BECD00F22284 /* UserLogonViewController.m */; };
 		04BCEC6019A8CD1A00F22284 /* logo_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BCEC5F19A8CD1A00F22284 /* logo_big.png */; };
 		04BCEC6219AB18D900F22284 /* emailImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BCEC6119AB18D900F22284 /* emailImage.png */; };
@@ -109,6 +104,15 @@
 		04BD1A5A19C072CF00F03804 /* PreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BD1A5919C072CF00F03804 /* PreViewController.m */; };
 		04DC9E7919D62675009E8E20 /* TemplateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC9E7819D62675009E8E20 /* TemplateInfo.m */; };
 		04DC9E7C19D66F36009E8E20 /* TemplateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC9E7B19D66F36009E8E20 /* TemplateTableViewCell.m */; };
+		04DC9E9019D94CC8009E8E20 /* icon_session.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E8519D94CC8009E8E20 /* icon_session.png */; };
+		04DC9E9119D94CC8009E8E20 /* icon_session@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E8619D94CC8009E8E20 /* icon_session@2x.png */; };
+		04DC9E9219D94CC8009E8E20 /* icon_session1.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E8719D94CC8009E8E20 /* icon_session1.png */; };
+		04DC9E9319D94CC8009E8E20 /* icon_session1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E8819D94CC8009E8E20 /* icon_session1@2x.png */; };
+		04DC9E9419D94CC8009E8E20 /* icon_timeline.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E8919D94CC8009E8E20 /* icon_timeline.png */; };
+		04DC9E9519D94CC8009E8E20 /* icon_timeline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E8A19D94CC8009E8E20 /* icon_timeline@2x.png */; };
+		04DC9E9619D94CC8009E8E20 /* icon_timeline1.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E8B19D94CC8009E8E20 /* icon_timeline1.png */; };
+		04DC9E9719D94CC8009E8E20 /* icon_timeline1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E8C19D94CC8009E8E20 /* icon_timeline1@2x.png */; };
+		04DC9E9819D94CC8009E8E20 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DC9E8D19D94CC8009E8E20 /* libWeChatSDK.a */; };
 		04F10E9719D146F800094A52 /* x001.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04F10E8B19D146F800094A52 /* x001.jpg */; };
 		04F10E9819D146F800094A52 /* x002.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04F10E8C19D146F800094A52 /* x002.jpg */; };
 		04F10E9919D146F800094A52 /* x003.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04F10E8D19D146F800094A52 /* x003.jpg */; };
@@ -180,10 +184,6 @@
 		0419FDB419C29AC000D45030 /* EventCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventCell.h; sourceTree = "<group>"; };
 		0419FDB519C29AC000D45030 /* EventCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventCell.m; sourceTree = "<group>"; };
 		0419FDB719C43F9000D45030 /* location_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_icon.png; sourceTree = "<group>"; };
-		0429862619CF693D00D57F28 /* icon_session.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_session.png; sourceTree = "<group>"; };
-		0429862719CF693D00D57F28 /* icon_session@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_session@2x.png"; sourceTree = "<group>"; };
-		0429862819CF693D00D57F28 /* icon_timeline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_timeline.png; sourceTree = "<group>"; };
-		0429862919CF693D00D57F28 /* icon_timeline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_timeline@2x.png"; sourceTree = "<group>"; };
 		04404AFF19ADD64E003CBF8D /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		04404B0019ADD64E003CBF8D /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		04404B0319ADD75F003CBF8D /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
@@ -268,9 +268,6 @@
 		04BCEC4819A73D4900F22284 /* WeixinSessionActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeixinSessionActivity.m; sourceTree = "<group>"; };
 		04BCEC4919A73D4900F22284 /* WeixinTimelineActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeixinTimelineActivity.h; sourceTree = "<group>"; };
 		04BCEC4A19A73D4900F22284 /* WeixinTimelineActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeixinTimelineActivity.m; sourceTree = "<group>"; };
-		04BCEC5319A73D5B00F22284 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
-		04BCEC5419A73D5B00F22284 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
-		04BCEC5519A73D5B00F22284 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		04BCEC5B19A8BECD00F22284 /* UserLogonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLogonViewController.h; sourceTree = "<group>"; };
 		04BCEC5C19A8BECD00F22284 /* UserLogonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserLogonViewController.m; sourceTree = "<group>"; };
 		04BCEC5F19A8CD1A00F22284 /* logo_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_big.png; sourceTree = "<group>"; };
@@ -293,6 +290,17 @@
 		04DC9E7819D62675009E8E20 /* TemplateInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateInfo.m; sourceTree = "<group>"; };
 		04DC9E7A19D66F36009E8E20 /* TemplateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateTableViewCell.h; sourceTree = "<group>"; };
 		04DC9E7B19D66F36009E8E20 /* TemplateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateTableViewCell.m; sourceTree = "<group>"; };
+		04DC9E8519D94CC8009E8E20 /* icon_session.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_session.png; sourceTree = "<group>"; };
+		04DC9E8619D94CC8009E8E20 /* icon_session@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_session@2x.png"; sourceTree = "<group>"; };
+		04DC9E8719D94CC8009E8E20 /* icon_session1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_session1.png; sourceTree = "<group>"; };
+		04DC9E8819D94CC8009E8E20 /* icon_session1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_session1@2x.png"; sourceTree = "<group>"; };
+		04DC9E8919D94CC8009E8E20 /* icon_timeline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_timeline.png; sourceTree = "<group>"; };
+		04DC9E8A19D94CC8009E8E20 /* icon_timeline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_timeline@2x.png"; sourceTree = "<group>"; };
+		04DC9E8B19D94CC8009E8E20 /* icon_timeline1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_timeline1.png; sourceTree = "<group>"; };
+		04DC9E8C19D94CC8009E8E20 /* icon_timeline1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_timeline1@2x.png"; sourceTree = "<group>"; };
+		04DC9E8D19D94CC8009E8E20 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		04DC9E8E19D94CC8009E8E20 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		04DC9E8F19D94CC8009E8E20 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		04F10E8B19D146F800094A52 /* x001.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = x001.jpg; sourceTree = "<group>"; };
 		04F10E8C19D146F800094A52 /* x002.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = x002.jpg; sourceTree = "<group>"; };
 		04F10E8D19D146F800094A52 /* x003.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = x003.jpg; sourceTree = "<group>"; };
@@ -330,7 +338,7 @@
 				04BCEBEE19A7313200F22284 /* CoreGraphics.framework in Frameworks */,
 				04BCEBF019A7313200F22284 /* UIKit.framework in Frameworks */,
 				04BCEBEC19A7313200F22284 /* Foundation.framework in Frameworks */,
-				04BCEC5A19A73D5B00F22284 /* libWeChatSDK.a in Frameworks */,
+				04DC9E9819D94CC8009E8E20 /* libWeChatSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,9 +472,9 @@
 				04A99A9319B31BDC009AE0E0 /* CreateNewEventViewController.h */,
 				04A99A9419B31BDC009AE0E0 /* CreateNewEventViewController.m */,
 				04A99AB519B5CCB8009AE0E0 /* CanlendarView.h */,
-				04A99AB619B5CCB8009AE0E0 /* CanlendarView.m */,
 				04A99ACB19BD8C42009AE0E0 /* MonthHeaderView.h */,
 				04A99ACC19BD8C42009AE0E0 /* MonthHeaderView.m */,
+				04A99AB619B5CCB8009AE0E0 /* CanlendarView.m */,
 				04BD1A3119BF160E00F03804 /* ChooseTemplateViewController.h */,
 				04BD1A3219BF160E00F03804 /* ChooseTemplateViewController.m */,
 				04DC9E7A19D66F36009E8E20 /* TemplateTableViewCell.h */,
@@ -602,7 +610,7 @@
 		04BCEC4419A73D2100F22284 /* WeiXinSharing */ = {
 			isa = PBXGroup;
 			children = (
-				04BCEC4E19A73D5B00F22284 /* Resources */,
+				04DC9E9919D94E82009E8E20 /* Resources */,
 				04BCEC4519A73D4900F22284 /* WeixinActivity.h */,
 				04BCEC4619A73D4900F22284 /* WeixinActivity.m */,
 				04BCEC4719A73D4900F22284 /* WeixinSessionActivity.h */,
@@ -611,20 +619,6 @@
 				04BCEC4A19A73D4900F22284 /* WeixinTimelineActivity.m */,
 			);
 			name = WeiXinSharing;
-			sourceTree = "<group>";
-		};
-		04BCEC4E19A73D5B00F22284 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				0429862619CF693D00D57F28 /* icon_session.png */,
-				0429862719CF693D00D57F28 /* icon_session@2x.png */,
-				0429862819CF693D00D57F28 /* icon_timeline.png */,
-				0429862919CF693D00D57F28 /* icon_timeline@2x.png */,
-				04BCEC5319A73D5B00F22284 /* libWeChatSDK.a */,
-				04BCEC5419A73D5B00F22284 /* WXApi.h */,
-				04BCEC5519A73D5B00F22284 /* WXApiObject.h */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		04BCEC5E19A8CCF700F22284 /* Resources */ = {
@@ -694,6 +688,24 @@
 			name = Template;
 			sourceTree = "<group>";
 		};
+		04DC9E9919D94E82009E8E20 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				04DC9E8519D94CC8009E8E20 /* icon_session.png */,
+				04DC9E8619D94CC8009E8E20 /* icon_session@2x.png */,
+				04DC9E8719D94CC8009E8E20 /* icon_session1.png */,
+				04DC9E8819D94CC8009E8E20 /* icon_session1@2x.png */,
+				04DC9E8919D94CC8009E8E20 /* icon_timeline.png */,
+				04DC9E8A19D94CC8009E8E20 /* icon_timeline@2x.png */,
+				04DC9E8B19D94CC8009E8E20 /* icon_timeline1.png */,
+				04DC9E8C19D94CC8009E8E20 /* icon_timeline1@2x.png */,
+				04DC9E8D19D94CC8009E8E20 /* libWeChatSDK.a */,
+				04DC9E8E19D94CC8009E8E20 /* WXApi.h */,
+				04DC9E8F19D94CC8009E8E20 /* WXApiObject.h */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -742,7 +754,7 @@
 				ORGANIZATIONNAME = Leading;
 				TargetAttributes = {
 					04BCEBE719A7313200F22284 = {
-						DevelopmentTeam = PLU3EQSAF9;
+						DevelopmentTeam = PQ7SQ8TTD8;
 					};
 					04BCEC0219A7313300F22284 = {
 						TestTargetID = 04BCEBE719A7313200F22284;
@@ -777,13 +789,13 @@
 				04F10E9919D146F800094A52 /* x003.jpg in Resources */,
 				04A99A8F19B30268009AE0E0 /* forward_icon.png in Resources */,
 				04F10EB619D15FAB00094A52 /* time_on.png in Resources */,
+				04DC9E9419D94CC8009E8E20 /* icon_timeline.png in Resources */,
 				0419FDAA19C1BFED00D45030 /* search_picker.png in Resources */,
 				04A83BCE19C9A8520069F4AB /* time_icon.png in Resources */,
 				0419FD8619C14D5C00D45030 /* share_icon_off.png in Resources */,
 				04404B0C19AF02D7003CBF8D /* user_bg_default.png in Resources */,
 				04404B1719AF08CE003CBF8D /* discover_off.png in Resources */,
 				0419FDB819C43F9000D45030 /* location_icon.png in Resources */,
-				0429862B19CF693D00D57F28 /* icon_session@2x.png in Resources */,
 				0419FD7E19C14CFC00D45030 /* send_icon_on.png in Resources */,
 				04A99AAE19B5AA61009AE0E0 /* timeLabel.png in Resources */,
 				0419FD9819C1BAD100D45030 /* icon-checkbox-unselected-25x25@2x.png in Resources */,
@@ -806,26 +818,29 @@
 				04A83BCC19C9A8300069F4AB /* logo_57.png in Resources */,
 				04F10E9719D146F800094A52 /* x001.jpg in Resources */,
 				04A99AAD19B5AA61009AE0E0 /* canlendarContent.png in Resources */,
-				0429862C19CF693D00D57F28 /* icon_timeline.png in Resources */,
 				04BCEC6619AB2C6700F22284 /* QQ_logon.png in Resources */,
 				04BD1A3B19BF5CB300F03804 /* aboutUS.png in Resources */,
 				04404B1F19AF8A9C003CBF8D /* aboutUS_icon.png in Resources */,
 				04A99AA919B47522009AE0E0 /* locationContent.png in Resources */,
 				04F10EB119D15FAB00094A52 /* location_off.png in Resources */,
+				04DC9E9319D94CC8009E8E20 /* icon_session1@2x.png in Resources */,
 				04BD1A3619BF58D900F03804 /* suggestion_icon.png in Resources */,
 				04BCEC6219AB18D900F22284 /* emailImage.png in Resources */,
+				04DC9E9219D94CC8009E8E20 /* icon_session1.png in Resources */,
 				04F10EA019D146F800094A52 /* x010.jpg in Resources */,
+				04DC9E9519D94CC8009E8E20 /* icon_timeline@2x.png in Resources */,
 				04404B3019B063A4003CBF8D /* changePasswordPic.png in Resources */,
 				0419FDAB19C1BFED00D45030 /* section_header.png in Resources */,
 				04F10EB519D15FAB00094A52 /* time_off.png in Resources */,
 				04F10E9819D146F800094A52 /* x002.jpg in Resources */,
 				04F10EAA19D15BCA00094A52 /* Default-568h@2x.png in Resources */,
+				04DC9E9719D94CC8009E8E20 /* icon_timeline1@2x.png in Resources */,
 				04404B1919AF08CE003CBF8D /* personal_off.png in Resources */,
-				0429862D19CF693D00D57F28 /* icon_timeline@2x.png in Resources */,
 				04BCEBF619A7313200F22284 /* InfoPlist.strings in Resources */,
 				04F10EA119D146F800094A52 /* x012.jpg in Resources */,
 				04F10E9D19D146F800094A52 /* x007.jpg in Resources */,
 				04F10EB319D15FAB00094A52 /* theme_off.png in Resources */,
+				04DC9E9019D94CC8009E8E20 /* icon_session.png in Resources */,
 				0419FD9619C1BAD100D45030 /* icon-checkbox-selected-green-25x25@2x.png in Resources */,
 				04A99AB919B5E4BD009AE0E0 /* setting.png in Resources */,
 				04A99AC119B6E28D009AE0E0 /* timeContent.png in Resources */,
@@ -833,7 +848,9 @@
 				04F10EA919D15BCA00094A52 /* Default~iphone.png in Resources */,
 				04BCEC6B19AB367B00F22284 /* logo_text_big.png in Resources */,
 				04F10E9C19D146F800094A52 /* x006.jpg in Resources */,
+				04DC9E9619D94CC8009E8E20 /* icon_timeline1.png in Resources */,
 				04F10E9A19D146F800094A52 /* x004.jpg in Resources */,
+				04DC9E9119D94CC8009E8E20 /* icon_session@2x.png in Resources */,
 				04BCEC6019A8CD1A00F22284 /* logo_big.png in Resources */,
 				04404B1519AF08CE003CBF8D /* create_event.png in Resources */,
 				04404B1819AF08CE003CBF8D /* personal_on.png in Resources */,
@@ -841,7 +858,6 @@
 				04BCEBFE19A7313200F22284 /* Images.xcassets in Resources */,
 				0419FD9419C1BAD100D45030 /* icon-avatar-60x60@2x.png in Resources */,
 				04A99ABD19B5E4E8009AE0E0 /* user_pic_border.png in Resources */,
-				0429862A19CF693D00D57F28 /* icon_session.png in Resources */,
 				04F10EB419D15FAB00094A52 /* theme_on.png in Resources */,
 				0419FD9519C1BAD100D45030 /* icon-checkbox-selected-green-25x25.png in Resources */,
 				0419FDB119C1C6B300D45030 /* logo_80.png in Resources */,
@@ -1034,6 +1050,7 @@
 					"$(inherited)",
 					/Users/CRJ/Developer/Prototype/Qing2/Qing2/WeixinActivity/Resources,
 					"$(PROJECT_DIR)/xike/Resources",
+					"$(PROJECT_DIR)/xike",
 				);
 				PRODUCT_NAME = xike;
 				PROVISIONING_PROFILE = "";
@@ -1055,6 +1072,7 @@
 					"$(inherited)",
 					/Users/CRJ/Developer/Prototype/Qing2/Qing2/WeixinActivity/Resources,
 					"$(PROJECT_DIR)/xike/Resources",
+					"$(PROJECT_DIR)/xike",
 				);
 				PRODUCT_NAME = xike;
 				PROVISIONING_PROFILE = "";

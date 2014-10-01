@@ -30,6 +30,7 @@
 - (BOOL)deleteEvent:(EventInfo *)event;
 - (NSString *)getCurrentEventID;
 - (NSMutableArray *)getAllTemplates;
+- (TemplateInfo *)getTemplate:(NSString *)templateID;
 - (BOOL)insertTemplate:(TemplateInfo *)template;
 
 //- (BOOL)insertTestUser; //test use;

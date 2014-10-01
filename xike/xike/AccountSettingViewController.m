@@ -205,7 +205,7 @@
     [request setHTTPMethod:@"POST"];
     NSString *IDString = [[NSString alloc] initWithFormat:@"id=%@",_user.ID];
     NSString *nicknameString = [[NSString alloc] initWithFormat:@"nickname=%@",nicknameField.text];
-    NSString *profileString = [[NSString alloc] initWithFormat:@"profile=data:image/png;base64,%@",[_user.photo base64EncodedStringWithOptions:0]];
+    NSString *profileString = [[NSString alloc] initWithFormat:@"profile=%@",[_user.photo base64EncodedDataWithOptions:NSDataBase64Encoding64CharacterLineLength]];
     NSString *parameterString = [[NSString alloc] initWithFormat:@"%@&%@&%@",IDString,nicknameString,profileString];
     [request setHTTPBody:[parameterString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {

@@ -329,13 +329,13 @@ static sqlite3 *_database;
             if (sqlite3_column_text(stmt, 11)) {
                 event.templateID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 11)];
             } else {
-                event.templateID = @"x001";
+                event.templateID = @"ff8845e1-ec9f-4f3e-aeb9-e6b6179817e5";
             }
             event.send_status = (NSInteger)sqlite3_column_int(stmt, 12);
             
             event.host = [[PeopleInfo alloc] initWithID:host_id Name:host_name Phone:host_phone Photo:host_pic];
-            event.guestList = [self getGuestListwith:event.uuid];
-
+            //event.guestList = [self getGuestListwith:event.uuid];
+            event.template = [self getTemplate:event.templateID];
             [Events addObject:event];
         }
     }
@@ -346,7 +346,7 @@ static sqlite3 *_database;
 
 - (NSMutableArray *)getGuestListwith:(NSString *)uuid {
     NSMutableArray *guestList = [NSMutableArray new];
-    const char *getGuestInfoSQL = "select guest_id,guest_name,guest_phone,guest_pic from guestinfo where event_id = ?";
+    const char *getGuestInfoSQL = "select guest_id,guest_name,guest_phone,guest_pic from guestinfo where event_uuid = ?";
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(_database, getGuestInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_text(stmt, 1, [uuid UTF8String], -1, NULL);
@@ -585,7 +585,7 @@ static sqlite3 *_database;
         sqlite3_bind_text(stmt, 1, [template.ID UTF8String], -1, NULL);
         sqlite3_bind_text(stmt, 2, [template.name UTF8String], -1, NULL);
         sqlite3_bind_text(stmt, 3, [template.desc UTF8String], -1, NULL);
-        sqlite3_bind_blob(stmt, 4, [template.thumbnail bytes], -1, NULL);
+        sqlite3_bind_blob(stmt, 4, [template.thumbnail bytes], (int)[template.thumbnail length], NULL);
         sqlite3_bind_text(stmt, 5, [template.category UTF8String], -1, NULL);
         sqlite3_bind_int(stmt, 6, template.recommendation);
         
@@ -606,6 +606,53 @@ static sqlite3 *_database;
         [self closeDatabase];
         return NO;
     }
+}
+
+- (TemplateInfo *)getTemplate:(NSString *)templateID {
+    [self openDatabase];
+    TemplateInfo *template = [TemplateInfo new];
+    const char *getEventInfoSQL = "select uuid,name,desc,thumbnail,category,recommendation from templateinfo where uuid = ?";
+    sqlite3_stmt *stmt;
+    
+    if (sqlite3_prepare_v2(_database, getEventInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [templateID UTF8String], -1, NULL);
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            if (sqlite3_column_text(stmt, 0)) {
+                template.ID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 0)];
+            } else {
+                template.ID = @"";
+            }
+            if (sqlite3_column_text(stmt, 1)) {
+                template.name = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
+            } else {
+                template.name = @"";
+            }
+            if (sqlite3_column_text(stmt, 2)) {
+                template.desc = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
+            } else {
+                template.desc = @"";
+            }
+            if (sqlite3_column_bytes(stmt, 3) != 0) {
+                template.thumbnail = [NSData dataWithBytes:sqlite3_column_blob(stmt, 3) length:sqlite3_column_bytes(stmt, 3)];
+            } else {
+                template.thumbnail = nil;
+            }
+            if (sqlite3_column_text(stmt, 4)) {
+                template.category = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 4)];
+            } else {
+                template.category = @"";
+            }
+            if (sqlite3_column_int(stmt, 5)) {
+                template.recommendation = sqlite3_column_int(stmt, 5);
+            } else {
+                template.recommendation = 0;
+            }
+        }
+    }
+    sqlite3_finalize(stmt);
+    [self closeDatabase];
+    return template;
+    
 }
 
 - (NSMutableArray *)getAllTemplates {
@@ -632,6 +679,7 @@ static sqlite3 *_database;
             } else {
                 template.desc = @"";
             }
+            //NSInteger a = sqlite3_column_bytes(stmt, 3);
             if (sqlite3_column_bytes(stmt, 3) != 0) {
                 template.thumbnail = [NSData dataWithBytes:sqlite3_column_blob(stmt, 3) length:sqlite3_column_bytes(stmt, 3)];
             } else {
