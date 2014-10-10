@@ -66,7 +66,7 @@
     NSString *YYYY;
     NSString *MM;
     NSString *DD;
-    if (_event.date.length != 0) {
+    if (_event.date.length == 8) {
         NSDate *eventDate = [formatter dateFromString:_event.date];
         NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSWeekdayCalendarUnit fromDate:eventDate];
         

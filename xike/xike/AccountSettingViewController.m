@@ -240,7 +240,7 @@
     UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:logonViewController];
     [self.navigationController presentViewController:navigation animated:YES completion:^{
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setBool:YES forKey:@"isLogin"];
+        [defaults setBool:NO forKey:@"isLogin"];
     }];
     
     

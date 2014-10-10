@@ -397,7 +397,7 @@
         [dateDic setValue:[[NSString alloc] initWithFormat:@"%d",mon] forKey:@"month"];
     }
     if (day < 10) {
-        [dateDic setValue:[[NSString alloc] initWithFormat:@"%0d",day] forKey:@"day"];
+        [dateDic setValue:[[NSString alloc] initWithFormat:@"0%d",day] forKey:@"day"];
     } else {
         [dateDic setValue:[[NSString alloc] initWithFormat:@"%d",day] forKey:@"day"];
     }
