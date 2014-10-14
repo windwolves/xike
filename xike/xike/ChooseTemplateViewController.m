@@ -58,7 +58,7 @@
     templateView.delegate = self;
     //default choose
     if (_event.templateID.length == 0) {
-        _event.templateID = @"ff8845e1-ec9f-4f3e-aeb9-e6b6179817e5";
+        _event.templateID = @"544331a9-e6e5-41c1-9212-6fcf6f3b3ebc";
         _event.template = [templates objectAtIndex:0];
     }
     
@@ -117,7 +117,7 @@
     [request setHTTPMethod:@"POST"];
     NSString *IDString = [[NSString alloc] initWithFormat:@"id=%@",_event.uuid];
     NSString *contentString = [[NSString alloc] initWithFormat:@"content=%@",_event.content];
-    NSString *timeString = [[NSString alloc] initWithFormat:@"time=%@ %@:00",_event.date,_event.time];
+    NSString *timeString = [[NSString alloc] initWithFormat:@"time=%@",[self generateTimeStringWithEvent:_event]];
     NSString *locationString = [[NSString alloc] initWithFormat:@"place=%@",_event.location];
     NSString *templateString = [[NSString alloc] initWithFormat:@"templateId=%@",_event.templateID];
     
@@ -215,7 +215,7 @@
     NSString *templateString = [[NSString alloc] initWithFormat:@"template={\"name\":\"%@\"}",event.template.name];
     NSString *titleString = [[NSString alloc] initWithFormat:@"title=%@",event.theme];
     NSString *contentString = [[NSString alloc] initWithFormat:@"content=%@",event.content];
-    NSString *timeString = [[NSString alloc] initWithFormat:@"time=%@ %@:00",event.date,event.time];
+    NSString *timeString = [[NSString alloc] initWithFormat:@"time=%@",[self generateTimeStringWithEvent:event]];
     NSString *placeString = [[NSString alloc] initWithFormat:@"place=%@",event.location];
     NSString *modeString = @"mode=scale";
     NSString *parameterString = [[[NSString alloc] initWithFormat:@"%@&%@&%@&%@&%@&%@&%@",userString,templateString,titleString,contentString,timeString,placeString,modeString] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -224,6 +224,19 @@
     NSLog(@"%@",urlString);
     return urlString;
 
+}
+
+- (NSString *)generateTimeStringWithEvent:(EventInfo *)event {
+    NSString *timeString;
+    if (event.date.length == 8) {
+        NSString *YYYY = [event.date substringWithRange:NSMakeRange(0, 4)];
+        NSString *MM = [_event.date substringWithRange:NSMakeRange(4, 2)];
+        NSString *DD = [_event.date substringWithRange:NSMakeRange(6, 2)];
+        timeString = [[NSString alloc] initWithFormat:@"%@/%@/%@ %@",YYYY,MM,DD,event.time];
+    } else {
+        timeString = @"";
+    }
+    return timeString;
 }
 
 #pragma UIWebView Delegate

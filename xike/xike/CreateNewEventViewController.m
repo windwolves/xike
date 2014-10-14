@@ -90,7 +90,7 @@
     yearString = [[self getDateDictionary:[NSDate date]] objectForKey:@"year"];
     
     //Controller
-    themeCtl = [[ImageControl alloc] initWithFrame:CGRectMake(36, 12, 24, 43)];
+    themeCtl = [[ImageControl alloc] initWithFrame:CGRectMake(36, 12, 54, 43)];
     themeCtl.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"theme_off"] highlightedImage:[UIImage imageNamed:@"theme_on"]];
     [themeCtl.imageView setFrame:CGRectMake(1, 0, 23, 23)];
     themeCtl.imageView.highlighted = YES;
@@ -104,7 +104,7 @@
     [themeCtl addTarget:self action:@selector(changeContent:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:themeCtl];
     
-    timeCtl = [[ImageControl alloc] initWithFrame:CGRectMake(148, 12, 24, 43)];
+    timeCtl = [[ImageControl alloc] initWithFrame:CGRectMake(148, 12, 54, 43)];
     timeCtl.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"time_off"] highlightedImage:[UIImage imageNamed:@"time_on"]];
     timeCtl.imageView.frame = CGRectMake(1, 0, 23, 23);
     UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 31, 24, 12)];
@@ -117,7 +117,7 @@
     [timeCtl addTarget:self action:@selector(changeContent:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:timeCtl];
     
-    locationCtl = [[ImageControl alloc] initWithFrame:CGRectMake(self.view.bounds.size.width-56, 12, 24, 43)];
+    locationCtl = [[ImageControl alloc] initWithFrame:CGRectMake(self.view.bounds.size.width-56, 12, 54, 43)];
     locationCtl.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location_off"] highlightedImage:[UIImage imageNamed:@"location_on"]];
     locationCtl.imageView.frame = CGRectMake(1, 0, 23, 23);
     UILabel *locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 31, 24, 12)];
@@ -159,7 +159,11 @@
     themeContentTextView.font = [UIFont systemFontOfSize:15];
     themeContentTextView.textColor = [ColorHandler colorWithHexString:@"#c7c7c7"];
     themePlaceholderString = @"请输入主题信息";
-    themeContentTextView.text = themePlaceholderString;
+    if (_event.content.length == 0) {
+        themeContentTextView.text = themePlaceholderString;
+    } else {
+        themeContentTextView.text = _event.content;
+    }
     themeContentTextView.tag = 1;
     themeContentTextView.delegate = self;
     [themeView addSubview:themeContentTextView];
@@ -175,7 +179,7 @@
     _event = [EventInfo new];
     _event.user = _user;
     [self createEventOnServer];//fetch and set the uuid
-    _event.template = [_database getTemplate:@"ff8845e1-ec9f-4f3e-aeb9-e6b6179817e5"];
+    _event.template = [_database getTemplate:@"544331a9-e6e5-41c1-9212-6fcf6f3b3ebc"];
     _event.templateID = _event.template.ID;
 }
 
@@ -213,7 +217,7 @@
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
     NSString *hostIdString = [[NSString alloc] initWithFormat:@"hostId=%@",_user.ID];
-    NSString *templateIdString = [[NSString alloc] initWithFormat:@"templateId=%@",@"ff8845e1-ec9f-4f3e-aeb9-e6b6179817e5"];
+    NSString *templateIdString = [[NSString alloc] initWithFormat:@"templateId=%@",@"544331a9-e6e5-41c1-9212-6fcf6f3b3ebc"];
     NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@",hostIdString,templateIdString];
     [request setHTTPBody:[loginDataString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -226,7 +230,7 @@
             _event.templateID = [[dataDic valueForKey:@"data"] valueForKey:@"templateId"];
             [_database createEvent:_event :_user];
         } else {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"创建活动失败" message:@"请重新尝试" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"服务器创建活动失败" message:@"请重新尝试" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             alertView.tag = 1;
             [alertView show];
         }
@@ -365,7 +369,11 @@
     locationTextView.font = [UIFont systemFontOfSize:15];
     locationTextView.textColor = [ColorHandler colorWithHexString:@"#c7c7c7"];
     locationPlaceholderString = @"请输入地址";
-    locationTextView.text = locationPlaceholderString;
+    if (_event.location.length == 0) {
+        locationTextView.text = locationPlaceholderString;
+    } else {
+        locationTextView.text = _event.location;
+    }
     locationTextView.tag = 3;
     locationTextView.delegate = self;
     [locationView addSubview:locationTextView];
@@ -472,7 +480,7 @@
     if (hourString&&minuteString) {
         _event.time = [[NSString alloc] initWithFormat:@"%@:%@:00",hourString,minuteString];
     } else {
-        _event.time = @"";
+        _event.time = @"00:00:00";
     }
     
     ChooseTemplateViewController *chooseTemplateViewController = [ChooseTemplateViewController new];
@@ -482,7 +490,7 @@
 }
 
 - (void)returnToPreviousView {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"取消创建" message:@"新活动尚未保存，真的要离开么？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"取消创建" message:@"活动尚未保存，真的要离开么？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alertView.tag = 2;
     [alertView show];
 }
@@ -490,7 +498,7 @@
 //AlertView Action
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 1) {
-        if (buttonIndex == 1) {
+        if (buttonIndex == 0) {
             [self.navigationController popViewControllerAnimated:YES];
         }
     }

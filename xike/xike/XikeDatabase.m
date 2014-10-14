@@ -329,7 +329,7 @@ static sqlite3 *_database;
             if (sqlite3_column_text(stmt, 11)) {
                 event.templateID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 11)];
             } else {
-                event.templateID = @"ff8845e1-ec9f-4f3e-aeb9-e6b6179817e5";
+                event.templateID = @"544331a9-e6e5-41c1-9212-6fcf6f3b3ebc";
             }
             event.send_status = (NSInteger)sqlite3_column_int(stmt, 12);
             

@@ -52,11 +52,11 @@
 //WILL CHANGE
     ExploreDetailsViewController *exploreDetailsViewController = [ExploreDetailsViewController new];
     if (view.tag == 1) {
-        exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/ae667929-ff45-4769-839c-009a22dd5922"];
+        exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/e141bac0-ce18-4336-802d-e0075c96f0be"];
     } else if (view.tag == 2) {
-        exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/233eb5c5-b790-47db-942b-1832bf37fb7a"];
+        exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/25d26450-573f-4563-b1fb-8b9a59648401"];
     } else if (view.tag == 3) {
-        exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/f536c5cf-5f15-449e-9902-819b758c31fe"];
+        exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/b39f6ee4-ba68-4a5d-ad56-1ae1b46b82b3"];
     }
     
     

@@ -67,6 +67,8 @@
 		04A99AC019B6E28D009AE0E0 /* dateLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A99ABE19B6E28D009AE0E0 /* dateLabel.png */; };
 		04A99AC119B6E28D009AE0E0 /* timeContent.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A99ABF19B6E28D009AE0E0 /* timeContent.png */; };
 		04A99ACD19BD8C42009AE0E0 /* MonthHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A99ACC19BD8C42009AE0E0 /* MonthHeaderView.m */; };
+		04B3419D19EBD3B80034480A /* aboutUS.png in Resources */ = {isa = PBXBuildFile; fileRef = 04B3419C19EBD3B80034480A /* aboutUS.png */; };
+		04B3419F19EBD40F0034480A /* suggestion_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04B3419E19EBD40F0034480A /* suggestion_icon.png */; };
 		04BCEBEC19A7313200F22284 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BCEBEB19A7313200F22284 /* Foundation.framework */; };
 		04BCEBEE19A7313200F22284 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BCEBED19A7313200F22284 /* CoreGraphics.framework */; };
 		04BCEBF019A7313200F22284 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BCEBEF19A7313200F22284 /* UIKit.framework */; };
@@ -95,9 +97,7 @@
 		04BCEC6819AB2CF800F22284 /* weibo_logon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BCEC6719AB2CF800F22284 /* weibo_logon.png */; };
 		04BCEC6B19AB367B00F22284 /* logo_text_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BCEC6A19AB367B00F22284 /* logo_text_big.png */; };
 		04BD1A3319BF160E00F03804 /* ChooseTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BD1A3219BF160E00F03804 /* ChooseTemplateViewController.m */; };
-		04BD1A3619BF58D900F03804 /* suggestion_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BD1A3519BF58D900F03804 /* suggestion_icon.png */; };
 		04BD1A3919BF5A3400F03804 /* AboutUSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BD1A3819BF5A3400F03804 /* AboutUSViewController.m */; };
-		04BD1A3B19BF5CB300F03804 /* aboutUS.png in Resources */ = {isa = PBXBuildFile; fileRef = 04BD1A3A19BF5CB300F03804 /* aboutUS.png */; };
 		04BD1A3E19BF5FD400F03804 /* SuggestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BD1A3D19BF5FD400F03804 /* SuggestionViewController.m */; };
 		04BD1A5A19C072CF00F03804 /* PreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BD1A5919C072CF00F03804 /* PreViewController.m */; };
 		04DC9E7919D62675009E8E20 /* TemplateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC9E7819D62675009E8E20 /* TemplateInfo.m */; };
@@ -235,6 +235,8 @@
 		04A99ABF19B6E28D009AE0E0 /* timeContent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timeContent.png; sourceTree = "<group>"; };
 		04A99ACB19BD8C42009AE0E0 /* MonthHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthHeaderView.h; sourceTree = "<group>"; };
 		04A99ACC19BD8C42009AE0E0 /* MonthHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthHeaderView.m; sourceTree = "<group>"; };
+		04B3419C19EBD3B80034480A /* aboutUS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutUS.png; sourceTree = "<group>"; };
+		04B3419E19EBD40F0034480A /* suggestion_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = suggestion_icon.png; sourceTree = "<group>"; };
 		04BCEBE819A7313200F22284 /* xike.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xike.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04BCEBEB19A7313200F22284 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		04BCEBED19A7313200F22284 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -276,10 +278,8 @@
 		04BCEC6A19AB367B00F22284 /* logo_text_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_text_big.png; sourceTree = "<group>"; };
 		04BD1A3119BF160E00F03804 /* ChooseTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseTemplateViewController.h; sourceTree = "<group>"; };
 		04BD1A3219BF160E00F03804 /* ChooseTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseTemplateViewController.m; sourceTree = "<group>"; };
-		04BD1A3519BF58D900F03804 /* suggestion_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = suggestion_icon.png; sourceTree = "<group>"; };
 		04BD1A3719BF5A3400F03804 /* AboutUSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUSViewController.h; sourceTree = "<group>"; };
 		04BD1A3819BF5A3400F03804 /* AboutUSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUSViewController.m; sourceTree = "<group>"; };
-		04BD1A3A19BF5CB300F03804 /* aboutUS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutUS.png; sourceTree = "<group>"; };
 		04BD1A3C19BF5FD400F03804 /* SuggestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionViewController.h; sourceTree = "<group>"; };
 		04BD1A3D19BF5FD400F03804 /* SuggestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionViewController.m; sourceTree = "<group>"; };
 		04BD1A5819C072CF00F03804 /* PreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreViewController.h; sourceTree = "<group>"; };
@@ -446,8 +446,8 @@
 		04404B1A19AF85DE003CBF8D /* SettingView */ = {
 			isa = PBXGroup;
 			children = (
-				04BD1A3A19BF5CB300F03804 /* aboutUS.png */,
-				04BD1A3519BF58D900F03804 /* suggestion_icon.png */,
+				04B3419E19EBD40F0034480A /* suggestion_icon.png */,
+				04B3419C19EBD3B80034480A /* aboutUS.png */,
 				04A99A8E19B30268009AE0E0 /* forward_icon.png */,
 				04404B1D19AF8A9C003CBF8D /* aboutUS_icon.png */,
 				04404B1E19AF8A9C003CBF8D /* accountSetting_icon.png */,
@@ -823,12 +823,10 @@
 				04DC9EA219DBE04D009E8E20 /* logo_114.png in Resources */,
 				04A99AAD19B5AA61009AE0E0 /* canlendarContent.png in Resources */,
 				04BCEC6619AB2C6700F22284 /* QQ_logon.png in Resources */,
-				04BD1A3B19BF5CB300F03804 /* aboutUS.png in Resources */,
 				04404B1F19AF8A9C003CBF8D /* aboutUS_icon.png in Resources */,
 				04A99AA919B47522009AE0E0 /* locationContent.png in Resources */,
 				04F10EB119D15FAB00094A52 /* location_off.png in Resources */,
 				04DC9E9319D94CC8009E8E20 /* icon_session1@2x.png in Resources */,
-				04BD1A3619BF58D900F03804 /* suggestion_icon.png in Resources */,
 				04BCEC6219AB18D900F22284 /* emailImage.png in Resources */,
 				04DC9E9219D94CC8009E8E20 /* icon_session1.png in Resources */,
 				04DC9EA019DBE04D009E8E20 /* logo_58.png in Resources */,
@@ -856,6 +854,7 @@
 				04BCEC6B19AB367B00F22284 /* logo_text_big.png in Resources */,
 				04F10E9C19D146F800094A52 /* x006.jpg in Resources */,
 				04DC9E9619D94CC8009E8E20 /* icon_timeline1.png in Resources */,
+				04B3419D19EBD3B80034480A /* aboutUS.png in Resources */,
 				04F10E9A19D146F800094A52 /* x004.jpg in Resources */,
 				04DC9E9119D94CC8009E8E20 /* icon_session@2x.png in Resources */,
 				04BCEC6019A8CD1A00F22284 /* logo_big.png in Resources */,
@@ -863,6 +862,7 @@
 				04404B1819AF08CE003CBF8D /* personal_on.png in Resources */,
 				0419FD9719C1BAD100D45030 /* icon-checkbox-unselected-25x25.png in Resources */,
 				04BCEBFE19A7313200F22284 /* Images.xcassets in Resources */,
+				04B3419F19EBD40F0034480A /* suggestion_icon.png in Resources */,
 				0419FD9419C1BAD100D45030 /* icon-avatar-60x60@2x.png in Resources */,
 				04A99ABD19B5E4E8009AE0E0 /* user_pic_border.png in Resources */,
 				04F10EB419D15FAB00094A52 /* theme_on.png in Resources */,

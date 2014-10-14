@@ -80,7 +80,7 @@
     } else {
         _yearMonthLabel.text = @"";
         _dayLabel.text = @"";
-        _weekdayLabel.text = @"";
+        _weekdayLabel.text = @"待定";
     }
     
     if (_event.send_status == 0) {

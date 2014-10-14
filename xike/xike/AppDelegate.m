@@ -86,7 +86,7 @@
     //x001
     NSMutableArray *basicTemplates = [NSMutableArray new];
     TemplateInfo *template_001 = [TemplateInfo new];
-    template_001.ID = @"ff8845e1-ec9f-4f3e-aeb9-e6b6179817e5";
+    template_001.ID = @"544331a9-e6e5-41c1-9212-6fcf6f3b3ebc";
     template_001.name = @"x001";
     template_001.desc = @"";
     template_001.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x001.jpg"],1.0);
@@ -95,7 +95,7 @@
     [basicTemplates addObject:template_001];
     //x002
     TemplateInfo *template_002 = [TemplateInfo new];
-    template_002.ID = @"206cfe3d-3b84-41f4-92d4-cc024e10b033";
+    template_002.ID = @"9f42133f-929f-4998-9bbd-315effcb2c38";
     template_002.name = @"x002";
     template_002.desc = @"";
     template_002.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x002.jpg"],1.0);
@@ -104,7 +104,7 @@
     [basicTemplates addObject:template_002];
     //x003
     TemplateInfo *template_003 = [TemplateInfo new];
-    template_003.ID = @"e2f76972-cbb4-4cc5-bdf7-6f5e7f30f503";
+    template_003.ID = @"300a3507-751a-4fbf-8187-a82d1e68860c";
     template_003.name = @"x003";
     template_003.desc = @"";
     template_003.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x003.jpg"],1.0);
@@ -113,7 +113,7 @@
     [basicTemplates addObject:template_003];
     //x004
     TemplateInfo *template_004 = [TemplateInfo new];
-    template_004.ID = @"b879a0d2-5449-4a69-a940-adb86d8c7f8b";
+    template_004.ID = @"22b7fd9f-74d7-44f2-87ef-5af810bed314";
     template_004.name = @"x004";
     template_004.desc = @"";
     template_004.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x004.jpg"],1.0);
@@ -122,7 +122,7 @@
     [basicTemplates addObject:template_004];
     //x005
     TemplateInfo *template_005 = [TemplateInfo new];
-    template_005.ID = @"7d7e0b0a-46da-45da-86a6-c0d23db58668";
+    template_005.ID = @"71bf36af-bb1e-42d5-a233-471ba7dbb54c";
     template_005.name = @"x005";
     template_005.desc = @"";
     template_005.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x005.jpg"],1.0);
@@ -131,7 +131,7 @@
     [basicTemplates addObject:template_005];
     //x006
     TemplateInfo *template_006 = [TemplateInfo new];
-    template_006.ID = @"4576c81a-01ea-42fc-b902-da9a2ebc6109";
+    template_006.ID = @"8d7c8889-d3c1-4384-9edd-5c9691c2e790";
     template_006.name = @"x006";
     template_006.desc = @"";
     template_006.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x006.jpg"],1.0);
@@ -140,7 +140,7 @@
     [basicTemplates addObject:template_006];
     //x007
     TemplateInfo *template_007 = [TemplateInfo new];
-    template_007.ID = @"76622aa5-de2b-43fb-be26-32471d617de6";
+    template_007.ID = @"08d3b3f3-cef5-4c9f-bee9-29371dd180ba";
     template_007.name = @"x007";
     template_007.desc = @"";
     template_007.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x007.jpg"],1.0);
@@ -149,7 +149,7 @@
     [basicTemplates addObject:template_007];
     //x008
     TemplateInfo *template_008 = [TemplateInfo new];
-    template_008.ID = @"426c0e94-bbb4-406f-8d82-bc5a3cafc15a";
+    template_008.ID = @"68868dc2-a7ab-4866-b27e-a5679aee2e25";
     template_008.name = @"x008";
     template_008.desc = @"";
     template_008.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x008.jpg"],1.0);
@@ -158,7 +158,7 @@
     [basicTemplates addObject:template_008];
     //x009
     TemplateInfo *template_009 = [TemplateInfo new];
-    template_009.ID = @"65978137-35aa-4aab-bf55-ac6e97c76006";
+    template_009.ID = @"49e81bde-d51e-485d-be42-bbb269330081";
     template_009.name = @"x009";
     template_009.desc = @"";
     template_009.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x009.jpg"],1.0);
@@ -167,7 +167,7 @@
     [basicTemplates addObject:template_009];
     //x010
     TemplateInfo *template_010 = [TemplateInfo new];
-    template_010.ID = @"0b81a006-eb60-4e43-8724-803aa0faeb6e";
+    template_010.ID = @"5fbbd474-2ecd-4054-add4-e994ddda128e";
     template_010.name = @"x010";
     template_010.desc = @"";
     template_010.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x010.jpg"],1.0);
@@ -176,7 +176,7 @@
     [basicTemplates addObject:template_010];
     //x011
     TemplateInfo *template_011 = [TemplateInfo new];
-    template_011.ID = @"d9865c54-3c36-4c34-98c5-12b901d7f15b";
+    template_011.ID = @"f127e1e0-0569-439c-ad03-2c980ed2f55a";
     template_011.name = @"x011";
     template_011.desc = @"";
     template_011.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x011.jpg"],1.0);
@@ -185,7 +185,7 @@
     [basicTemplates addObject:template_011];
     //x012
     TemplateInfo *template_012 = [TemplateInfo new];
-    template_012.ID = @"600b607d-c0eb-4f8a-a9ba-889780995201";
+    template_012.ID = @"27deb988-009b-431d-80cf-ba1349cef19c";
     template_012.name = @"x012";
     template_012.desc = @"";
     template_012.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x012.jpg"],1.0);

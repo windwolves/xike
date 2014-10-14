@@ -102,7 +102,7 @@
 
 - (void)sendEvent:(EventInfo *)event {
     PeoplePickerViewController *peoplePickerViewController = [[PeoplePickerViewController alloc] init];
-    peoplePickerViewController.sendOutContent = [[NSString alloc] initWithFormat:@"%@,%@", @"和喜欢的人，做喜欢的事。 from 稀客", _URL];
+    peoplePickerViewController.sendOutContent = [[NSString alloc] initWithFormat:@"%@,%@", @"和喜欢的人，做喜欢的事。 from 稀客邀请函", _URL];
     peoplePickerViewController.delegate = self;
     peoplePickerViewController.event = _event;
     peoplePickerViewController.database = _database;
@@ -112,11 +112,14 @@
 - (void)shareEvent:(EventInfo *)event {
     //the event shall be created on the server first! then the URL can be finalized.
     NSArray *activity = @[[[WeixinSessionActivity alloc] init], [[WeixinTimelineActivity alloc] init]];
-    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"和喜欢的人，做喜欢的事。 from 稀客",[UIImage imageNamed:@"logo_120"],[NSURL URLWithString:_URL]] applicationActivities:activity];
+    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"和喜欢的人，做喜欢的事。 from 稀客邀请函",[UIImage imageNamed:@"logo_120"],[NSURL URLWithString:_URL]] applicationActivities:activity];
     [self presentViewController:activityView animated:YES completion:^{
         shareCtl.imageView.highlighted = NO;
-         [self uploadEventToServer];
-    }];
+    // save the event
+        _event.send_status = 1;
+        [self uploadEventToServer];
+        [_database updateEvent:_event];
+    }];//it will be save as sent status even the event would not be sent eventually.
 }
 
 - (void)viewDidLoad
@@ -181,7 +184,7 @@
     NSString *templateString = [[NSString alloc] initWithFormat:@"template={\"name\":\"%@\"}",event.templateID];
     NSString *titleString = [[NSString alloc] initWithFormat:@"title=%@",event.theme];
     NSString *contentString = [[NSString alloc] initWithFormat:@"content=%@",event.content];
-    NSString *timeString = [[NSString alloc] initWithFormat:@"time=%@ %@:00",event.date,event.time];
+    NSString *timeString = [[NSString alloc] initWithFormat:@"time=%@ %@",event.date,event.time];
     NSString *placeString = [[NSString alloc] initWithFormat:@"place=%@",event.location];
     NSString *parameterString = [[[NSString alloc] initWithFormat:@"%@&%@&%@&%@&%@&%@",userString,templateString,titleString,contentString,timeString,placeString] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     */
