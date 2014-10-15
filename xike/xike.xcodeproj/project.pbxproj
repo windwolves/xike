@@ -69,6 +69,13 @@
 		04A99ACD19BD8C42009AE0E0 /* MonthHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A99ACC19BD8C42009AE0E0 /* MonthHeaderView.m */; };
 		04B3419D19EBD3B80034480A /* aboutUS.png in Resources */ = {isa = PBXBuildFile; fileRef = 04B3419C19EBD3B80034480A /* aboutUS.png */; };
 		04B3419F19EBD40F0034480A /* suggestion_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04B3419E19EBD40F0034480A /* suggestion_icon.png */; };
+		04B341AB19EE3EE40034480A /* GuidePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B341AA19EE3EE40034480A /* GuidePage.m */; };
+		04B341B119EE42E00034480A /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B341B019EE42E00034480A /* GuideViewController.m */; };
+		04B341B419EE43860034480A /* GuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B341B319EE43860034480A /* GuideView.m */; };
+		04B341BA19EE64D70034480A /* guide_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04B341B619EE64D70034480A /* guide_1.jpg */; };
+		04B341BB19EE64D70034480A /* guide_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04B341B719EE64D70034480A /* guide_2.jpg */; };
+		04B341BC19EE64D70034480A /* guide_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04B341B819EE64D70034480A /* guide_3.jpg */; };
+		04B341BD19EE64D70034480A /* guide_4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04B341B919EE64D70034480A /* guide_4.jpg */; };
 		04BCEBEC19A7313200F22284 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BCEBEB19A7313200F22284 /* Foundation.framework */; };
 		04BCEBEE19A7313200F22284 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BCEBED19A7313200F22284 /* CoreGraphics.framework */; };
 		04BCEBF019A7313200F22284 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BCEBEF19A7313200F22284 /* UIKit.framework */; };
@@ -237,6 +244,16 @@
 		04A99ACC19BD8C42009AE0E0 /* MonthHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthHeaderView.m; sourceTree = "<group>"; };
 		04B3419C19EBD3B80034480A /* aboutUS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutUS.png; sourceTree = "<group>"; };
 		04B3419E19EBD40F0034480A /* suggestion_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = suggestion_icon.png; sourceTree = "<group>"; };
+		04B341A919EE3EE40034480A /* GuidePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuidePage.h; sourceTree = "<group>"; };
+		04B341AA19EE3EE40034480A /* GuidePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuidePage.m; sourceTree = "<group>"; };
+		04B341AF19EE42E00034480A /* GuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideViewController.h; sourceTree = "<group>"; };
+		04B341B019EE42E00034480A /* GuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideViewController.m; sourceTree = "<group>"; };
+		04B341B219EE43860034480A /* GuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideView.h; sourceTree = "<group>"; };
+		04B341B319EE43860034480A /* GuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideView.m; sourceTree = "<group>"; };
+		04B341B619EE64D70034480A /* guide_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = guide_1.jpg; sourceTree = "<group>"; };
+		04B341B719EE64D70034480A /* guide_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = guide_2.jpg; sourceTree = "<group>"; };
+		04B341B819EE64D70034480A /* guide_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = guide_3.jpg; sourceTree = "<group>"; };
+		04B341B919EE64D70034480A /* guide_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = guide_4.jpg; sourceTree = "<group>"; };
 		04BCEBE819A7313200F22284 /* xike.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xike.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04BCEBEB19A7313200F22284 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		04BCEBED19A7313200F22284 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -511,6 +528,30 @@
 			name = NewEventView;
 			sourceTree = "<group>";
 		};
+		04B341A819EE3E8E0034480A /* GuildView */ = {
+			isa = PBXGroup;
+			children = (
+				04B341A919EE3EE40034480A /* GuidePage.h */,
+				04B341AA19EE3EE40034480A /* GuidePage.m */,
+				04B341B219EE43860034480A /* GuideView.h */,
+				04B341B319EE43860034480A /* GuideView.m */,
+				04B341AF19EE42E00034480A /* GuideViewController.h */,
+				04B341B019EE42E00034480A /* GuideViewController.m */,
+			);
+			name = GuildView;
+			sourceTree = "<group>";
+		};
+		04B341B519EE64C20034480A /* Guide */ = {
+			isa = PBXGroup;
+			children = (
+				04B341B619EE64D70034480A /* guide_1.jpg */,
+				04B341B719EE64D70034480A /* guide_2.jpg */,
+				04B341B819EE64D70034480A /* guide_3.jpg */,
+				04B341B919EE64D70034480A /* guide_4.jpg */,
+			);
+			name = Guide;
+			sourceTree = "<group>";
+		};
 		04BCEBDF19A7313200F22284 = {
 			isa = PBXGroup;
 			children = (
@@ -545,6 +586,7 @@
 		04BCEBF119A7313200F22284 /* xike */ = {
 			isa = PBXGroup;
 			children = (
+				04B341A819EE3E8E0034480A /* GuildView */,
 				04404B2B19B05AC2003CBF8D /* logonView */,
 				04404B0219ADD73A003CBF8D /* MainView */,
 				04BCEC5E19A8CCF700F22284 /* Resources */,
@@ -627,6 +669,7 @@
 		04BCEC5E19A8CCF700F22284 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				04B341B519EE64C20034480A /* Guide */,
 				0419FDB319C203D000D45030 /* AppIcon */,
 				04BD1A3F19BFFDDF00F03804 /* Template */,
 				04A99A9A19B46965009AE0E0 /* NewEventView */,
@@ -793,6 +836,7 @@
 				04A99A8F19B30268009AE0E0 /* forward_icon.png in Resources */,
 				04F10EB619D15FAB00094A52 /* time_on.png in Resources */,
 				04DC9E9419D94CC8009E8E20 /* icon_timeline.png in Resources */,
+				04B341BB19EE64D70034480A /* guide_2.jpg in Resources */,
 				0419FDAA19C1BFED00D45030 /* search_picker.png in Resources */,
 				04A83BCE19C9A8520069F4AB /* time_icon.png in Resources */,
 				0419FD8619C14D5C00D45030 /* share_icon_off.png in Resources */,
@@ -847,6 +891,7 @@
 				04F10EB319D15FAB00094A52 /* theme_off.png in Resources */,
 				04DC9E9019D94CC8009E8E20 /* icon_session.png in Resources */,
 				0419FD9619C1BAD100D45030 /* icon-checkbox-selected-green-25x25@2x.png in Resources */,
+				04B341BD19EE64D70034480A /* guide_4.jpg in Resources */,
 				04A99AB919B5E4BD009AE0E0 /* setting.png in Resources */,
 				04A99AC119B6E28D009AE0E0 /* timeContent.png in Resources */,
 				04F10EA919D15BCA00094A52 /* Default~iphone.png in Resources */,
@@ -856,6 +901,7 @@
 				04DC9E9619D94CC8009E8E20 /* icon_timeline1.png in Resources */,
 				04B3419D19EBD3B80034480A /* aboutUS.png in Resources */,
 				04F10E9A19D146F800094A52 /* x004.jpg in Resources */,
+				04B341BC19EE64D70034480A /* guide_3.jpg in Resources */,
 				04DC9E9119D94CC8009E8E20 /* icon_session@2x.png in Resources */,
 				04BCEC6019A8CD1A00F22284 /* logo_big.png in Resources */,
 				04404B1519AF08CE003CBF8D /* create_event.png in Resources */,
@@ -869,6 +915,7 @@
 				0419FD9519C1BAD100D45030 /* icon-checkbox-selected-green-25x25.png in Resources */,
 				04BCEC6419AB241F00F22284 /* passwordImage.png in Resources */,
 				04A99AC019B6E28D009AE0E0 /* dateLabel.png in Resources */,
+				04B341BA19EE64D70034480A /* guide_1.jpg in Resources */,
 				04F10EB219D15FAB00094A52 /* location_on.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -906,10 +953,12 @@
 				04BD1A3319BF160E00F03804 /* ChooseTemplateViewController.m in Sources */,
 				04BCEBFC19A7313200F22284 /* AppDelegate.m in Sources */,
 				04BD1A3E19BF5FD400F03804 /* SuggestionViewController.m in Sources */,
+				04B341B419EE43860034480A /* GuideView.m in Sources */,
 				04BCEC1D19A7346000F22284 /* UserInfo.m in Sources */,
 				0419FDA419C1BAF400D45030 /* CRJContact.m in Sources */,
 				04A83BD319CB52390069F4AB /* UserInfoViewController.m in Sources */,
 				0419FDB619C29AC000D45030 /* EventCell.m in Sources */,
+				04B341B119EE42E00034480A /* GuideViewController.m in Sources */,
 				04BCEBF819A7313200F22284 /* main.m in Sources */,
 				0419FDA519C1BAF400D45030 /* CRJContactBubble.m in Sources */,
 				04BCEC2619A735E600F22284 /* XikeDatabase.m in Sources */,
@@ -918,6 +967,7 @@
 				04A99ACD19BD8C42009AE0E0 /* MonthHeaderView.m in Sources */,
 				04A99AB119B5AEA4009AE0E0 /* ImageControl.m in Sources */,
 				04BCEC4C19A73D4900F22284 /* WeixinSessionActivity.m in Sources */,
+				04B341AB19EE3EE40034480A /* GuidePage.m in Sources */,
 				04A99A9519B31BDC009AE0E0 /* CreateNewEventViewController.m in Sources */,
 				04A99A9219B31982009AE0E0 /* ExploreViewController.m in Sources */,
 				04BD1A3919BF5A3400F03804 /* AboutUSViewController.m in Sources */,

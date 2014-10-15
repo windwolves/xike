@@ -17,8 +17,8 @@
     
     self.themeType = @"";
     self.theme = @"";
-    self.content = @"待定";
-    self.location = @"待定";
+    self.content = @"";
+    self.location = @"";
     self.date = @"";
     self.time = @"";
     self.host = [[PeopleInfo alloc] initWithID:_user.userID Name:_user.name Phone:_user.phone Photo:nil];

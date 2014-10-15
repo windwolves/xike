@@ -11,8 +11,10 @@
 #import "UserLogonViewController.h"
 #import "MainViewController.h"
 #import "UserInfoViewController.h"
+#import "GuideViewController.h"
 
 @implementation AppDelegate {
+    GuideViewController *guideViewController;
     UserLogonViewController *logonViewController;
     MainViewController *mainViewController;
     NSString *token;
@@ -30,7 +32,7 @@
     database = [[XikeDatabase alloc] init];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    [defaults setValue:@"1.0" forKey:@"version"];// Set Version
+    [defaults setInteger:1.0 forKey:@"version"];// Set Version
     if (![defaults boolForKey:@"everLaunched"]) { //check whether first launch or not
         //if it's the first time, then create all tables and set defaults.
         if ([database createAllTables]) {
@@ -43,8 +45,11 @@
             logonViewController.database = database;
             logonViewController.deviceToken = token;
             
-            navigation = [[UINavigationController alloc] initWithRootViewController:logonViewController];
-            self.window.rootViewController = navigation;
+            guideViewController = [GuideViewController new];
+            guideViewController.logonViewController = logonViewController;
+            
+            //navigation = [[UINavigationController alloc] initWithRootViewController:logonViewController];
+            self.window.rootViewController = guideViewController;
             
         } else {
             NSLog(@"Tables cannot be created!");

@@ -220,7 +220,7 @@
     UIImageView *passwordImageView = [[UIImageView alloc] initWithFrame:CGRectMake(31, 268-160, 16, 15)];
     passwordImageView.image = [UIImage imageNamed:@"passwordImage"];
     [registerView addSubview:passwordImageView];
-    UIImageView *underLine4 = [[UIImageView alloc] initWithFrame:CGRectMake(31, 293-160, 268, 0.5)];
+    UIImageView *underLine4 = [[UIImageView alloc] initWithFrame:CGRectMake(31, 288-160, 268, 0.5)];
     underLine4.backgroundColor = [ColorHandler colorWithHexString:@"#01bfa5"];
     [registerView addSubview:underLine4];
     passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(64, 268-160, 250, 15)];
@@ -368,8 +368,10 @@
         NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
         //NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
-            NSString *ID = [[dataDic valueForKey:@"data"] valueForKey:@"id"];
-            [self loginApp:ID];
+            UserInfo *user = [UserInfo new];
+            user.ID = [[dataDic valueForKey:@"data"] valueForKey:@"id"];
+            user.name = [[dataDic valueForKey:@"data"] valueForKey:@"nickname"];
+            [self loginApp:user];
         } else {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"登录失败" message:@"邮箱或密码不正确" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
@@ -380,11 +382,9 @@
     
 }
 
-- (void)loginApp:(NSString *)ID {
-    UserInfo *user = [UserInfo new];
+- (void)loginApp:(UserInfo *)user {
     user.userID = emailTextField.text;
     user.password = passwordTextField.text;
-    user.ID = ID;
     if (_deviceToken) {
         user.deviceToken = _deviceToken;
     } else {
@@ -400,6 +400,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     MainViewController *mainViewController = [MainViewController new];
     mainViewController.database = _database;
+    mainViewController.user = user;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
     [self presentViewController:navigationController animated:YES completion:^{
         [defaults setBool:YES forKey:@"isLogin"];

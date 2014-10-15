@@ -33,7 +33,7 @@ static sqlite3 *_database;
 - (BOOL)createAllTables {
     [self openDatabase];
     char *errMsg;
-    const char *createUserInfoSQL = "create table if not exists userinfo (user_id text, name text default null,phone text default null,photo blob defalut null,background_pic blob default null,QQ text default null,weibo text default null,weixin text default null,password text,gender text default null,deviceToken text,last_used integer,ID text)";
+    const char *createUserInfoSQL = "create table if not exists userinfo (user_id text, name text default null,phone text default null,photo blob defalut null,background_pic blob default null,QQ text default null,weibo text default null,weixin text default null,password text,gender text default null,deviceToken text,last_used integer default 0,ID text)";
     const char *createEventInfoSQL = "create table if not exists eventinfo (event_id integer primary key, theme_type text, theme text, content text, location text, date text, time text, host_id text, host_name text, host_pic blob, host_phone text,template_id text,send_status integer, create_datetime timestamp default current_timestamp,user_id text,uuid text default null)";
     const char *createGuestInfoSQL = "create table if not exists guestinfo (event_uuid integer,guest_id text,guest_name text, guest_phone text,guest_pic blob defalut null)";
     const char *createFriendInfoSQL = "create table if not exists friendinfo (user_id text, name text,phone text,photo blob defalut null)";
@@ -86,13 +86,14 @@ static sqlite3 *_database;
 
 - (BOOL)setUser:(UserInfo *)user {
     [self openDatabase];
-    const char *insertUserInfoSQL = "Insert into userinfo (user_id,password,deviceToken,ID) values (?,?,?,?)";
+    const char *insertUserInfoSQL = "Insert into userinfo (user_id,name,password,deviceToken,ID) values (?,?,?,?,?)";
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(_database, insertUserInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_text(stmt, 1, [user.userID UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 2, [user.password UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 3, [user.deviceToken UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 4, [user.ID UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 2, [user.name UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 3, [user.password UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 4, [user.deviceToken UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 5, [user.ID UTF8String], -1, NULL);
         
         if (sqlite3_step(stmt) == SQLITE_DONE) {
             sqlite3_finalize(stmt);
@@ -189,7 +190,7 @@ static sqlite3 *_database;
         [self closeDatabase];
         return NO;
     }
-    
+    [self closeDatabase];
     return YES;
 }
 
@@ -198,12 +199,15 @@ static sqlite3 *_database;
     const char *checkSQL = "select count(*) from userinfo where user_id = ?";
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(_database, checkSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [user.userID UTF8String], -1, NULL);
         while (sqlite3_step(stmt) == SQLITE_ROW) {
             if (sqlite3_column_int(stmt, 0) > 0) {
+                [self closeDatabase];
                 return YES;
             }
         }
     }
+    [self closeDatabase];
     return NO;
 }
 
@@ -258,9 +262,28 @@ static sqlite3 *_database;
 
 - (BOOL)setLastUesdUser:(UserInfo *)user {
     [self openDatabase];
-    const char *updatePasswordSQL = "update userinfo set last_used = 1 where user_id = ?";
+    const char *setLastUsedUserDefaultSQL = "update userinfo set last_used = 0";
+    sqlite3_stmt *stmt0;
+    if (sqlite3_prepare_v2(_database, setLastUsedUserDefaultSQL, -1, &stmt0, nil) == SQLITE_OK) {
+        if (sqlite3_step(stmt0) == SQLITE_DONE) {
+            sqlite3_finalize(stmt0);
+        } else {
+            NSLog(@"set last user failed!");
+            [self ErrorReport:setLastUsedUserDefaultSQL];
+            sqlite3_finalize(stmt0);
+            [self closeDatabase];
+            return NO;
+        }
+    } else {
+        NSLog(@"prepareStatement failed!");
+        sqlite3_finalize(stmt0);
+        [self closeDatabase];
+        return NO;
+    }
+    
+    const char *updateLastUsedUserSQL = "update userinfo set last_used = 1 where user_id = ?";
     sqlite3_stmt *stmt;
-    if (sqlite3_prepare_v2(_database, updatePasswordSQL, -1, &stmt, nil) == SQLITE_OK) {
+    if (sqlite3_prepare_v2(_database, updateLastUsedUserSQL, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_text(stmt, 1, [user.userID UTF8String], -1, NULL);
         
         if (sqlite3_step(stmt) == SQLITE_DONE) {
@@ -269,7 +292,7 @@ static sqlite3 *_database;
             return YES;
         } else {
             NSLog(@"set last user failed!");
-            [self ErrorReport:updatePasswordSQL];
+            [self ErrorReport:updateLastUsedUserSQL];
             sqlite3_finalize(stmt);
             [self closeDatabase];
             return NO;
@@ -280,7 +303,7 @@ static sqlite3 *_database;
         [self closeDatabase];
         return NO;
     }
-    
+    [self closeDatabase];
     return YES;
     
 }

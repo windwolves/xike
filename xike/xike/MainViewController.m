@@ -67,7 +67,9 @@ const float MoveAnimationDuration = 0.3;
     sideBarShowing = NO;
     currentTranslate = 0;
     _database = [XikeDatabase new];
-    _user = [_database getUserInfo];
+    if (!_user) {
+        _user = [_database getUserInfo];
+    }
     g_flags = 3;
     //NavaigationBar
     [self.navigationItem setTitle:@"个人主页"];

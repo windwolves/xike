@@ -54,7 +54,7 @@
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     templates = [_database getAllTemplates];
     //templateView = [[UIWebView alloc] initWithFrame:CGRectMake(31.5, 3.5, 257, 405)];
-    templateView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    templateView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-81)];
     templateView.delegate = self;
     //default choose
     if (_event.templateID.length == 0) {
@@ -211,7 +211,7 @@
 #pragma private method to generate url parameters
 - (NSString *)generateURLWithEvent:(EventInfo *)event {
     NSString *path = @"http://121.40.139.180:8081/#/activity/?";
-    NSString *userString = [[NSString alloc] initWithFormat:@"user={\"nickname\":\"%@\"}",event.host.name];
+    NSString *userString = [[NSString alloc] initWithFormat:@"user={\"nickname\":\"%@\"}",event.user.name];
     NSString *templateString = [[NSString alloc] initWithFormat:@"template={\"name\":\"%@\"}",event.template.name];
     NSString *titleString = [[NSString alloc] initWithFormat:@"title=%@",event.theme];
     NSString *contentString = [[NSString alloc] initWithFormat:@"content=%@",event.content];
