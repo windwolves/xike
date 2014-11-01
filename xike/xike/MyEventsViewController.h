@@ -11,8 +11,9 @@
 #import "XikeDatabase.h"
 #import "SettingViewController.h"
 #import "EventsTableViewCell.h"
+#import "ImageCropperViewController.h"
 
-@interface MyEventsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,EventsTableViewCellDelegate>
+@interface MyEventsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,EventsTableViewCellDelegate,ImageCropperDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate,NSURLSessionDataDelegate>
 @property (nonatomic, strong) XikeDatabase *database;
 @property (nonatomic, strong) UserInfo *user;
 @property (nonatomic, strong) UIImageView *backImageView;

@@ -28,11 +28,11 @@
     self.window.backgroundColor = [UIColor whiteColor];
     UINavigationController *navigation;
     
-    [WXApi registerApp:@"wxcefa411f34485347"];//WeiXin App
+    [WXApi registerApp:@"wxca9958c9b1340c67"];//WeiXin App
     database = [[XikeDatabase alloc] init];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    [defaults setInteger:1.0 forKey:@"version"];// Set Version
+    [defaults setFloat:1.0 forKey:@"version"];// Set Version
     if (![defaults boolForKey:@"everLaunched"]) { //check whether first launch or not
         //if it's the first time, then create all tables and set defaults.
         if ([database createAllTables]) {

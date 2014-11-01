@@ -536,8 +536,8 @@ static sqlite3 *_database;
             sqlite3_finalize(stmt);
             NSLog(@"deleted!");
             [self closeDatabase];
-            return [self deleteEventGuestList:event];
-            
+            //return [self deleteEventGuestList:event];
+            return YES;
         } else {
             sqlite3_finalize(stmt);
             [self ErrorReport:deleteEventSQL];

@@ -136,7 +136,7 @@
     }
     
     //_previewWebView.frame = self.view.bounds;
-    _previewWebView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    _previewWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-49)];
     //_URL = [_URL substringToIndex:([_URL length]-11)];
     _URL = [self generateURLWithEvent:_event];
     [_previewWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_URL]]];

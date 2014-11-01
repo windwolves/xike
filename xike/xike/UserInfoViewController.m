@@ -110,6 +110,7 @@
     _user.name = nicknameTextField.text;
     if ([_database updateUser:_user]) {//update by user_id?uuid?
         [self updateAccountOnServer];
+        [self uploadProfileOnServer];
     }
     MainViewController *mainViewController = [MainViewController new];
     mainViewController.database = _database;
@@ -127,15 +128,62 @@
     [request setHTTPMethod:@"POST"];
     NSString *IDString = [[NSString alloc] initWithFormat:@"id=%@",_user.ID];
     NSString *nicknameString = [[NSString alloc] initWithFormat:@"nickname=%@",nicknameTextField.text];
-    NSString *profileString = [[NSString alloc] initWithFormat:@"profile=%@",[self get64BasedPhoto]];
-    NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@&%@",IDString,nicknameString,profileString];
-    [request setHTTPBody:[loginDataString dataUsingEncoding:NSUTF8StringEncoding]];
+    //NSString *profileString = [[NSString alloc] initWithFormat:@"profile=%@",[self get64BasedPhoto]];
+    //NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@&%@",IDString,nicknameString,profileString];
+    NSString *parameterString = [[NSString alloc] initWithFormat:@"%@&%@",IDString,nicknameString];
+    [request setHTTPBody:[parameterString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
        
     }];
     
     [sessionDataTask resume];
     
+    
+}
+
+
+- (void)uploadProfileOnServer {
+    NSData *imgData = UIImageJPEGRepresentation(picImageView.image, 0.5);
+    
+    NSString *uploadProfileService = @"/services/user/upload";
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,uploadProfileService];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    NSString *boundary = [NSString stringWithFormat:@"---------------------------14737809831464368775746641449"];
+    NSMutableData *body = [NSMutableData new];
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"id\"\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[_user.ID dataUsingEncoding:NSUTF8StringEncoding]];
+    if (imgData) {
+        [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@.jpg\"\r\n", @"profile",_user.name] dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        [body appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:imgData];
+        [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    // set request HTTPHeader
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:body];
+    
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        NSError *err;
+        NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
+        if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
+            NSLog(@"%@",[dataDic valueForKey:@"status"]);
+            NSLog(@"%@",[[dataDic valueForKey:@"data"] valueForKey:@"nickname"]);
+        } else {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"同步失败" message:@"请稍后再试" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定！", nil];
+            [alertView show];
+        }
+        
+    }];
+    
+    [sessionDataTask resume];
     
 }
 

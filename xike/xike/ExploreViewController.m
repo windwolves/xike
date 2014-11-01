@@ -36,15 +36,15 @@
     UIControl *view1 = [[UIControl alloc] initWithFrame:CGRectMake(0, 0, 320, (self.view.bounds.size.height-49)/3)];
     view1.tag = 1;
     [view1 addTarget:self action:@selector(viewTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:view1];
+    [_exploreView addSubview:view1];
     UIControl *view2 = [[UIControl alloc] initWithFrame:CGRectMake(0, (self.view.bounds.size.height-49)/3, 320, (self.view.bounds.size.height-49)/3)];
     view2.tag = 2;
     [view2 addTarget:self action:@selector(viewTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:view2];
+    [_exploreView addSubview:view2];
     UIControl *view3 = [[UIControl alloc] initWithFrame:CGRectMake(0, 2*(self.view.bounds.size.height-49)/3, 320, (self.view.bounds.size.height-49)/3)];
     view3.tag = 3;
     [view3 addTarget:self action:@selector(viewTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:view3];
+    [_exploreView addSubview:view3];
     
 }
 

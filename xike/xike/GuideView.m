@@ -53,7 +53,7 @@
     if (self) {
         pageViews = [[NSMutableArray alloc] init];
         self.swipeToExit = YES;
-        self.hideOffscreenPages = YES;
+        self.hideOffscreenPages = NO;
         self.titleViewY = 20.0f;
         self.pageControlY = 60.0f;
         _pages = [pagesArray copy];
@@ -281,11 +281,11 @@
     [self.pageBgBack setAlpha:0];
     [self.pageBgBack setImage:[self bgForPage:page+1]];
     
-    float backLayerAlpha = alphaValue;
-    float frontLayerAlpha = (1 - alphaValue);
+   // float backLayerAlpha = alphaValue;
+   // float frontLayerAlpha = (1 - alphaValue);
     
-    [self.pageBgBack setAlpha:backLayerAlpha];
-    [self.pageBgFront setAlpha:frontLayerAlpha];
+   // [self.pageBgBack setAlpha:backLayerAlpha];
+   // [self.pageBgFront setAlpha:frontLayerAlpha];
 }
 
 - (UIImage *)bgForPage:(int)idx {
@@ -388,13 +388,16 @@
 }
 
 - (void)showInView:(UIView *)view animateDuration:(CGFloat)duration {
-    self.alpha = 0;
+    //self.alpha = 0;
+    self.alpha = 1;
     [self.scrollView setContentOffset:CGPointZero];
     [view addSubview:self];
     
+    /*
     [UIView animateWithDuration:duration animations:^{
         self.alpha = 1;
     }];
+     */
 }
 
 

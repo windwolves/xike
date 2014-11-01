@@ -90,7 +90,7 @@
     yearString = [[self getDateDictionary:[NSDate date]] objectForKey:@"year"];
     
     //Controller
-    themeCtl = [[ImageControl alloc] initWithFrame:CGRectMake(36, 12, 54, 43)];
+    themeCtl = [[ImageControl alloc] initWithFrame:CGRectMake(36, 12, 74, 43)];
     themeCtl.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"theme_off"] highlightedImage:[UIImage imageNamed:@"theme_on"]];
     [themeCtl.imageView setFrame:CGRectMake(1, 0, 23, 23)];
     themeCtl.imageView.highlighted = YES;
@@ -104,7 +104,7 @@
     [themeCtl addTarget:self action:@selector(changeContent:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:themeCtl];
     
-    timeCtl = [[ImageControl alloc] initWithFrame:CGRectMake(148, 12, 54, 43)];
+    timeCtl = [[ImageControl alloc] initWithFrame:CGRectMake(148, 12, 74, 43)];
     timeCtl.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"time_off"] highlightedImage:[UIImage imageNamed:@"time_on"]];
     timeCtl.imageView.frame = CGRectMake(1, 0, 23, 23);
     UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 31, 24, 12)];
@@ -117,7 +117,7 @@
     [timeCtl addTarget:self action:@selector(changeContent:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:timeCtl];
     
-    locationCtl = [[ImageControl alloc] initWithFrame:CGRectMake(self.view.bounds.size.width-56, 12, 54, 43)];
+    locationCtl = [[ImageControl alloc] initWithFrame:CGRectMake(self.view.bounds.size.width-56, 12, 74, 43)];
     locationCtl.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location_off"] highlightedImage:[UIImage imageNamed:@"location_on"]];
     locationCtl.imageView.frame = CGRectMake(1, 0, 23, 23);
     UILabel *locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 31, 24, 12)];
@@ -490,9 +490,17 @@
 }
 
 - (void)returnToPreviousView {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"取消创建" message:@"活动尚未保存，真的要离开么？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    alertView.tag = 2;
-    [alertView show];
+    if (_event.content.length == 0 && _event.location.length == 0 && _event.date.length == 0) {
+        if (_isCreate) {
+            [self deleteEvent:_event];
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"取消创建" message:@"活动尚未保存，真的要离开么？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alertView.tag = 2;
+        [alertView show];
+    }
+    
 }
 
 //AlertView Action

@@ -12,6 +12,7 @@
 #import "ExploreViewController.h"
 #import "CreateNewEventViewController.h"
 #import "MyEventsViewController.h"
+#import "TemplateDisplayViewController.h"
 
 @interface MainViewController ()
 @property (strong, nonatomic) UIView *mainView;
@@ -24,6 +25,7 @@
     TabbarView *tabbarView;
     SettingViewController *settingViewController;
     ExploreViewController *exploreViewController;
+    TemplateDisplayViewController *templateDisplayViewController;
     MyEventsViewController *myEventsViewController;
     CreateNewEventViewController *createNewEventViewController;
     UIViewController *currentViewController;
@@ -125,8 +127,14 @@ const float MoveAnimationDuration = 0.3;
     myEventsViewController.user = _user;
     [self addChildViewController:myEventsViewController];
     
-    exploreViewController = [ExploreViewController new];
-    [self addChildViewController:exploreViewController];
+    //exploreViewController = [ExploreViewController new];
+    //[self addChildViewController:exploreViewController];
+    
+    templateDisplayViewController = [TemplateDisplayViewController new];
+    templateDisplayViewController.database = _database;
+    templateDisplayViewController.user = _user;
+    [self addChildViewController:templateDisplayViewController];
+    
     
     [contentView addSubview:myEventsViewController.view];
     currentViewController = myEventsViewController;
@@ -162,11 +170,20 @@ const float MoveAnimationDuration = 0.3;
     
     if(g_flags==1)
         return;
+    /*
     [self transitionFromViewController:currentViewController toViewController:exploreViewController duration:0 options:0 animations:^{
     }  completion:^(BOOL finished) {
         currentViewController=exploreViewController;
         g_flags=1;
         [self.navigationItem setTitle:@"发现"];
+        
+    }];
+     */
+    [self transitionFromViewController:currentViewController toViewController:templateDisplayViewController duration:0 options:0 animations:^{
+    }  completion:^(BOOL finished) {
+        currentViewController=templateDisplayViewController;
+        g_flags=1;
+        [self.navigationItem setTitle:@"模板"];
         
     }];
     [tabbarView buttonClickAction:tabbarView.firstBtn];
@@ -255,7 +272,7 @@ const float MoveAnimationDuration = 0.3;
             {
                 self.mainView.transform  = CGAffineTransformMakeTranslation(0, 0);
                 if (g_flags == 1) {
-                    [self.navigationItem setTitle:@"发现"];
+                    [self.navigationItem setTitle:@"模板"];
                 } else {
                     [self.navigationItem setTitle:@"个人主页"];
                 }
