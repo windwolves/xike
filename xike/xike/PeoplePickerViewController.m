@@ -436,20 +436,6 @@
 
 - (void)done:(id) sender {
     recipients = [NSMutableArray new];
-    //set event.guestList
-    NSMutableArray *guestList = [NSMutableArray new];
-    for (CRJContact *user in self.selectedContacts) {
-        [recipients addObject:user.phone];
-        
-        PeopleInfo *guest = [PeopleInfo new];
-        guest.user_id = @""; //how to get this?
-        guest.name = [user fullName];
-        guest.phone = user.phone;
-        guest.photo = UIImageJPEGRepresentation(user.image, 0.0);
-        [guestList addObject:guest];
-    }
-    _event.guestList = guestList;
-    //[self.delegate DidSendEvent:_event];//This line is for test use.
     if ([MFMessageComposeViewController canSendText]) {
         [self displaySMSComposerSheet];
     } else {

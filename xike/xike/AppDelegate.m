@@ -12,6 +12,8 @@
 #import "MainViewController.h"
 #import "UserInfoViewController.h"
 #import "GuideViewController.h"
+#import "ShareEngine.h"
+#import "Contants.h"
 
 @implementation AppDelegate {
     GuideViewController *guideViewController;
@@ -28,18 +30,26 @@
     self.window.backgroundColor = [UIColor whiteColor];
     UINavigationController *navigation;
     
-    [WXApi registerApp:@"wxca9958c9b1340c67"];//WeiXin App
-    database = [[XikeDatabase alloc] init];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [[ShareEngine sharedInstance] registerApp];
 
-    [defaults setFloat:1.0 forKey:@"version"];// Set Version
+    database = [[XikeDatabase alloc] init];
+
+    //Register APN service
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+    {
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    } else {
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    }
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+   // [defaults setFloat:1.0 forKey:@"version"];// Set Version
     if (![defaults boolForKey:@"everLaunched"]) { //check whether first launch or not
         //if it's the first time, then create all tables and set defaults.
         if ([database createAllTables]) {
             [defaults setBool:YES forKey:@"everLaunched"];
             [self setUpBasicTemplate];
-            //Register APN service
-            [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
             
             logonViewController = [UserLogonViewController new];
             logonViewController.database = database;
@@ -47,6 +57,7 @@
             
             guideViewController = [GuideViewController new];
             guideViewController.logonViewController = logonViewController;
+            guideViewController.destination = Destination_logon;
             
             //navigation = [[UINavigationController alloc] initWithRootViewController:logonViewController];
             self.window.rootViewController = guideViewController;
@@ -56,7 +67,6 @@
             return NO;
         }
     } else if (![defaults boolForKey:@"isLogin"]) {
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
         
         logonViewController = [UserLogonViewController new];
         logonViewController.database = database;
@@ -67,18 +77,24 @@
         
     } else {
         //if it's not the first time, then direct to the main view.
-        /*
-        logonViewController = [UserLogonViewController new];
-        logonViewController.database = database;
-        logonViewController.deviceToken = token;
-        
-        navigation = [[UINavigationController alloc] initWithRootViewController:logonViewController];
-        */
-        UserInfo *user = [database getUserInfo];
-        mainViewController = [MainViewController new];
-        mainViewController.database = database;
-        mainViewController.user = user;
-        navigation = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+        if ([defaults floatForKey:@"version"] != app_version) {
+            UserInfo *user = [database getUserInfo];
+            mainViewController = [MainViewController new];
+            mainViewController.database = database;
+            mainViewController.user = user;
+            guideViewController = [GuideViewController new];
+            guideViewController.mainViewController = mainViewController;
+            guideViewController.destination = Destination_main;
+            navigation = [[UINavigationController alloc] initWithRootViewController:guideViewController];
+            
+        } else {
+             UserInfo *user = [database getUserInfo];
+             mainViewController = [MainViewController new];
+             mainViewController.database = database;
+             mainViewController.user = user;
+             navigation = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+
+        }
         self.window.rootViewController = navigation;
     }
     
@@ -229,6 +245,17 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return  [[ShareEngine sharedInstance] handleOpenURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    //BOOL isSuc = [WXApi handleOpenURL:url delegate:self];
+    //NSLog(@"url %@ isSuc %d",url,isSuc == YES ? 1 : 0);
+    return  [[ShareEngine sharedInstance] handleOpenURL:url];
+    
 }
 
 #pragma PushNotification

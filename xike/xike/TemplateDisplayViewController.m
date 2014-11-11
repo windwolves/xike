@@ -17,6 +17,7 @@
 
 @implementation TemplateDisplayViewController {
     UIScrollView *myScrollView;
+    NSArray *descArray;
 }
 
 - (void)viewDidLoad {
@@ -36,6 +37,8 @@
     UIImage *image2 = [UIImage imageNamed:@"banner2"];
     UIImage *image3 = [UIImage imageNamed:@"banner3"];
     UIImage *image4 = [UIImage imageNamed:@"banner4"];
+    //set image desc
+    descArray = @[@"动物不太凶猛",@"好色人生",@"多面怪兽",@"闷骚少年"];
     
     
     [imageScrollView initializeWith:@[image1,image2,image3,image4]];
@@ -124,15 +127,17 @@
     ExploreDetailsViewController *exploreDetailsViewController = [ExploreDetailsViewController new];
     if (imageView.tag == 0) {
         exploreDetailsViewController.url =[NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/5c925d95-855e-4624-b7aa-9898376aa998?channel=app"];
+        exploreDetailsViewController.desc = (NSString *)[descArray objectAtIndex:0];
     } else if (imageView.tag == 1) {
         exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/25d26450-573f-4563-b1fb-8b9a59648401?channel=app"];
+        exploreDetailsViewController.desc = (NSString *)[descArray objectAtIndex:1];
     } else if (imageView.tag == 2) {
         exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/b39f6ee4-ba68-4a5d-ad56-1ae1b46b82b3?channel=app"];
+        exploreDetailsViewController.desc = (NSString *)[descArray objectAtIndex:2];
     } else if (imageView.tag == 3) {
         exploreDetailsViewController.url = [NSURL URLWithString:@"http://121.40.139.180:8081/#/discover/e141bac0-ce18-4336-802d-e0075c96f0be?channel=app"];
+        exploreDetailsViewController.desc = (NSString *)[descArray objectAtIndex:3];
     }
-    
-    
     [self.navigationController pushViewController:exploreDetailsViewController animated:YES];
 }
 

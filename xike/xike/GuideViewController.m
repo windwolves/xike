@@ -8,12 +8,16 @@
 
 #import "GuideViewController.h"
 #import "UserLogonViewController.h"
+#import "ImageScrollView.h"
+#import "Contants.h"
 
 @interface GuideViewController ()
 
 @end
 
-@implementation GuideViewController
+@implementation GuideViewController {
+    ImageScrollView *guideView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -22,6 +26,19 @@
 - (void)viewDidAppear:(BOOL)animated {
     // all settings are basic, pages with custom packgrounds, title image on each page
     [self showIntroWithCrossDissolve];
+    //[self buildGuideView];
+}
+
+- (void)buildGuideView {
+    guideView = [[ImageScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    UIImage *guide_1 = [UIImage imageNamed:@"guide_1.jpg"];
+    UIImage *guide_2 = [UIImage imageNamed:@"guide_2.jpg"];
+    UIImage *guide_3 = [UIImage imageNamed:@"guide_3.jpg"];
+    UIImage *guide_4 = [UIImage imageNamed:@"guide_4.jpg"];
+    UIImage *guide_5 = [UIImage imageNamed:@"guide_5.jpg"];
+    [guideView initializeWith:@[guide_1,guide_2,guide_3,guide_4,guide_5]];
+    [guideView setAutoScroll:NO];
+    [self.view addSubview:guideView];
 }
 
 - (void)showIntroWithCrossDissolve {
@@ -37,7 +54,10 @@
     GuidePage *page4 = [GuidePage page];
     page4.bgImage = [UIImage imageNamed:@"guide_4.jpg"];
     
-    GuideView *guide = [[GuideView alloc] initWithFrame:self.view.bounds andPages:@[page1,page2,page3,page4]];
+    GuidePage *page5 = [GuidePage page];
+    page5.bgImage = [UIImage imageNamed:@"guide_5.jpg"];
+    
+    GuideView *guide = [[GuideView alloc] initWithFrame:self.view.bounds andPages:@[page1,page2,page3,page4,page5,page5]];
     
     [guide setDelegate:self];
     [guide showInView:self.view animateDuration:0.0];
@@ -59,10 +79,18 @@
 */
 #pragma mark GuideViewDelegate
 - (void)guideDidFinish {
-    UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:_logonViewController];
-    [self presentViewController:navigation animated:YES completion:^{
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isGuideShow"];
-    }];
+    if (_destination == Destination_logon) {
+        UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:_logonViewController];
+        [self presentViewController:navigation animated:YES completion:^{
+            [[NSUserDefaults standardUserDefaults] setFloat:app_version forKey:@"version"];
+        }];
+    } else if (_destination == Destination_main) {
+        
+        UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:_mainViewController];
+        [self presentViewController:navigation animated:YES completion:^{
+            [[NSUserDefaults standardUserDefaults] setFloat:app_version forKey:@"version"];
+        }];
+    }
 }
 
 @end

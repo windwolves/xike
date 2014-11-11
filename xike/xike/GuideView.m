@@ -7,6 +7,7 @@
 //
 
 #import "GuideView.h"
+#import "ColorHandler.h"
 
 #define DEFAULT_BACKGROUND_COLOR [UIColor blackColor]
 
@@ -228,6 +229,7 @@
     [self.pageControl setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [self.pageControl addTarget:self action:@selector(showPanelAtPageControl) forControlEvents:UIControlEventValueChanged];
     self.pageControl.numberOfPages = _pages.count;
+    [self.pageControl setPageIndicatorTintColor:[ColorHandler colorWithHexString:@"#a099a2"]];
     [self addSubview:self.pageControl];
     
     self.skipButton = [[UIButton alloc] initWithFrame:CGRectMake(self.scrollView.frame.size.width - 80, self.pageControl.frame.origin.y, 80, self.pageControl.frame.size.height)];
@@ -235,7 +237,7 @@
     [self.skipButton setAutoresizingMask: UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
     [self.skipButton setTitle:NSLocalizedString(@"Skip", nil) forState:UIControlStateNormal];
     [self.skipButton addTarget:self action:@selector(skipIntroduction) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.skipButton];
+    //[self addSubview:self.skipButton];
 }
 
 #pragma mark - UIScrollView Delegate
@@ -344,7 +346,7 @@
     [_skipButton removeFromSuperview];
     _skipButton = skipButton;
     [_skipButton addTarget:self action:@selector(skipIntroduction) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:_skipButton];
+    //[self addSubview:_skipButton];
 }
 
 #pragma mark - Actions

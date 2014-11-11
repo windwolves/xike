@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PeoplePickerViewController.h"
 
-@interface AboutUSViewController : UIViewController
+@interface AboutUSViewController : UIViewController <PeoplePickerViewControllerDelegate,MFMailComposeViewControllerDelegate>
 
 @end

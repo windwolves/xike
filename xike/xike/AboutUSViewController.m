@@ -7,14 +7,17 @@
 //
 
 #import "AboutUSViewController.h"
-#import "WeixinSessionActivity.h"
-#import "WeixinTimelineActivity.h"
+#import "ShareEngine.h"
+#import "ColorHandler.h"
 
 @interface AboutUSViewController ()
 
 @end
 
-@implementation AboutUSViewController
+@implementation AboutUSViewController {
+    UIView *actionView;
+    NSURL *_url;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -23,6 +26,11 @@
         // Custom initialization
     }
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self buildActionView];
+    [actionView removeFromSuperview];
 }
 
 - (void)viewDidLoad
@@ -40,6 +48,7 @@
     UIImageView *aboutUSImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 504)];
     aboutUSImageView.image = [UIImage imageNamed:@"aboutUS"];
     [self.view addSubview:aboutUSImageView];
+    _url = [NSURL URLWithString:@"www.shaker.mobi"];
 }
 
 - (void)returnToPreviousView {
@@ -47,15 +56,131 @@
 }
 
 - (void)share {
-    //TODO
-    NSArray *activity = @[[[WeixinSessionActivity alloc] init], [[WeixinTimelineActivity alloc] init]];
-    UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems:@[@"我正在稀客和喜欢的人做喜欢的事，快来一起体验吧！",[UIImage imageNamed:@"logo_120"],[NSURL URLWithString:@""]] applicationActivities:activity];
-    [self presentViewController:activityView animated:YES completion:^{
-        
-    }];
+    [self showAct];
 
 }
 
+
+- (void)buildActionView {
+    actionView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-269, self.view.bounds.size.width, 269)];
+    actionView.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
+    //Share Components' buttons
+    // WeChate Session
+    UIButton *weChatSessionButton = [[UIButton alloc] initWithFrame:CGRectMake(37, 43, 60, 60)];
+    [weChatSessionButton setBackgroundImage:[UIImage imageNamed:@"wechatSession_icon"] forState:UIControlStateNormal];
+    [weChatSessionButton addTarget:self action:@selector(wechatSessionShare) forControlEvents:UIControlEventTouchUpInside];
+    [actionView addSubview:weChatSessionButton];
+    UILabel *wechatSessionLabel = [[UILabel alloc] initWithFrame:CGRectMake(43, 108, 50, 12)];
+    wechatSessionLabel.text = @"微信好友";
+    wechatSessionLabel.font = [UIFont systemFontOfSize:12];
+    [actionView addSubview:wechatSessionLabel];
+    //WeChat Timeline
+    UIButton *weChatTimelineButton = [[UIButton alloc] initWithFrame:CGRectMake(130, 43, 60, 60)];
+    [weChatTimelineButton setBackgroundImage:[UIImage imageNamed:@"wechatTimeline_icon"] forState:UIControlStateNormal];
+    [weChatTimelineButton addTarget:self action:@selector(wechatTimelineShare) forControlEvents:UIControlEventTouchUpInside];
+    [actionView addSubview:weChatTimelineButton];
+    UILabel *wechatTimelineLabel = [[UILabel alloc] initWithFrame:CGRectMake(130, 108, 60, 12)];
+    wechatTimelineLabel.text = @"微信朋友圈";
+    wechatTimelineLabel.font = [UIFont systemFontOfSize:12];
+    [actionView addSubview:wechatTimelineLabel];
+    //Sina Weibo
+    UIButton *sinaWeiboButton = [[UIButton alloc] initWithFrame:CGRectMake(223, 43, 60, 60)];
+    [sinaWeiboButton setBackgroundImage:[UIImage imageNamed:@"sinaWeibo_icon"] forState:UIControlStateNormal];
+    [sinaWeiboButton addTarget:self action:@selector(sinaWeiboShare) forControlEvents:UIControlEventTouchUpInside];
+    [actionView addSubview:sinaWeiboButton];
+    UILabel *sinaWeiboLabel = [[UILabel alloc] initWithFrame:CGRectMake(229, 108, 50, 12)];
+    sinaWeiboLabel.text = @"新浪微博";
+    sinaWeiboLabel.font = [UIFont systemFontOfSize:12];
+    [actionView addSubview:sinaWeiboLabel];
+    //SMS
+    UIButton *sMSButton = [[UIButton alloc] initWithFrame:CGRectMake(37, 130, 60, 60)];
+    [sMSButton setBackgroundImage:[UIImage imageNamed:@"sms_icon"] forState:UIControlStateNormal];
+    [sMSButton addTarget:self action:@selector(smsShare) forControlEvents:UIControlEventTouchUpInside];
+    [actionView addSubview:sMSButton];
+    UILabel *SMSLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 195, 50, 12)];
+    SMSLabel.text = @"短信";
+    SMSLabel.font = [UIFont systemFontOfSize:12];
+    [actionView addSubview:SMSLabel];
+    //Email
+    UIButton *emailButton = [[UIButton alloc] initWithFrame:CGRectMake(130, 130, 60, 60)];
+    [emailButton setBackgroundImage:[UIImage imageNamed:@"email_icon"] forState:UIControlStateNormal];
+    [emailButton addTarget:self action:@selector(emailShare) forControlEvents:UIControlEventTouchUpInside];
+    [actionView addSubview:emailButton];
+    UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(148, 195, 50, 12)];
+    emailLabel.text = @"邮件";
+    emailLabel.font = [UIFont systemFontOfSize:12];
+    [actionView addSubview:emailLabel];
+    //Cancel
+    UIImageView *lineImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, actionView.bounds.size.height-49, actionView.bounds.size.width, 0.5)];
+    lineImageView.backgroundColor = [ColorHandler colorWithHexString:@"#1de9b6"];
+    [actionView addSubview:lineImageView];
+    UIControl *cancelCtl = [[UIControl alloc] initWithFrame:CGRectMake(0, actionView.bounds.size.height-50, actionView.bounds.size.width, 49)];
+    [cancelCtl addTarget:self action:@selector(dismissAct) forControlEvents:UIControlEventTouchUpInside];
+    UILabel *cancelLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cancelCtl.bounds.size.width, cancelCtl.bounds.size.height)];
+    cancelLabel.text = @"取消";
+    cancelLabel.font = [UIFont systemFontOfSize:23];
+    cancelLabel.textColor = [ColorHandler colorWithHexString:@"#1de9b6"];
+    cancelLabel.textAlignment = NSTextAlignmentCenter;
+    [cancelCtl addSubview:cancelLabel];
+    [actionView addSubview:cancelCtl];
+    
+}
+
+- (void)showAct {
+    
+    [self.view addSubview:actionView];
+    //popup animation
+    [actionView setTransform:CGAffineTransformMakeTranslation(0, actionView.bounds.size.height)];
+    [UIView animateWithDuration:0.5 animations:^{
+        [actionView setTransform:CGAffineTransformIdentity];
+    }];
+}
+
+- (void)dismissAct {
+    [UIView animateWithDuration:0.5 animations:^{
+        [actionView setTransform:CGAffineTransformMakeTranslation(0, actionView.bounds.size.height)];
+    } completion:^(BOOL finished) {
+        [actionView removeFromSuperview];
+    }];
+}
+
+#pragma mark Share Button Actions
+- (void)wechatSessionShare {
+    [[ShareEngine sharedInstance] sendLinkContent:WXSceneSession :@"和喜欢的人，做喜欢的事。 from 稀客邀请函" :@"关于我们" :[UIImage imageNamed:@"logo_120"] :_url];
+}
+
+- (void)wechatTimelineShare {
+    [[ShareEngine sharedInstance] sendLinkContent:WXSceneTimeline :@"和喜欢的人，做喜欢的事。 from 稀客邀请函" :@"关于我们" :[UIImage imageNamed:@"logo_120"] :_url];
+}
+
+- (void)sinaWeiboShare {
+    
+}
+
+- (void)smsShare {
+    PeoplePickerViewController *peoplePickerViewController = [[PeoplePickerViewController alloc] init];
+    peoplePickerViewController.sendOutContent = [[NSString alloc] initWithFormat:@"%@,%@", @"和喜欢的人，做喜欢的事。 from 稀客邀请函", _url];
+    peoplePickerViewController.delegate = self;
+    //peoplePickerViewController.event = _event;
+    //peoplePickerViewController.database = _database;
+    [self.navigationController pushViewController:peoplePickerViewController animated:YES];
+}
+
+- (void)emailShare {
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *emailViewController = [[MFMailComposeViewController alloc] init];
+        emailViewController.mailComposeDelegate = self;
+        [emailViewController setMessageBody:[[NSString alloc] initWithFormat:@"%@,%@", @"和喜欢的人，做喜欢的事。 from 稀客邀请函", _url] isHTML:YES];
+        [self.navigationController presentViewController:emailViewController animated:YES completion:nil];
+    } else {
+        
+    }
+    
+}
+
+- (void)DidSendEvent:(EventInfo *)event {
+    
+}
 
 - (void)didReceiveMemoryWarning
 {

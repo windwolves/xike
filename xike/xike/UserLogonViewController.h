@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "XikeDatabase.h"
 #import "ForgetPasswordViewController.h"
+#import "ShareEngine.h"
 
-@interface UserLogonViewController : UIViewController <UITextFieldDelegate, NSURLSessionDataDelegate>
+@interface UserLogonViewController : UIViewController <UITextFieldDelegate, NSURLSessionDataDelegate,ShareEngineDelegate>
 @property (nonatomic, strong) XikeDatabase *database;
 @property (strong, nonatomic) NSString *deviceToken;
 

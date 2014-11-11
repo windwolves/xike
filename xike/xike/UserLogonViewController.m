@@ -27,6 +27,7 @@
     BOOL accountIsValid;
     NSString *email;
     UIImageView *verifyImageView;
+    NSString *userType;
 }
 
 @end
@@ -41,6 +42,16 @@
         // Custom initialization
     }
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [ShareEngine sharedInstance].delegate = self;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [ShareEngine sharedInstance].delegate = nil;
 }
 
 - (void)viewDidLoad
@@ -154,7 +165,7 @@
     [logonButton setTitle:@"登录" forState:UIControlStateNormal];
     [logonButton addTarget:self action:@selector(logon) forControlEvents:UIControlEventTouchUpInside];
     [logonView addSubview:logonButton];
-    /* will release on v1.1
+    // will release on v1.1
     UIImageView *leftLine = [[UIImageView alloc] initWithFrame:CGRectMake(31, 400-160, 77, 0.5)];
     leftLine.backgroundColor = [ColorHandler colorWithHexString:@"#01bfa5"];
     [logonView addSubview:leftLine];
@@ -168,13 +179,21 @@
     rightLine.backgroundColor = [ColorHandler colorWithHexString:@"#01bfa5"];
     [logonView addSubview:rightLine];
     
-    UIImageView *QQImageView = [[UIImageView alloc] initWithFrame:CGRectMake(95, 428-160, 21, 24)];
-    QQImageView.image = [UIImage imageNamed:@"QQ_logon"];
-    [logonView addSubview:QQImageView];
-    UIImageView *weiboImageView = [[UIImageView alloc] initWithFrame:CGRectMake(195, 428-160, 29, 24)];
+    UIControl *WXLogonCtl = [[UIControl alloc] initWithFrame:CGRectMake(95, 428-160, 30, 24)];
+    UIImageView *WXImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 24)];
+    WXImageView.image = [UIImage imageNamed:@"WX_logon"];
+    [WXLogonCtl addSubview:WXImageView];
+    WXLogonCtl.tag = 1;
+    [WXLogonCtl addTarget:self action:@selector(otherLogon:) forControlEvents:UIControlEventTouchUpInside];
+    [logonView addSubview:WXLogonCtl];
+    UIControl *WBLogonCtl = [[UIControl alloc] initWithFrame:CGRectMake(195, 428-160, 29, 24)];
+    UIImageView *weiboImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 29, 24)];
     weiboImageView.image = [UIImage imageNamed:@"weibo_logon"];
-    [logonView addSubview:weiboImageView];
-    */
+    [WBLogonCtl addSubview:weiboImageView];
+    WBLogonCtl.tag = 2;
+    [WBLogonCtl addTarget:self action:@selector(otherLogon:) forControlEvents:UIControlEventTouchUpInside];
+    [logonView addSubview:WBLogonCtl];
+    
     mainView = @"logon";
     [self.view addSubview:logonView];
 }
@@ -258,7 +277,105 @@
     [self.view addSubview:registerView];
 }
 
+- (void)otherLogon:(UIControl *)sender {
+    if (sender.tag == 1) {
+        //WX
+        userType = @"WX";
+        [self WXLogon];
+    } else if (sender.tag == 2) {
+        //WB
+        userType = @"WB";
+        [self WBLogon];
+    }
+}
+
+- (void)WXLogon {
+    [[ShareEngine sharedInstance] sendAuthRequest];
+}
+
+- (void)WBLogon {
+    [[ShareEngine sharedInstance] sendSSOAuthRequest];
+}
+
+- (void)didLogon:(NSString *)logonType :(NSDictionary *)userDic {
+    if ([logonType isEqualToString:@"WX"]) {
+        UserInfo *user = [UserInfo new];
+        user.userID = [userDic valueForKey:@"unionid"];
+        user.name = [userDic valueForKey:@"nickname"];
+        user.photo = [self getUserPic:[userDic valueForKey:@"headimgurl"]];
+        //check whether user exists on server. if yes, login app; if no, register on server
+        [self checkAccount:user];
+        
+    } else if ([logonType isEqualToString:@"WB"]) {
+        
+    }
+}
+
+- (NSData *)getUserPic:(NSString *)URLString {
+    NSData *picData;
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    picData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    return picData;
+}
+
+- (void)checkAccount:(UserInfo *)user {
+    NSString *verifyService = @"/services/user/checkName";
+    NSString *param = [[NSString alloc] initWithFormat:@"/%@",user.userID];
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@%@",HOST,verifyService,param];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSError *err;
+        NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
+        if ([[dataDic valueForKey:@"data"] intValue] == 0) {
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            [self registerOther:user];// register on server
+        } else {
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            //login
+            [self loginApp:user];
+        }
+        
+    }];
+    
+    [sessionDataTask resume];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+}
+    
+
+- (void)registerOther:(UserInfo *)user {
+    NSString *registerService = @"/services/user/register";
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,registerService];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    NSString *emailString = [[NSString alloc] initWithFormat:@"username=%@",user.userID];
+    NSString *passwordString = [[NSString alloc] initWithFormat:@"password=%@",@"otherLogon"];
+    NSString *deviceTokenString = [[NSString alloc] initWithFormat:@"deviceToken=%@",_deviceToken];
+    NSString *registerDataString = [[NSString alloc] initWithFormat:@"%@&%@&%@",emailString,passwordString,deviceTokenString];
+    [request setHTTPBody:[registerDataString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        //if success register on phone
+        NSError *err;
+        NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
+        NSString *ID = [[dataDic valueForKey:@"data"] valueForKey:@"id"];
+        if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
+            user.ID = ID;
+            [self createAccount:user];
+        } else {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"登录" message:@"系统繁忙，请稍后尝试" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+            [alertView show];
+        }
+        
+    }];
+    
+    [sessionDataTask resume];
+
+}
+
 - (void)registerAccount {
+    userType = @"mail";
     //account verification
     if (!accountIsValid) {
         UIAlertView *accountAlertView = [[UIAlertView alloc] initWithTitle:@"创建账户" message:@"用户名可能已被占用，请换一个用户名" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -296,7 +413,11 @@
         NSString *ID = [[dataDic valueForKey:@"data"] valueForKey:@"id"];
         
         if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
-            [self createAccount:ID];
+            UserInfo * user = [UserInfo new];
+            user.userID = emailTextField.text;
+            user.password = passwordTextField.text;
+            user.ID = ID;
+            [self createAccount:user];
         } else {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"注册账号" message:@"邮箱已被注册" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             [alertView show];
@@ -310,11 +431,8 @@
 }
 
 
-- (void)createAccount:(NSString *)ID {
-    UserInfo *user = [UserInfo new];
-    user.userID = emailTextField.text;
-    user.password = passwordTextField.text;
-    user.ID = ID;
+- (void)createAccount:(UserInfo *)user {
+    UINavigationController *navigationController;
     if (_deviceToken) {
         user.deviceToken = _deviceToken;
     } else {
@@ -323,12 +441,25 @@
     if ([_database setUser:user]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [_database setLastUesdUser:user];
-        //MainViewController *mainViewController = [MainViewController new];
-        //mainViewController.database = _database;
-        UserInfoViewController *setUserViewController = [UserInfoViewController new];
-        setUserViewController.database = _database;
-        setUserViewController.user = user;
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:setUserViewController];
+        if ([userType isEqualToString:@"mail"]) {
+            UserInfoViewController *setUserViewController = [UserInfoViewController new];
+            setUserViewController.database = _database;
+            setUserViewController.user = user;
+            navigationController = [[UINavigationController alloc] initWithRootViewController:setUserViewController];
+        } else if ([userType isEqualToString:@"WX"]) {
+            MainViewController *mainViewController = [MainViewController new];
+            mainViewController.database = _database;
+            mainViewController.user = user;
+            navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+        } else if ([userType isEqualToString:@"WB"]) {
+            MainViewController *mainViewController = [MainViewController new];
+            mainViewController.database = _database;
+            mainViewController.user = user;
+            navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+        } else {
+            return;
+        }
+        
         [self presentViewController:navigationController animated:YES completion:^{
             [defaults setBool:YES forKey:@"everLaunched"];
             [defaults setBool:YES forKey:@"isLogin"];
@@ -369,6 +500,8 @@
         //NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
             UserInfo *user = [UserInfo new];
+            user.userID = emailTextField.text;
+            user.password = passwordTextField.text;
             user.ID = [[dataDic valueForKey:@"data"] valueForKey:@"id"];
             user.name = [[dataDic valueForKey:@"data"] valueForKey:@"nickname"];
             [self loginApp:user];
@@ -383,8 +516,6 @@
 }
 
 - (void)loginApp:(UserInfo *)user {
-    user.userID = emailTextField.text;
-    user.password = passwordTextField.text;
     if (_deviceToken) {
         user.deviceToken = _deviceToken;
     } else {

@@ -10,10 +10,20 @@
 #import "GuideView.h"
 #import "XikeDatabase.h"
 #import "UserLogonViewController.h"
+#import "MainViewController.h"
+
+
+enum Destination {
+    
+    Destination_logon  = 0,
+    Destination_main = 1,
+};
 
 @interface GuideViewController : UIViewController <GuideViewDelegate>
 @property (nonatomic, strong) UserLogonViewController *logonViewController;
 @property (nonatomic, strong) XikeDatabase *database;
-@property (strong, nonatomic) NSString *deviceToken;
+@property (nonatomic, strong) NSString *deviceToken;
+@property (nonatomic, strong) MainViewController *mainViewController;
+@property (nonatomic, assign) NSInteger destination;
 
 @end

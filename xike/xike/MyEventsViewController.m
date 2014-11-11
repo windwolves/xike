@@ -22,6 +22,7 @@
     NSMutableArray *eventsArray;
     UITapGestureRecognizer *tapGestureRecognizer;
     UIActionSheet *myActionSheet;
+    UIImageView *tipsImageView;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -35,13 +36,23 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     eventsArray = [_database getAllEvents :_user];
-    [_eventsTable reloadData];
+    [_eventsTable removeFromSuperview];
+    [tipsImageView removeFromSuperview];
+    if (eventsArray.count == 0) {
+        tipsImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width-125)/2, 350, 125, 86)];
+        tipsImageView.image = [UIImage imageNamed:@"event_tips"];
+        [self.view addSubview:tipsImageView];
+    } else {
+        [self.view addSubview:_eventsTable];
+        [_eventsTable reloadData];
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
     
     _backImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 135)];
     //user_background_imageView
@@ -95,7 +106,7 @@
     [_eventsTable registerClass:[EventsTableViewCell class] forCellReuseIdentifier:@"EventCell"];
     
     
-    [self.view addSubview:_eventsTable];
+    //[self.view addSubview:_eventsTable];
     
 }
 
