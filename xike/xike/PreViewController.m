@@ -65,6 +65,13 @@
     [self.view addSubview:actionBarView];
     [self buildActionView];
     [actionView removeFromSuperview];
+    [ShareEngine sharedInstance].delegate = self;
+}
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [ShareEngine sharedInstance].delegate = nil;
 }
 
 - (void)viewDidLoad
@@ -190,21 +197,16 @@
 
 #pragma mark Share Button Actions
 - (void)wechatSessionShare {
-
     [[ShareEngine sharedInstance] sendLinkContent:WXSceneSession :@"和喜欢的人，做喜欢的事。 from 稀客邀请函" :_event.content :[UIImage imageNamed:@"logo_120"] :[NSURL URLWithString:_URL]];
-    _event.send_status = 1;
-    [self saveEvent:_event];
+    //[[ShareEngine sharedInstance] sendLinkContent:WXSceneSession :@"中路资本投融资晚宴邀请函" :@"我们诚邀您加入这场创业者和投资人的交流的盛宴" :[UIImage imageNamed:@"zhonglu"] :[NSURL URLWithString:_URL]];
 }
 
 - (void)wechatTimelineShare {
     [[ShareEngine sharedInstance] sendLinkContent:WXSceneTimeline :@"和喜欢的人，做喜欢的事。 from 稀客邀请函" :_event.content :[UIImage imageNamed:@"logo_120"] :[NSURL URLWithString:_URL]];
-    _event.send_status = 1;
-    [self saveEvent:_event];
-
 }
 
 - (void)sinaWeiboShare {
-    
+    [[ShareEngine sharedInstance] sendWBLinkeContent:@"和喜欢的人，做喜欢的事。 from 稀客邀请函" :_event.content :[UIImage imageNamed:@"logo_120"] :[NSURL URLWithString:_URL]];
 }
 
 - (void)smsShare {
@@ -225,7 +227,6 @@
     } else {
         
     }
-    
 }
 
 - (void)saveEvent:(EventInfo *)event {
@@ -239,8 +240,19 @@
         alertView.tag = 2;
         [alertView show];
     }
-    
 }
+
+- (void)didShareContent:(BOOL)success {
+    if (success) {
+        _event.send_status = 1;
+        [self saveEvent:_event];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享" message:@"分享失败!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        alertView.tag = 2;
+        [alertView show];
+    }
+}
+
 /*
 - (void)sendEvent:(EventInfo *)event {
     PeoplePickerViewController *peoplePickerViewController = [[PeoplePickerViewController alloc] init];

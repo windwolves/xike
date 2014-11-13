@@ -159,6 +159,7 @@
 }
 
 - (void)sinaWeiboShare {
+    [[ShareEngine sharedInstance] sendWBLinkeContent:@"和喜欢的人，做喜欢的事。 from 稀客邀请函" :_desc :[UIImage imageNamed:@"logo_120"] :_url];
     
 }
 

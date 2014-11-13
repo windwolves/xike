@@ -14,6 +14,7 @@
 @protocol ShareEngineDelegate <NSObject>
 @optional
 - (void)didLogon:(NSString *)logonType :(NSDictionary *)userDic;
+- (void)didShareContent:(BOOL)success;
 
 @end
 
@@ -23,7 +24,9 @@
 + (ShareEngine *) sharedInstance;
 - (void)registerApp;
 - (BOOL)handleOpenURL:(NSURL *)url;
+
 - (void)sendLinkContent:(NSInteger)scene :(NSString *)title :(NSString *)description :(UIImage *)thumbImage :(NSURL *)url;
+- (void)sendWBLinkeContent:(NSString *)title :(NSString *)description :(UIImage *)thumbImage :(NSURL *)url;
 
 - (void)sendAuthRequest;
 - (void)sendSSOAuthRequest;

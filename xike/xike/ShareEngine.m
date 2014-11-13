@@ -27,6 +27,7 @@ static ShareEngine *sharedSingleton_ = nil;
 
 - (void)registerApp {
     [WXApi registerApp:WXAppid withDescription:@"Shaker"];//Weixin
+    [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:WeiboAppKey];//Sina Weibo
 }
 
@@ -79,14 +80,27 @@ static ShareEngine *sharedSingleton_ = nil;
 - (void)onResp:(BaseResp *)resp {
     if([resp isKindOfClass:[SendMessageToWXResp class]])
     {
+        if (resp.errCode == 0) {
+            [self.delegate didShareContent:YES];
+        } else {
+            [self.delegate didShareContent:NO];
+        }
+        /*
         NSString *strTitle = [NSString stringWithFormat:@"发送媒体消息结果"];
         NSString *strMsg = [NSString stringWithFormat:@"errcode:%d", resp.errCode];
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
+         */
     } else if ([resp isKindOfClass:[SendAuthResp class]]){
         SendAuthResp *aresp = (SendAuthResp *)resp;
-        [self getAccess_Token:aresp.code];
+        if (resp.errCode == 0) {
+            [self getAccess_Token:aresp.code];
+        } else {
+            UIAlertView *shareAlert = [[UIAlertView alloc] initWithTitle:@"验证失败" message:@"请重新尝试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [shareAlert show];
+        }
+        
     }
 }
 
@@ -181,29 +195,37 @@ static ShareEngine *sharedSingleton_ = nil;
 {
     if ([response isKindOfClass:WBSendMessageToWeiboResponse.class])
     {
-        NSString *title = @"发送结果";
-        NSString *message = [NSString stringWithFormat:@"响应状态: %d\n响应UserInfo数据: %@\n原请求UserInfo数据: %@",(int)response.statusCode, response.userInfo, response.requestUserInfo];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                        message:message
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
+        if (response.statusCode == WeiboSDKResponseStatusCodeSuccess) {
+            [self.delegate didShareContent:YES];
+        } else {
+            [self.delegate didShareContent:NO];
+        }
     }
     else if ([response isKindOfClass:WBAuthorizeResponse.class])
     {
-        NSString *title = @"认证结果";
-        NSString *message = [NSString stringWithFormat:@"响应状态: %d\nresponse.userId: %@\nresponse.accessToken: %@\n响应UserInfo数据: %@\n原请求UserInfo数据: %@",(int)response.statusCode,[(WBAuthorizeResponse *)response userID], [(WBAuthorizeResponse *)response accessToken], response.userInfo, response.requestUserInfo];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                        message:message
-                                                       delegate:nil
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
+        //todo
+        WBAuthorizeResponse *aresponse = (WBAuthorizeResponse *)response;
+        if (aresponse.statusCode == WeiboSDKResponseStatusCodeSuccess) {
+            wbToken = [(WBAuthorizeResponse *)response accessToken];
+            NSString *uid = aresponse.userID;
+            [self getWeiboUserInfo:wbToken :uid];
+        }
         
-        wbToken = [(WBAuthorizeResponse *)response accessToken];
-        
-        [alert show];
     }
+}
+
+- (void)getWeiboUserInfo:(NSString *)token :(NSString *)uid {
+    NSString *URLString = [NSString stringWithFormat:@"https://api.weibo.com/2/users/show.json?access_token=%@&uid=%@",token,uid];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSError *err;
+        NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
+        NSLog(@"%@",dataDic);
+        [self.delegate didLogon:@"WB" :dataDic];
+    }];
+    
+    [sessionDataTask resume];
 }
 
 - (void)sendSSOAuthRequest {
@@ -213,6 +235,28 @@ static ShareEngine *sharedSingleton_ = nil;
     request.userInfo = @{@"SSO_From": @"Shaker",
                          @"Other_Info_1": [NSNumber numberWithInt:123]};
     [WeiboSDK sendRequest:request];
+}
+
+- (void)sendWBLinkeContent:(NSString *)title :(NSString *)description :(UIImage *)thumbImage :(NSURL *)url {
+    WBMessageObject *message = [WBMessageObject message];
+    WBWebpageObject *webpage = [WBWebpageObject object];
+    webpage.objectID = @"Shaker";
+    webpage.title = title;
+    webpage.description = description;
+    webpage.thumbnailData = UIImagePNGRepresentation(thumbImage);
+    webpage.webpageUrl = [url absoluteString];
+    message.mediaObject = webpage;
+    
+    WBAuthorizeRequest *authRequest = [WBAuthorizeRequest request];
+    authRequest.redirectURI = WeiboRedirectURL;
+    authRequest.scope = @"all";
+    
+    WBSendMessageToWeiboRequest *request = [WBSendMessageToWeiboRequest requestWithMessage:message authInfo:authRequest access_token:wbToken];
+    request.userInfo = @{@"ShareMessageFrom": @"Shaker",
+                         @"Other_Info_1": [NSNumber numberWithInt:123]};
+    
+    [WeiboSDK sendRequest:request];
+
 }
 
 @end

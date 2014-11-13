@@ -11,8 +11,7 @@
 #import "MainViewController.h"
 #import "UserInfoViewController.h"
 #import "ForgetPasswordViewController.h"
-
-#define HOST @"http://121.40.139.180:8081"
+#import "Contants.h"
 
 @interface UserLogonViewController () {
     UIView *logonView;
@@ -307,7 +306,16 @@
         [self checkAccount:user];
         
     } else if ([logonType isEqualToString:@"WB"]) {
-        
+        UserInfo *user = [UserInfo new];
+        user.userID = [[NSString alloc] initWithFormat:@"SinaWB-%@",[userDic valueForKey:@"idstr"]];
+        user.name = [userDic valueForKey:@"name"];
+        if ([[userDic valueForKey:@"gender"] isEqualToString:@"m"]) {
+            user.gender = @"男";
+        } else {
+            user.gender = @"女";
+        }
+        user.photo = [self getUserPic:[userDic valueForKey:@"profile_image_url"]];
+        [self checkAccount:user];
     }
 }
 
@@ -333,7 +341,7 @@
         } else {
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             //login
-            [self loginApp:user];
+            [self logon:user];
         }
         
     }];
@@ -441,6 +449,10 @@
     if ([_database setUser:user]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [_database setLastUesdUser:user];
+        if ([_database updateUser:user]) {
+            [self updateAccountOnServer:user];
+            [self uploadProfileOnServer:user];
+        }
         if ([userType isEqualToString:@"mail"]) {
             UserInfoViewController *setUserViewController = [UserInfoViewController new];
             setUserViewController.database = _database;
@@ -465,6 +477,31 @@
             [defaults setBool:YES forKey:@"isLogin"];
         }];
     }
+}
+
+- (void)logon:(UserInfo *)user {
+    NSString *loginService = @"/services/user/login";
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,loginService];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    NSString *emailString = [[NSString alloc] initWithFormat:@"username=%@",user.userID];
+    NSString *passwordString = [[NSString alloc] initWithFormat:@"password=%@",@"otherLogon"];
+    NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@",emailString,passwordString];
+    [request setHTTPBody:[loginDataString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        //if success then login //need response
+        NSError *err;
+        NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
+        //NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
+            user.ID = [[dataDic valueForKey:@"data"] valueForKey:@"id"];
+            [self loginApp:user];
+        }
+    }];
+    
+    [sessionDataTask resume];
 }
 
 - (void)logon {
@@ -598,6 +635,72 @@
     ForgetPasswordViewController *forgetPasswordController = [ForgetPasswordViewController new];
     [self.navigationController pushViewController:forgetPasswordController animated:YES];
 }
+
+
+- (void)updateAccountOnServer:(UserInfo *)user {
+    //TODO
+    NSString *updateAccountService = @"/services/user/update";
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,updateAccountService];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    NSString *IDString = [[NSString alloc] initWithFormat:@"id=%@",user.ID];
+    NSString *nicknameString = [[NSString alloc] initWithFormat:@"nickname=%@",user.name];
+    //NSString *profileString = [[NSString alloc] initWithFormat:@"profile=%@",[self get64BasedPhoto]];
+    //NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@&%@",IDString,nicknameString,profileString];
+    NSString *parameterString = [[NSString alloc] initWithFormat:@"%@&%@",IDString,nicknameString];
+    [request setHTTPBody:[parameterString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+    }];
+    
+    [sessionDataTask resume];
+}
+
+- (void)uploadProfileOnServer:(UserInfo *)user {
+    NSData *imgData = user.photo;
+    
+    NSString *uploadProfileService = @"/services/user/upload";
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,uploadProfileService];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    NSString *boundary = [NSString stringWithFormat:@"---------------------------14737809831464368775746641449"];
+    NSMutableData *body = [NSMutableData new];
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"id\"\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[user.ID dataUsingEncoding:NSUTF8StringEncoding]];
+    if (imgData) {
+        [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@.jpg\"\r\n", @"profile",user.name] dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        [body appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:imgData];
+        [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    // set request HTTPHeader
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:body];
+    
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        NSError *err;
+        NSDictionary *dataDic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
+        if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
+            NSLog(@"%@",[dataDic valueForKey:@"status"]);
+            NSLog(@"%@",[[dataDic valueForKey:@"data"] valueForKey:@"nickname"]);
+        } else {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"同步失败" message:@"请稍后再试" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定！", nil];
+            [alertView show];
+        }
+        
+    }];
+    [sessionDataTask resume];
+}
+
 
 - (void)changeMainView {
     if ([mainView isEqual:@"logon"] ) {

@@ -15,6 +15,7 @@
 #define WXAppSecect @"da1c1b7d4c36be3f5bdcb8be017c5911"
 #define WeiboAppKey @"3549384627"
 #define WeiboAppSecret @"7cc92f9aa73c34a79d3d28a6209bc738"
-#define WeiboRedirectURL @"https://itunes.apple.com/cn/app/xi-ke/id924809913?mt=8"
+#define WeiboRedirectURL @"https://api.weibo.com/oauth2/default.html"
+#define otherLogonPassword @"otherLogon"
 
 #endif

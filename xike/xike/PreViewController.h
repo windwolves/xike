@@ -11,8 +11,9 @@
 #import "XikeDatabase.h"
 #import "PeoplePickerViewController.h"
 #import <MessageUI/MessageUI.h>
+#import "ShareEngine.h"
 
-@interface PreViewController : UIViewController <PeoplePickerViewControllerDelegate, UIWebViewDelegate,NSURLSessionDataDelegate,MFMailComposeViewControllerDelegate>
+@interface PreViewController : UIViewController <PeoplePickerViewControllerDelegate, UIWebViewDelegate,NSURLSessionDataDelegate,MFMailComposeViewControllerDelegate,ShareEngineDelegate>
 @property (nonatomic, strong) XikeDatabase *database;
 @property (nonatomic, strong) EventInfo *event;
 @property (nonatomic, strong) UIWebView *previewWebView;

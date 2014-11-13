@@ -104,6 +104,7 @@
 		04BD1A3E19BF5FD400F03804 /* SuggestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BD1A3D19BF5FD400F03804 /* SuggestionViewController.m */; };
 		04BD1A5A19C072CF00F03804 /* PreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BD1A5919C072CF00F03804 /* PreViewController.m */; };
 		04C7CA441A120C2000886982 /* WX_logon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C7CA431A120C2000886982 /* WX_logon.png */; };
+		04C7CA461A149CD000886982 /* zhonglu.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C7CA451A149CD000886982 /* zhonglu.png */; };
 		04C9C1531A0C9DA10007A18E /* guide_5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04C9C1521A0C9DA10007A18E /* guide_5.jpg */; };
 		04CD0B4819FF8FAA00698765 /* aboutUS.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CD0B4719FF8FAA00698765 /* aboutUS.png */; };
 		04CD0B5A1A00D1C500698765 /* TemplateDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CD0B591A00D1C500698765 /* TemplateDisplayViewController.m */; };
@@ -311,6 +312,7 @@
 		04BD1A5819C072CF00F03804 /* PreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreViewController.h; sourceTree = "<group>"; };
 		04BD1A5919C072CF00F03804 /* PreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreViewController.m; sourceTree = "<group>"; };
 		04C7CA431A120C2000886982 /* WX_logon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WX_logon.png; sourceTree = "<group>"; };
+		04C7CA451A149CD000886982 /* zhonglu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zhonglu.png; sourceTree = "<group>"; };
 		04C9C1521A0C9DA10007A18E /* guide_5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = guide_5.jpg; sourceTree = "<group>"; };
 		04CD0B4719FF8FAA00698765 /* aboutUS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutUS.png; sourceTree = "<group>"; };
 		04CD0B581A00D1C500698765 /* TemplateDisplayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateDisplayViewController.h; sourceTree = "<group>"; };
@@ -693,6 +695,7 @@
 		04BCEC5E19A8CCF700F22284 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				04C7CA451A149CD000886982 /* zhonglu.png */,
 				04DBE5501A0A1DBC00E7F906 /* ShareIcon */,
 				04CD0B6D1A020B9700698765 /* TemplateDisplay */,
 				04B341B519EE64C20034480A /* Guide */,
@@ -938,6 +941,7 @@
 				0419FD7E19C14CFC00D45030 /* send_icon_on.png in Resources */,
 				04A99AAE19B5AA61009AE0E0 /* timeLabel.png in Resources */,
 				0419FD9819C1BAD100D45030 /* icon-checkbox-unselected-25x25@2x.png in Resources */,
+				04C7CA461A149CD000886982 /* zhonglu.png in Resources */,
 				0419FD8519C14D5C00D45030 /* send_icon_off.png in Resources */,
 				04F10EB819D1604000094A52 /* valid.png in Resources */,
 				04F10EA219D146F800094A52 /* x011.jpg in Resources */,

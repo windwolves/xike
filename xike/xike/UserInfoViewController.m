@@ -137,10 +137,7 @@
     }];
     
     [sessionDataTask resume];
-    
-    
 }
-
 
 - (void)uploadProfileOnServer {
     NSData *imgData = UIImageJPEGRepresentation(picImageView.image, 0.5);
@@ -182,9 +179,7 @@
         }
         
     }];
-    
     [sessionDataTask resume];
-    
 }
 
 - (NSString *)get64BasedPhoto {
