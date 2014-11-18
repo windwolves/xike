@@ -8,6 +8,7 @@
 
 #import "ExploreViewController.h"
 #import "ExploreDetailsViewController.h"
+#import "Contants.h"
 
 @interface ExploreViewController ()
 
@@ -29,7 +30,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _exploreView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-49-64)];
-    NSString *urlString = @"http://121.40.139.180:8081/#/discover/list";
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@/#/discover/list",HOST];
     [_exploreView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
     _exploreView.delegate = self;
         [self.view addSubview:_exploreView];

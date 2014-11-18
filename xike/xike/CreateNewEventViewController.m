@@ -11,8 +11,7 @@
 #import "ImageControl.h"
 #import "CanlendarView.h"
 #import "ChooseTemplateViewController.h"
-
-#define HOST @"http://121.40.139.180:8081"
+#import "Contants.h"
 
 @interface CreateNewEventViewController ()
 

@@ -14,6 +14,6 @@
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSData *thumbnail;
 @property (nonatomic, strong) NSString *category;
-@property (nonatomic, assign) NSInteger recommendation;
+@property (nonatomic, assign) float recommendation;
 
 @end

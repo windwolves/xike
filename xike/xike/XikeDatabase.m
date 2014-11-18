@@ -38,6 +38,8 @@ static sqlite3 *_database;
     const char *createGuestInfoSQL = "create table if not exists guestinfo (event_uuid integer,guest_id text,guest_name text, guest_phone text,guest_pic blob defalut null)";
     const char *createFriendInfoSQL = "create table if not exists friendinfo (user_id text, name text,phone text,photo blob defalut null)";
     const char *createTemplateInfoSQL = "create table if not exists templateinfo (uuid text, name text, desc text,thumbnail blob defalut null,category text,recommendation int)";
+    //v1.1
+    const char *createNotificationMessageSQL = "create table if not exists notificationmessage (ID integer primary key, type text,content text,pic blob defalut null,eventUUID text,date text,time text,isRead integer default 0,user text)";
     
     if (sqlite3_exec(_database, createUserInfoSQL, NULL, NULL, &errMsg) == SQLITE_OK) {
         NSLog(@"userinfo created");
@@ -77,6 +79,14 @@ static sqlite3 *_database;
     } else {
         NSLog(@"templateInfo creation failed!");
         [self ErrorReport:createTemplateInfoSQL];
+        [self closeDatabase];
+        return NO;
+    }
+    if (sqlite3_exec(_database, createNotificationMessageSQL, NULL, NULL, &errMsg) == SQLITE_OK) {
+        NSLog(@"notificationMessage created!");
+    } else {
+        NSLog(@"notificationMessage creation failed!");
+        [self ErrorReport:createNotificationMessageSQL];
         [self closeDatabase];
         return NO;
     }
@@ -308,6 +318,69 @@ static sqlite3 *_database;
     
 }
 
+- (EventInfo *)getEvent:(NSString *)uuid {
+    [self openDatabase];
+    EventInfo *event = [EventInfo new];
+    const char *getEventInfoSQL = "select theme_type,theme,content,location,date,time,host_id,host_name,host_pic,host_phone,template_id,send_status,user_id  from eventinfo where uuid = ? order by date desc,time desc";
+    sqlite3_stmt *stmt;
+    
+    if (sqlite3_prepare_v2(_database, getEventInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [uuid UTF8String], -1, NULL);
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            event.themeType = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 0)];
+            event.theme = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
+            event.content = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
+            event.location = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 3)];
+            event.date = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 4)];
+            event.time = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 5)];
+            NSString *host_id;
+            if (sqlite3_column_text(stmt, 6)) {
+                host_id = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 6)];
+            } else {
+                host_id = @"";
+            }
+            NSString *host_name;
+            if (sqlite3_column_text(stmt, 7)) {
+                host_name = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 7)];
+            } else {
+                host_name = @"";
+            }
+            NSData *host_pic;
+            if (sqlite3_column_bytes(stmt, 8) != 0) {
+                host_pic = [NSData dataWithBytes:sqlite3_column_blob(stmt, 8) length:sqlite3_column_bytes(stmt, 8)];
+            } else {
+                host_pic = nil;
+            }
+            NSString *host_phone;
+            if (sqlite3_column_text(stmt, 9)) {
+                host_phone = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 9)];
+            } else {
+                host_phone = @"";
+            }
+            if (sqlite3_column_text(stmt, 10)) {
+                event.templateID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 10)];
+            } else {
+                event.templateID = @"544331a9-e6e5-41c1-9212-6fcf6f3b3ebc";
+            }
+            event.send_status = (NSInteger)sqlite3_column_int(stmt, 11);
+            if (sqlite3_column_text(stmt, 12)) {
+                UserInfo *user = [UserInfo new];
+                user.userID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 12)];
+                event.user = user;
+            } else {
+                event.user.userID = @"";
+            }
+            
+            event.host = [[PeopleInfo alloc] initWithID:host_id Name:host_name Phone:host_phone Photo:host_pic];
+            event.template = [self getTemplate:event.templateID];
+        }
+    }
+    sqlite3_finalize(stmt);
+    [self closeDatabase];
+    
+    return event;
+}
+
 - (NSMutableArray *)getAllEvents:(UserInfo *)user {
     [self openDatabase];
     NSMutableArray *Events = [NSMutableArray new];
@@ -508,7 +581,8 @@ static sqlite3 *_database;
             sqlite3_finalize(stmt);
             NSLog(@"Updated!");
             [self closeDatabase];
-            return [self createEventGuestList:event];
+            return YES;
+            //return [self createEventGuestList:event];
         } else {
             sqlite3_finalize(stmt);
             NSLog(@"update failed!");
@@ -631,6 +705,31 @@ static sqlite3 *_database;
     }
 }
 
+- (BOOL)deleteAllTemplaes {
+    [self openDatabase];
+    const char *deleteTemplatesSQL = "delete from templateinfo";
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(_database, deleteTemplatesSQL, -1, &stmt, nil) == SQLITE_OK) {
+        if (sqlite3_step(stmt) == SQLITE_DONE) {
+            sqlite3_finalize(stmt);
+            NSLog(@"delete all templates done!");
+            [self closeDatabase];
+            return YES;
+        } else {
+            NSLog(@"delete template failed!");
+            [self ErrorReport:deleteTemplatesSQL];
+            sqlite3_finalize(stmt);
+            [self closeDatabase];
+            return NO;
+        }
+    } else {
+        NSLog(@"prepareStatement failed!");
+        sqlite3_finalize(stmt);
+        [self closeDatabase];
+        return NO;
+    }
+}
+
 - (TemplateInfo *)getTemplate:(NSString *)templateID {
     [self openDatabase];
     TemplateInfo *template = [TemplateInfo new];
@@ -724,6 +823,177 @@ static sqlite3 *_database;
     sqlite3_finalize(stmt);
     [self closeDatabase];
     return templates;
+
+}
+
+#pragma update v1.10
+- (BOOL)insertNotification:(NotificationMessage *)message {
+    [self openDatabase];
+    const char *insertNotificationMessageSQL = "Insert into notificationmessage (type,content,pic,eventUUID,date,time,user) values (?,?,?,?,?,?,?)";
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(_database, insertNotificationMessageSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [message.type UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 2, [message.content UTF8String], -1, NULL);
+        sqlite3_bind_blob(stmt, 3, [message.pic bytes], (int)[message.pic length], NULL);
+        sqlite3_bind_text(stmt, 4, [message.eventUUID UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 5, [message.date UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 6, [message.time UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 7, [message.user UTF8String], -1, NULL);
+        if (sqlite3_step(stmt) == SQLITE_DONE) {
+            sqlite3_finalize(stmt);
+            [self closeDatabase];
+            return YES;
+        } else {
+            NSLog(@"insert notificationMessage failed!");
+            [self ErrorReport:insertNotificationMessageSQL];
+            sqlite3_finalize(stmt);
+            [self closeDatabase];
+            return NO;
+        }
+    } else {
+        NSLog(@"prepareStatement failed!");
+        sqlite3_finalize(stmt);
+        [self closeDatabase];
+        return NO;
+    }
+}
+
+- (BOOL)deleteNotification:(NotificationMessage *)message {
+    [self openDatabase];
+    const char *deleteNotificationMessageSQL = "delete from notificationmessage where id = ?";
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(_database, deleteNotificationMessageSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_int(stmt, 1, message.ID);
+        
+        if (sqlite3_step(stmt) == SQLITE_DONE) {
+            sqlite3_finalize(stmt);
+            NSLog(@"deleted!");
+            [self closeDatabase];
+            return YES;
+        } else {
+            sqlite3_finalize(stmt);
+            [self ErrorReport:deleteNotificationMessageSQL];
+            NSLog(@"delete failed!");
+            [self closeDatabase];
+            return NO;
+        }
+    } else {
+        NSLog(@"prepareStatment failed!");
+        sqlite3_finalize(stmt);
+        [self closeDatabase];
+        return NO;
+    }
+}
+
+- (BOOL)updateNotification:(NotificationMessage *)message {
+    [self openDatabase];
+    const char *updateNotificationMessageSQL = "update notificationmessage set isRead = ? where ID = ?";
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(_database, updateNotificationMessageSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_int(stmt, 1,message.isRead);
+        sqlite3_bind_int(stmt, 2,message.ID);
+        
+        if (sqlite3_step(stmt) == SQLITE_DONE) {
+            sqlite3_finalize(stmt);
+            NSLog(@"Updated!");
+            [self closeDatabase];
+            return YES;
+        } else {
+            sqlite3_finalize(stmt);
+            NSLog(@"update failed!");
+            [self ErrorReport:updateNotificationMessageSQL];
+            [self closeDatabase];
+            return NO;
+        }
+    } else {
+        NSLog(@"prepareStatement failed!");
+        sqlite3_finalize(stmt);
+        [self closeDatabase];
+        return NO;
+    }
+}
+
+- (NSInteger)getCountOfUnreadMessage:(NSString *)user {
+    [self openDatabase];
+    NSInteger cnt;
+    const char *getNotificationMessageSQL = "select count(*) as cnt from notificationmessage where user = ? and isRead = 0";
+    sqlite3_stmt *stmt;
+    
+    if (sqlite3_prepare_v2(_database, getNotificationMessageSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [user UTF8String], -1, NULL);
+        
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            if (sqlite3_column_int(stmt, 0)) {
+                cnt = sqlite3_column_int(stmt, 0);
+            } else {
+                cnt = 0;
+            }
+        }
+    }
+    sqlite3_finalize(stmt);
+    [self closeDatabase];
+    return cnt;
+}
+
+
+- (NSMutableArray *)getAllNotificationMessage:(NSString *)user {
+    [self openDatabase];
+    NSMutableArray *messages = [NSMutableArray new];
+    const char *getNotificationMessageSQL = "select ID,type,content,pic,eventUUID,date,time,isRead from notificationmessage where user = ? order by date desc,time desc";
+    sqlite3_stmt *stmt;
+    
+    if (sqlite3_prepare_v2(_database, getNotificationMessageSQL, -1, &stmt, nil) == SQLITE_OK) {
+         sqlite3_bind_text(stmt, 1, [user UTF8String], -1, NULL);
+        
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            NotificationMessage *message = [NotificationMessage new];
+            if (sqlite3_column_int(stmt, 0)) {
+                message.ID = sqlite3_column_int(stmt, 0);
+            } else {
+                message.ID = 0;
+            }
+            if (sqlite3_column_text(stmt, 1)) {
+                message.type = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
+            } else {
+                message.type = @"";
+            }
+            if (sqlite3_column_text(stmt, 2)) {
+                message.content = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
+            } else {
+                message.content = @"";
+            }
+            if (sqlite3_column_bytes(stmt, 3) != 0) {
+                message.pic = [NSData dataWithBytes:sqlite3_column_blob(stmt, 3) length:sqlite3_column_bytes(stmt, 3)];
+            } else {
+                message.pic = nil;
+            }
+            if (sqlite3_column_text(stmt, 4)) {
+                message.eventUUID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 4)];
+            } else {
+                message.eventUUID = @"";
+            }
+            if (sqlite3_column_text(stmt, 5)) {
+                message.date = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 5)];
+            } else {
+                message.date = @"";
+            }
+            if (sqlite3_column_text(stmt, 6)) {
+                message.time = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 6)];
+            } else {
+                message.time = @"00:00:00";
+            }
+            if (sqlite3_column_int(stmt, 7)) {
+                message.isRead = sqlite3_column_int(stmt, 7);
+            } else {
+                message.isRead = 0;
+            }
+            
+            [messages addObject:message];
+        }
+    }
+    sqlite3_finalize(stmt);
+    [self closeDatabase];
+    return messages;
 
 }
 

@@ -12,8 +12,8 @@
 #import "PreViewController.h"
 #import "TemplateInfo.h"
 #import "TemplateTableViewCell.h"
+#import "Contants.h"
 
-#define HOST @"http://121.40.139.180:8081"
 
 @interface ChooseTemplateViewController ()
 
@@ -210,7 +210,7 @@
 */
 #pragma private method to generate url parameters
 - (NSString *)generateURLWithEvent:(EventInfo *)event {
-    NSString *path = @"http://121.40.139.180:8081/#/activity/?";
+    NSString *path = [[NSString alloc] initWithFormat:@"%@/#/activity/?",HOST];
     NSString *userString = [[NSString alloc] initWithFormat:@"host={\"nickname\":\"%@\"}",event.user.name];
     NSString *templateString = [[NSString alloc] initWithFormat:@"template={\"name\":\"%@\"}",event.template.name];
     NSString *titleString = [[NSString alloc] initWithFormat:@"title=%@",event.theme];

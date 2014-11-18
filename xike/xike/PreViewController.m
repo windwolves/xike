@@ -308,18 +308,8 @@
 
 #pragma private method to generate url parameters
 - (NSString *)generateURLWithEvent:(EventInfo *)event {
-    //NSString *path = @"http://121.40.139.180:8081/#/activity/";
     NSString *path = [[NSString alloc] initWithFormat:@"%@/#/activity/",HOST];
     NSString *uuid = event.uuid;
-    /*
-    NSString *userString = [[NSString alloc] initWithFormat:@"user={\"nickname\":\"%@\"}",event.host.name];
-    NSString *templateString = [[NSString alloc] initWithFormat:@"template={\"name\":\"%@\"}",event.templateID];
-    NSString *titleString = [[NSString alloc] initWithFormat:@"title=%@",event.theme];
-    NSString *contentString = [[NSString alloc] initWithFormat:@"content=%@",event.content];
-    NSString *timeString = [[NSString alloc] initWithFormat:@"time=%@ %@",event.date,event.time];
-    NSString *placeString = [[NSString alloc] initWithFormat:@"place=%@",event.location];
-    NSString *parameterString = [[[NSString alloc] initWithFormat:@"%@&%@&%@&%@&%@&%@",userString,templateString,titleString,contentString,timeString,placeString] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    */
     NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",path,uuid];
     return urlString;
     

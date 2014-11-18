@@ -9,8 +9,8 @@
 #import "UserInfoViewController.h"
 #import "ColorHandler.h"
 #import "MainViewController.h"
+#import "Contants.h"
 
-#define HOST @"http://121.40.139.180:8081"
 #define ORIGINAL_MAX_WIDTH 640.0f
 
 @interface UserInfoViewController ()

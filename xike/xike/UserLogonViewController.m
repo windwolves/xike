@@ -359,7 +359,7 @@
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
     NSString *emailString = [[NSString alloc] initWithFormat:@"username=%@",user.userID];
-    NSString *passwordString = [[NSString alloc] initWithFormat:@"password=%@",@"otherLogon"];
+    NSString *passwordString = [[NSString alloc] initWithFormat:@"password=%@",otherLogonPassword];
     NSString *deviceTokenString = [[NSString alloc] initWithFormat:@"deviceToken=%@",_deviceToken];
     NSString *registerDataString = [[NSString alloc] initWithFormat:@"%@&%@&%@",emailString,passwordString,deviceTokenString];
     [request setHTTPBody:[registerDataString dataUsingEncoding:NSUTF8StringEncoding]];
@@ -487,7 +487,7 @@
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
     NSString *emailString = [[NSString alloc] initWithFormat:@"username=%@",user.userID];
-    NSString *passwordString = [[NSString alloc] initWithFormat:@"password=%@",@"otherLogon"];
+    NSString *passwordString = [[NSString alloc] initWithFormat:@"password=%@",otherLogonPassword];
     NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@",emailString,passwordString];
     [request setHTTPBody:[loginDataString dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -561,6 +561,7 @@
     
     if (![_database whetherUserExisted:user]) {
         [_database setUser:user];
+        [_database updateUser:user];
         //DownLoad From Server
     }
     [_database setLastUesdUser:user];

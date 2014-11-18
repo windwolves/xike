@@ -21,6 +21,7 @@
     MainViewController *mainViewController;
     NSString *token;
     XikeDatabase *database;
+    UserInfo *user;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -33,6 +34,13 @@
     [[ShareEngine sharedInstance] registerApp];
 
     database = [[XikeDatabase alloc] init];
+    user = [UserInfo new];
+    
+    if (launchOptions) {
+        //TODO
+        NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        [self handleNotification:userInfo];
+    }
 
     //Register APN service
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
@@ -66,34 +74,46 @@
             NSLog(@"Tables cannot be created!");
             return NO;
         }
-    } else if (![defaults boolForKey:@"isLogin"]) {
-        
-        logonViewController = [UserLogonViewController new];
-        logonViewController.database = database;
-        logonViewController.deviceToken = token;
-        
-        navigation = [[UINavigationController alloc] initWithRootViewController:logonViewController];
-        self.window.rootViewController = navigation;
-        
     } else {
         //if it's not the first time, then direct to the main view.
         if ([defaults floatForKey:@"version"] != app_version) {
-            UserInfo *user = [database getUserInfo];
-            mainViewController = [MainViewController new];
-            mainViewController.database = database;
-            mainViewController.user = user;
-            guideViewController = [GuideViewController new];
-            guideViewController.mainViewController = mainViewController;
-            guideViewController.destination = Destination_main;
-            navigation = [[UINavigationController alloc] initWithRootViewController:guideViewController];
-            
+            [database createAllTables];
+            [self setUpBasicTemplate];
+            if (![defaults boolForKey:@"isLogin"]) {
+                logonViewController = [UserLogonViewController new];
+                logonViewController.database = database;
+                logonViewController.deviceToken = token;
+                guideViewController = [GuideViewController new];
+                guideViewController.logonViewController = logonViewController;
+                guideViewController.destination = Destination_logon;
+                
+                navigation = [[UINavigationController alloc] initWithRootViewController:guideViewController];
+                self.window.rootViewController = navigation;
+            } else {
+                user = [database getUserInfo];
+                mainViewController = [MainViewController new];
+                mainViewController.database = database;
+                mainViewController.user = user;
+                guideViewController = [GuideViewController new];
+                guideViewController.mainViewController = mainViewController;
+                guideViewController.destination = Destination_main;
+                navigation = [[UINavigationController alloc] initWithRootViewController:guideViewController];
+            }
         } else {
-             UserInfo *user = [database getUserInfo];
-             mainViewController = [MainViewController new];
-             mainViewController.database = database;
-             mainViewController.user = user;
-             navigation = [[UINavigationController alloc] initWithRootViewController:mainViewController];
-
+            if (![defaults boolForKey:@"isLogin"]) {
+                logonViewController = [UserLogonViewController new];
+                logonViewController.database = database;
+                logonViewController.deviceToken = token;
+                
+                navigation = [[UINavigationController alloc] initWithRootViewController:logonViewController];
+                self.window.rootViewController = navigation;
+            } else {
+                user = [database getUserInfo];
+                mainViewController = [MainViewController new];
+                mainViewController.database = database;
+                mainViewController.user = user;
+                navigation = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+            }
         }
         self.window.rootViewController = navigation;
     }
@@ -103,14 +123,25 @@
     return YES;
 }
 
-- (BOOL)setUpBasicTemplate {
+- (void)setUpBasicTemplate {
+    //delete all templates at first!
+    if ([database deleteAllTemplaes]) {
+        NSMutableArray *basicTemplates = [self prepareTempaltes];
+        for (TemplateInfo *template in basicTemplates) {
+            [database insertTemplate:template];
+        }
+    }
+}
+
+- (NSMutableArray *)prepareTempaltes {
+    //version 1
     //x001
     NSMutableArray *basicTemplates = [NSMutableArray new];
     TemplateInfo *template_001 = [TemplateInfo new];
     template_001.ID = @"544331a9-e6e5-41c1-9212-6fcf6f3b3ebc";
     template_001.name = @"x001";
     template_001.desc = @"";
-    template_001.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x001.jpg"],1.0);
+    template_001.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x001"]);
     template_001.category = @"";
     template_001.recommendation = 10;
     [basicTemplates addObject:template_001];
@@ -119,7 +150,7 @@
     template_002.ID = @"9f42133f-929f-4998-9bbd-315effcb2c38";
     template_002.name = @"x002";
     template_002.desc = @"";
-    template_002.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x002.jpg"],1.0);
+    template_002.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x002"]);
     template_002.category = @"";
     template_002.recommendation = 10;
     [basicTemplates addObject:template_002];
@@ -128,7 +159,7 @@
     template_003.ID = @"300a3507-751a-4fbf-8187-a82d1e68860c";
     template_003.name = @"x003";
     template_003.desc = @"";
-    template_003.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x003.jpg"],1.0);
+    template_003.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x003"]);
     template_003.category = @"";
     template_003.recommendation = 10;
     [basicTemplates addObject:template_003];
@@ -137,7 +168,7 @@
     template_004.ID = @"22b7fd9f-74d7-44f2-87ef-5af810bed314";
     template_004.name = @"x004";
     template_004.desc = @"";
-    template_004.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x004.jpg"],1.0);
+    template_004.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x004"]);
     template_004.category = @"";
     template_004.recommendation = 10;
     [basicTemplates addObject:template_004];
@@ -146,7 +177,7 @@
     template_005.ID = @"71bf36af-bb1e-42d5-a233-471ba7dbb54c";
     template_005.name = @"x005";
     template_005.desc = @"";
-    template_005.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x005.jpg"],1.0);
+    template_005.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x005"]);
     template_005.category = @"";
     template_005.recommendation = 10;
     [basicTemplates addObject:template_005];
@@ -155,7 +186,7 @@
     template_006.ID = @"8d7c8889-d3c1-4384-9edd-5c9691c2e790";
     template_006.name = @"x006";
     template_006.desc = @"";
-    template_006.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x006.jpg"],1.0);
+    template_006.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x006"]);
     template_006.category = @"";
     template_006.recommendation = 10;
     [basicTemplates addObject:template_006];
@@ -164,7 +195,7 @@
     template_007.ID = @"08d3b3f3-cef5-4c9f-bee9-29371dd180ba";
     template_007.name = @"x007";
     template_007.desc = @"";
-    template_007.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x007.jpg"],1.0);
+    template_007.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x007"]);
     template_007.category = @"";
     template_007.recommendation = 10;
     [basicTemplates addObject:template_007];
@@ -173,7 +204,7 @@
     template_008.ID = @"68868dc2-a7ab-4866-b27e-a5679aee2e25";
     template_008.name = @"x008";
     template_008.desc = @"";
-    template_008.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x008.jpg"],1.0);
+    template_008.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x008"]);
     template_008.category = @"";
     template_008.recommendation = 10;
     [basicTemplates addObject:template_008];
@@ -182,7 +213,7 @@
     template_009.ID = @"49e81bde-d51e-485d-be42-bbb269330081";
     template_009.name = @"x009";
     template_009.desc = @"";
-    template_009.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x009.jpg"],1.0);
+    template_009.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x009"]);
     template_009.category = @"";
     template_009.recommendation = 10;
     [basicTemplates addObject:template_009];
@@ -191,7 +222,7 @@
     template_010.ID = @"5fbbd474-2ecd-4054-add4-e994ddda128e";
     template_010.name = @"x010";
     template_010.desc = @"";
-    template_010.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x010.jpg"],1.0);
+    template_010.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x010"]);
     template_010.category = @"";
     template_010.recommendation = 10;
     [basicTemplates addObject:template_010];
@@ -200,7 +231,7 @@
     template_011.ID = @"f127e1e0-0569-439c-ad03-2c980ed2f55a";
     template_011.name = @"x011";
     template_011.desc = @"";
-    template_011.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x011.jpg"],1.0);
+    template_011.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x011"]);
     template_011.category = @"";
     template_011.recommendation = 10;
     [basicTemplates addObject:template_011];
@@ -209,15 +240,49 @@
     template_012.ID = @"27deb988-009b-431d-80cf-ba1349cef19c";
     template_012.name = @"x012";
     template_012.desc = @"";
-    template_012.thumbnail = UIImageJPEGRepresentation([UIImage imageNamed:@"x012.jpg"],1.0);
+    template_012.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x012"]);
     template_012.category = @"";
     template_012.recommendation = 10;
     [basicTemplates addObject:template_012];
+    //update on 2014-11-14
+    //y001
+    TemplateInfo *template_y001 = [TemplateInfo new];
+    template_y001.ID = @"36c7f4b4-dbe7-4886-9c87-f8ac6679a9ee";
+    template_y001.name = @"y001";
+    template_y001.desc = @"";
+    template_y001.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"y001"]);
+    template_y001.category = @"";
+    template_y001.recommendation = 8.8;
+    [basicTemplates addObject:template_y001];
+    //y002
+    TemplateInfo *template_y002 = [TemplateInfo new];
+    template_y002.ID = @"69639840-f7a3-4b96-97db-c4128ce6c358";
+    template_y002.name = @"y002";
+    template_y002.desc = @"";
+    template_y002.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"y002"]);
+    template_y002.category = @"";
+    template_y002.recommendation = 8.7;
+    [basicTemplates addObject:template_y002];
+    //y003
+    TemplateInfo *template_y003 = [TemplateInfo new];
+    template_y003.ID = @"c3c931ea-c690-43d1-ae28-9863bad7799b";
+    template_y003.name = @"y003";
+    template_y003.desc = @"";
+    template_y003.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"y003"]);
+    template_y003.category = @"";
+    template_y003.recommendation = 8.6;
+    [basicTemplates addObject:template_y003];
+    //y004
+    TemplateInfo *template_y004 = [TemplateInfo new];
+    template_y004.ID = @"68290803-d3ad-428e-9307-f8382be5cc83";
+    template_y004.name = @"y004";
+    template_y004.desc = @"";
+    template_y004.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"y004"]);
+    template_y004.category = @"";
+    template_y004.recommendation = 8.5;
+    [basicTemplates addObject:template_y004];
     
-    for (TemplateInfo *template in basicTemplates) {
-        [database insertTemplate:template];
-    }
-    return YES;
+    return basicTemplates;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -265,6 +330,30 @@
     token = [token stringByReplacingOccurrencesOfString:@">" withString:@""];
     token = [[token componentsSeparatedByString:@" "] componentsJoinedByString:@"" ];
     NSLog(@"got string token %@", token);
+    user.deviceToken = token;
+    if (!user.ID) {
+        logonViewController.deviceToken = token;
+    } else {
+        [self updateUserDeviceToken];
+    }
+}
+
+- (void)updateUserDeviceToken {
+    NSString *updateAccountService = @"/services/user/update";
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,updateAccountService];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    NSString *IDString = [[NSString alloc] initWithFormat:@"id=%@",user.ID];
+    NSString *deviceTokenString = [[NSString alloc] initWithFormat:@"deviceToken=%@",user.deviceToken];
+    NSString *parameterString = [[NSString alloc] initWithFormat:@"%@&%@",IDString,deviceTokenString];
+    [request setHTTPBody:[parameterString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+    }];
+    
+    [sessionDataTask resume];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -276,6 +365,42 @@
         NSLog(@"key: %@, value: %@", key, [userInfo objectForKey:key]);
     }
     // set badge to nil when data download.
+    //TODO
+    [self handleNotification:userInfo];
+    //application.applicationIconBadgeNumber = 0;
 }
+
+- (void)handleNotification:(NSDictionary *)dict {
+    NotificationMessage *notification = [NotificationMessage new];
+    notification.type = @"1";
+    if ([dict objectForKey:@"name"]) {
+        notification.content = [[NSString alloc] initWithFormat:@"%@ 加入了您的邀请",[dict objectForKey:@"name"]];
+    } else {
+        notification.content = @"";
+    }
+    if ([dict objectForKey:@"date"]) {
+        notification.date = [dict objectForKey:@"date"];
+    } else {
+        notification.date = @"";
+    }
+    if ([dict objectForKey:@"time"]) {
+        notification.time = [dict objectForKey:@"time"];
+    } else {
+        notification.time = @"";
+    }
+    if ([dict objectForKey:@"eventID"]) {
+        notification.eventUUID = [dict objectForKey:@"eventID"];
+        EventInfo *event = [database getEvent:notification.eventUUID];
+        notification.pic = event.template.thumbnail;
+        notification.user = event.user.userID;
+    } else {
+        notification.eventUUID = @"";
+        notification.pic = nil;
+        notification.user = @"";
+    }
+    
+    [database insertNotification:notification];
+}
+
 
 @end

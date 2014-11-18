@@ -9,12 +9,12 @@
 #import "SuggestionViewController.h"
 #import "ColorHandler.h"
 #import "MainViewController.h"
+#import "Contants.h"
 
 @interface SuggestionViewController ()
 
 @end
 
-#define HOST @"http://121.40.139.180:8081"
 
 @implementation SuggestionViewController {
     UITextView *suggestionTextView;

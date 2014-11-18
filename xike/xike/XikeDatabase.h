@@ -12,6 +12,7 @@
 #import "EventInfo.h"
 #import "PeopleInfo.h"
 #import "TemplateInfo.h"
+#import "NotificationMessage.h"
 
 @interface XikeDatabase : NSObject
 - (void)openDatabase;
@@ -25,6 +26,7 @@
 - (BOOL)setLastUesdUser:(UserInfo *)user;
 - (BOOL)whetherUserExisted:(UserInfo *)user;
 - (NSMutableArray *)getAllEvents:(UserInfo *)user;
+- (EventInfo *)getEvent:(NSString *)uuid;
 - (NSInteger)createEvent:(EventInfo *)event :(UserInfo *)user;
 - (BOOL)updateEvent:(EventInfo *)event;
 - (BOOL)deleteEvent:(EventInfo *)event;
@@ -32,6 +34,13 @@
 - (NSMutableArray *)getAllTemplates;
 - (TemplateInfo *)getTemplate:(NSString *)templateID;
 - (BOOL)insertTemplate:(TemplateInfo *)template;
+- (BOOL)deleteAllTemplaes;
 
-//- (BOOL)insertTestUser; //test use;
+//v1.10 update
+- (NSMutableArray *)getAllNotificationMessage:(NSString *)user;
+- (BOOL)insertNotification:(NotificationMessage *)message;
+- (BOOL)deleteNotification:(NotificationMessage *)message;
+- (BOOL)updateNotification:(NotificationMessage *)message;
+- (NSInteger)getCountOfUnreadMessage:(NSString *)user;
+
 @end

@@ -13,6 +13,7 @@
 #import "CreateNewEventViewController.h"
 #import "MyEventsViewController.h"
 #import "TemplateDisplayViewController.h"
+#import "NotificationViewController.h"
 
 @interface MainViewController ()
 @property (strong, nonatomic) UIView *mainView;
@@ -28,10 +29,12 @@
     TemplateDisplayViewController *templateDisplayViewController;
     MyEventsViewController *myEventsViewController;
     CreateNewEventViewController *createNewEventViewController;
+    NotificationViewController *notificationViewController;
     UIViewController *currentViewController;
     UITapGestureRecognizer *_tapGestureRecognizer;
     UITapGestureRecognizer *tapClickEventRecognizer;
     UIPanGestureRecognizer *_panGestureReconginzer;
+    UIBarButtonItem *notificationButtonItem;
     CGFloat currentTranslate;
     BOOL sideBarShowing;
     NSInteger g_flags;
@@ -59,7 +62,13 @@ const float MoveAnimationDuration = 0.3;
     _panGestureReconginzer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panInMainView:)];
     //[self.mainView addGestureRecognizer:_panGestureReconginzer];
     [contentView addGestureRecognizer:_panGestureReconginzer];
-    [self moveAnimationWithDirection:SideBarShowDirectionNone duration:MoveAnimationDuration];   
+    [self moveAnimationWithDirection:SideBarShowDirectionNone duration:MoveAnimationDuration];
+    if ([_database getCountOfUnreadMessage:_user.userID] != 0) {
+        [notificationButtonItem setImage:[UIImage imageNamed:@"notification_on"]];
+    } else {
+        [notificationButtonItem setImage:[UIImage imageNamed:@"notification_off"]];
+        notificationButtonItem.tintColor = [UIColor whiteColor];
+    }
 }
 
 - (void)viewDidLoad
@@ -84,6 +93,11 @@ const float MoveAnimationDuration = 0.3;
     UIBarButtonItem *settingButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(popSettingView)];
     settingButtonItem.tintColor = [UIColor whiteColor];
     [self.navigationItem setLeftBarButtonItem:settingButtonItem];
+    notificationButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"notification_off"] style:UIBarButtonItemStylePlain target:self action:@selector(popNotificationView)];
+    notificationButtonItem.tintColor = [UIColor whiteColor];
+    [self.navigationItem setRightBarButtonItem:notificationButtonItem];
+    
+    
 
     //SettingView
     self.leftSideView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -156,6 +170,13 @@ const float MoveAnimationDuration = 0.3;
 
 }
 
+- (void)popNotificationView {
+    notificationViewController = [NotificationViewController new];
+    notificationViewController.database = _database;
+    notificationViewController.user = _user;
+    
+    [self.navigationController pushViewController:notificationViewController animated:YES];
+}
 
 - (void)didReceiveMemoryWarning
 {
