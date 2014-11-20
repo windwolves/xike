@@ -71,47 +71,47 @@
     actionView.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
     //Share Components' buttons
     // WeChate Session
-    UIButton *weChatSessionButton = [[UIButton alloc] initWithFrame:CGRectMake(37, 43, 60, 60)];
+    UIButton *weChatSessionButton = [[UIButton alloc] initWithFrame:CGRectMake(37, 30, 60, 60)];
     [weChatSessionButton setBackgroundImage:[UIImage imageNamed:@"wechatSession_icon"] forState:UIControlStateNormal];
     [weChatSessionButton addTarget:self action:@selector(wechatSessionShare) forControlEvents:UIControlEventTouchUpInside];
     [actionView addSubview:weChatSessionButton];
-    UILabel *wechatSessionLabel = [[UILabel alloc] initWithFrame:CGRectMake(43, 108, 50, 12)];
+    UILabel *wechatSessionLabel = [[UILabel alloc] initWithFrame:CGRectMake(43, 94, 50, 12)];
     wechatSessionLabel.text = @"微信好友";
     wechatSessionLabel.font = [UIFont systemFontOfSize:12];
     [actionView addSubview:wechatSessionLabel];
     //WeChat Timeline
-    UIButton *weChatTimelineButton = [[UIButton alloc] initWithFrame:CGRectMake(130, 43, 60, 60)];
+    UIButton *weChatTimelineButton = [[UIButton alloc] initWithFrame:CGRectMake(130, 30, 60, 60)];
     [weChatTimelineButton setBackgroundImage:[UIImage imageNamed:@"wechatTimeline_icon"] forState:UIControlStateNormal];
     [weChatTimelineButton addTarget:self action:@selector(wechatTimelineShare) forControlEvents:UIControlEventTouchUpInside];
     [actionView addSubview:weChatTimelineButton];
-    UILabel *wechatTimelineLabel = [[UILabel alloc] initWithFrame:CGRectMake(130, 108, 60, 12)];
+    UILabel *wechatTimelineLabel = [[UILabel alloc] initWithFrame:CGRectMake(130, 94, 60, 12)];
     wechatTimelineLabel.text = @"微信朋友圈";
     wechatTimelineLabel.font = [UIFont systemFontOfSize:12];
     [actionView addSubview:wechatTimelineLabel];
     //Sina Weibo
-    UIButton *sinaWeiboButton = [[UIButton alloc] initWithFrame:CGRectMake(223, 43, 60, 60)];
+    UIButton *sinaWeiboButton = [[UIButton alloc] initWithFrame:CGRectMake(223, 30, 60, 60)];
     [sinaWeiboButton setBackgroundImage:[UIImage imageNamed:@"sinaWeibo_icon"] forState:UIControlStateNormal];
     [sinaWeiboButton addTarget:self action:@selector(sinaWeiboShare) forControlEvents:UIControlEventTouchUpInside];
     [actionView addSubview:sinaWeiboButton];
-    UILabel *sinaWeiboLabel = [[UILabel alloc] initWithFrame:CGRectMake(229, 108, 50, 12)];
+    UILabel *sinaWeiboLabel = [[UILabel alloc] initWithFrame:CGRectMake(229, 94, 50, 12)];
     sinaWeiboLabel.text = @"新浪微博";
     sinaWeiboLabel.font = [UIFont systemFontOfSize:12];
     [actionView addSubview:sinaWeiboLabel];
     //SMS
-    UIButton *sMSButton = [[UIButton alloc] initWithFrame:CGRectMake(37, 130, 60, 60)];
+    UIButton *sMSButton = [[UIButton alloc] initWithFrame:CGRectMake(37, 115, 60, 60)];
     [sMSButton setBackgroundImage:[UIImage imageNamed:@"sms_icon"] forState:UIControlStateNormal];
     [sMSButton addTarget:self action:@selector(smsShare) forControlEvents:UIControlEventTouchUpInside];
     [actionView addSubview:sMSButton];
-    UILabel *SMSLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 195, 50, 12)];
+    UILabel *SMSLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 180, 50, 12)];
     SMSLabel.text = @"短信";
     SMSLabel.font = [UIFont systemFontOfSize:12];
     [actionView addSubview:SMSLabel];
     //Email
-    UIButton *emailButton = [[UIButton alloc] initWithFrame:CGRectMake(130, 130, 60, 60)];
+    UIButton *emailButton = [[UIButton alloc] initWithFrame:CGRectMake(130, 115, 60, 60)];
     [emailButton setBackgroundImage:[UIImage imageNamed:@"email_icon"] forState:UIControlStateNormal];
     [emailButton addTarget:self action:@selector(emailShare) forControlEvents:UIControlEventTouchUpInside];
     [actionView addSubview:emailButton];
-    UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(148, 195, 50, 12)];
+    UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(148, 180, 50, 12)];
     emailLabel.text = @"邮件";
     emailLabel.font = [UIFont systemFontOfSize:12];
     [actionView addSubview:emailLabel];

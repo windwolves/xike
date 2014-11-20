@@ -299,7 +299,7 @@
 - (void)didLogon:(NSString *)logonType :(NSDictionary *)userDic {
     if ([logonType isEqualToString:@"WX"]) {
         UserInfo *user = [UserInfo new];
-        user.userID = [userDic valueForKey:@"unionid"];
+        user.userID = [[NSString alloc] initWithFormat:@"WX-%@",[userDic valueForKey:@"unionid"]];
         user.name = [userDic valueForKey:@"nickname"];
         user.photo = [self getUserPic:[userDic valueForKey:@"headimgurl"]];
         //check whether user exists on server. if yes, login app; if no, register on server

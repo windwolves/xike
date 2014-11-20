@@ -51,7 +51,7 @@
     //TestUse
     [self testMessage];
     // Do any additional setup after loading the view.
-    [self.navigationItem setTitle:@"预览"];
+    [self.navigationItem setTitle:@"消息"];
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     UIBarButtonItem *returnBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(returnToPreviousView)];
