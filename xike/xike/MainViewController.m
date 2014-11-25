@@ -64,9 +64,9 @@ const float MoveAnimationDuration = 0.3;
     [contentView addGestureRecognizer:_panGestureReconginzer];
     [self moveAnimationWithDirection:SideBarShowDirectionNone duration:MoveAnimationDuration];
     if ([_database getCountOfUnreadMessage:_user.userID] != 0) {
-        [notificationButtonItem setImage:[UIImage imageNamed:@"notification_on"]];
+        [notificationButtonItem setImage:[[UIImage imageNamed:@"notification_on"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     } else {
-        [notificationButtonItem setImage:[UIImage imageNamed:@"notification_off"]];
+        [notificationButtonItem setImage:[[UIImage imageNamed:@"notification_off"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
         notificationButtonItem.tintColor = [UIColor whiteColor];
     }
 }
@@ -90,10 +90,10 @@ const float MoveAnimationDuration = 0.3;
     [titleFont setValue:[UIColor whiteColor] forKeyPath:NSForegroundColorAttributeName];
     [titleFont setValue:[UIFont fontWithName:@"HelveticaNeue-Light" size:20] forKeyPath:NSFontAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = titleFont;
-    UIBarButtonItem *settingButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(popSettingView)];
+    UIBarButtonItem *settingButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"setting"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(popSettingView)];
     settingButtonItem.tintColor = [UIColor whiteColor];
     [self.navigationItem setLeftBarButtonItem:settingButtonItem];
-    notificationButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"notification_off"] style:UIBarButtonItemStylePlain target:self action:@selector(popNotificationView)];
+    notificationButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"notification_off"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(popNotificationView)];
     notificationButtonItem.tintColor = [UIColor whiteColor];
     [self.navigationItem setRightBarButtonItem:notificationButtonItem];
     
