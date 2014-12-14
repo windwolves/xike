@@ -23,7 +23,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBarHidden = YES;
     // all settings are basic, pages with custom packgrounds, title image on each page
     [self showIntroWithCrossDissolve];
     //[self buildGuideView];
@@ -43,21 +44,21 @@
 
 - (void)showIntroWithCrossDissolve {
     GuidePage *page1 = [GuidePage page];
-    page1.bgImage = [UIImage imageNamed:@"guide_1.jpg"];
+    page1.bgImage = [UIImage imageNamed:@"guide_1"];
     
     GuidePage *page2 = [GuidePage page];
-    page2.bgImage = [UIImage imageNamed:@"guide_2.jpg"];
+    page2.bgImage = [UIImage imageNamed:@"guide_2"];
     
     GuidePage *page3 = [GuidePage page];
-    page3.bgImage = [UIImage imageNamed:@"guide_3.jpg"];
+    page3.bgImage = [UIImage imageNamed:@"guide_3"];
     
     GuidePage *page4 = [GuidePage page];
-    page4.bgImage = [UIImage imageNamed:@"guide_4.jpg"];
+    page4.bgImage = [UIImage imageNamed:@"guide_4"];
     
     GuidePage *page5 = [GuidePage page];
-    page5.bgImage = [UIImage imageNamed:@"guide_5.jpg"];
+    page5.bgImage = [UIImage imageNamed:@"guide_5"];
     
-    GuideView *guide = [[GuideView alloc] initWithFrame:self.view.bounds andPages:@[page1,page2,page3,page4,page5,page5]];
+    GuideView *guide = [[GuideView alloc] initWithFrame:self.view.bounds andPages:@[page1,page2,page3,page4,page5]];
     
     [guide setDelegate:self];
     [guide showInView:self.view animateDuration:0.0];
@@ -86,7 +87,7 @@
         }];
     } else if (_destination == Destination_main) {
         
-        UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:_mainViewController];
+        UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:_mainView2Controller];
         [self presentViewController:navigation animated:YES completion:^{
             [[NSUserDefaults standardUserDefaults] setFloat:app_version forKey:@"version"];
         }];

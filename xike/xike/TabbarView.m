@@ -17,19 +17,18 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = [UIColor clearColor];
         // Initialization code
         _g_selectedTag=selectTag;
         UIImageView *btnImgView;
         
         //discover btn
-        btnImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"discover_off"] highlightedImage:[UIImage imageNamed:@"discover_on"]];
-        btnImgView.frame = CGRectMake(40, 17, 24, 15);
+        btnImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"recommend_off"] highlightedImage:[UIImage imageNamed:@"recommend_on"]];
+        btnImgView.frame = CGRectMake(41, 7, 24, 35);
         firstBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        [firstBtn setFrame:CGRectMake(0, 0, 106, 49)];
-        firstBtn.backgroundColor = [ColorHandler colorWithHexString:@"#413445"];
-        firstBtn.layer.shadowOffset = CGSizeMake(0, 3);
-        firstBtn.layer.shadowRadius = 1.0;
-        firstBtn.layer.shadowColor = [UIColor blackColor].CGColor;
+        [firstBtn setFrame:CGRectMake(0, 0, 106, 48)];
+        firstBtn.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
+        firstBtn.alpha = 0.9f;
         [firstBtn setTag:1];
         [firstBtn addTarget:self action:@selector(buttonClickAction:) forControlEvents:UIControlEventTouchUpInside];
         [firstBtn addSubview:btnImgView];
@@ -37,28 +36,24 @@
         //((UIImageView *)firstBtn.subviews[0]).highlighted=YES; //make the firstBtn highlighted at the beginning
         
         //create btn
-        btnImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"create_event"]];
-        btnImgView.frame = CGRectMake(40, 10, 29, 30);
+        btnImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"create"]];
+        btnImgView.frame = CGRectMake(41, 7, 25, 35);
         secondBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        [secondBtn setFrame:CGRectMake(106, 0, 108, 49)];
+        [secondBtn setFrame:CGRectMake(106, 0, 108, 48)];
         secondBtn.backgroundColor = [ColorHandler colorWithHexString:@"#1de9b6"];
-        secondBtn.layer.shadowOffset = CGSizeMake(0, 3);
-        secondBtn.layer.shadowRadius = 1.0;
-        secondBtn.layer.shadowColor = [UIColor blackColor].CGColor;
+        secondBtn.alpha = 0.9f;
         [secondBtn setTag:2];
         [secondBtn addTarget:self action:@selector(buttonClickAction:) forControlEvents:UIControlEventTouchUpInside];
         [secondBtn addSubview:btnImgView];
         [self addSubview:secondBtn];
         
         //personal btn
-        btnImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"personal_off"] highlightedImage:[UIImage imageNamed:@"personal_on"]];
-        btnImgView.frame = CGRectMake(45, 16, 15, 17);
+        btnImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"myEvents_off"] highlightedImage:[UIImage imageNamed:@"myEvents_on"]];
+        btnImgView.frame = CGRectMake(43, 7, 20, 35);
         thirdBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        [thirdBtn setFrame:CGRectMake(214, 0, 106, 49)];
-        thirdBtn.backgroundColor = [ColorHandler colorWithHexString:@"#413445"];
-        thirdBtn.layer.shadowOffset = CGSizeMake(0, 3);
-        thirdBtn.layer.shadowRadius = 1.0;
-        thirdBtn.layer.shadowColor = [UIColor blackColor].CGColor;
+        [thirdBtn setFrame:CGRectMake(214, 0, 106, 48)];
+        thirdBtn.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
+        thirdBtn.alpha = 0.9f;
         [thirdBtn setTag:3];
         [thirdBtn addTarget:self action:@selector(buttonClickAction:) forControlEvents:UIControlEventTouchUpInside];
         [thirdBtn addSubview:btnImgView];

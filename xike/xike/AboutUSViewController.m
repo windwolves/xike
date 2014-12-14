@@ -45,7 +45,7 @@
     shareBtn.tintColor = [UIColor whiteColor];
     [self.navigationItem setRightBarButtonItem:shareBtn];
     
-    UIImageView *aboutUSImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 504)];
+    UIImageView *aboutUSImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, 320, 504)];
     aboutUSImageView.image = [UIImage imageNamed:@"aboutUS"];
     [self.view addSubview:aboutUSImageView];
     _url = [NSURL URLWithString:@"www.shaker.mobi"];

@@ -12,12 +12,14 @@
 #import "PeoplePickerViewController.h"
 #import <MessageUI/MessageUI.h>
 #import "ShareEngine.h"
+#import "GreetingInfo.h"
 
 @interface PreViewController : UIViewController <PeoplePickerViewControllerDelegate, UIWebViewDelegate,NSURLSessionDataDelegate,MFMailComposeViewControllerDelegate,ShareEngineDelegate>
 @property (nonatomic, strong) XikeDatabase *database;
 @property (nonatomic, strong) EventInfo *event;
+@property (nonatomic, strong) GreetingInfo *greeting;
 @property (nonatomic, strong) UIWebView *previewWebView;
 @property (nonatomic, strong) NSString *URL;
-@property (strong, nonatomic) NSString* fromController;
-
+@property (nonatomic, strong) NSString *fromController;
+@property (nonatomic, strong) NSString *createItem;
 @end

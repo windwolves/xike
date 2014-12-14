@@ -8,7 +8,7 @@
 
 #import "UserInfoViewController.h"
 #import "ColorHandler.h"
-#import "MainViewController.h"
+#import "MainView2Controller.h"
 #import "Contants.h"
 
 #define ORIGINAL_MAX_WIDTH 640.0f
@@ -112,9 +112,9 @@
         [self updateAccountOnServer];
         [self uploadProfileOnServer];
     }
-    MainViewController *mainViewController = [MainViewController new];
-    mainViewController.database = _database;
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+    MainView2Controller *mainView2Controller = [MainView2Controller new];
+    mainView2Controller.database = _database;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainView2Controller];
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 

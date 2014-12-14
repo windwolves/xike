@@ -10,7 +10,7 @@
 #import "GuideView.h"
 #import "XikeDatabase.h"
 #import "UserLogonViewController.h"
-#import "MainViewController.h"
+#import "MainView2Controller.h"
 
 
 enum Destination {
@@ -23,7 +23,7 @@ enum Destination {
 @property (nonatomic, strong) UserLogonViewController *logonViewController;
 @property (nonatomic, strong) XikeDatabase *database;
 @property (nonatomic, strong) NSString *deviceToken;
-@property (nonatomic, strong) MainViewController *mainViewController;
+@property (nonatomic, strong) MainView2Controller *mainView2Controller;
 @property (nonatomic, assign) NSInteger destination;
 
 @end

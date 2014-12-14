@@ -81,7 +81,7 @@
     [self buildFooterView];
     
     [self.bgImageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-    [self.pageControl setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    //[self.pageControl setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [self.skipButton setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
 }
 
@@ -230,7 +230,7 @@
     [self.pageControl addTarget:self action:@selector(showPanelAtPageControl) forControlEvents:UIControlEventValueChanged];
     self.pageControl.numberOfPages = _pages.count;
     [self.pageControl setPageIndicatorTintColor:[ColorHandler colorWithHexString:@"#a099a2"]];
-    [self addSubview:self.pageControl];
+    //[self addSubview:self.pageControl];
     
     self.skipButton = [[UIButton alloc] initWithFrame:CGRectMake(self.scrollView.frame.size.width - 80, self.pageControl.frame.origin.y, 80, self.pageControl.frame.size.height)];
     

@@ -8,7 +8,7 @@
 
 #import "UserLogonViewController.h"
 #import "ColorHandler.h"
-#import "MainViewController.h"
+#import "MainView2Controller.h"
 #import "UserInfoViewController.h"
 #import "ForgetPasswordViewController.h"
 #import "Contants.h"
@@ -459,15 +459,15 @@
             setUserViewController.user = user;
             navigationController = [[UINavigationController alloc] initWithRootViewController:setUserViewController];
         } else if ([userType isEqualToString:@"WX"]) {
-            MainViewController *mainViewController = [MainViewController new];
-            mainViewController.database = _database;
-            mainViewController.user = user;
-            navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+            MainView2Controller *mainView2Controller = [MainView2Controller new];
+            mainView2Controller.database = _database;
+            mainView2Controller.user = user;
+            navigationController = [[UINavigationController alloc] initWithRootViewController:mainView2Controller];
         } else if ([userType isEqualToString:@"WB"]) {
-            MainViewController *mainViewController = [MainViewController new];
-            mainViewController.database = _database;
-            mainViewController.user = user;
-            navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+            MainView2Controller *mainView2Controller = [MainView2Controller new];
+            mainView2Controller.database = _database;
+            mainView2Controller.user = user;
+            navigationController = [[UINavigationController alloc] initWithRootViewController:mainView2Controller];
         } else {
             return;
         }
@@ -567,10 +567,10 @@
     [_database setLastUesdUser:user];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    MainViewController *mainViewController = [MainViewController new];
-    mainViewController.database = _database;
-    mainViewController.user = user;
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+    MainView2Controller *mainView2Controller = [MainView2Controller new];
+    mainView2Controller.database = _database;
+    mainView2Controller.user = user;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainView2Controller];
     [self presentViewController:navigationController animated:YES completion:^{
         [defaults setBool:YES forKey:@"isLogin"];
     }];

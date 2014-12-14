@@ -89,7 +89,7 @@
     yearString = [[self getDateDictionary:[NSDate date]] objectForKey:@"year"];
     
     //Controller
-    themeCtl = [[ImageControl alloc] initWithFrame:CGRectMake(36, 12, 74, 43)];
+    themeCtl = [[ImageControl alloc] initWithFrame:CGRectMake(36, 12+64, 74, 43)];
     themeCtl.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"theme_off"] highlightedImage:[UIImage imageNamed:@"theme_on"]];
     [themeCtl.imageView setFrame:CGRectMake(1, 0, 23, 23)];
     themeCtl.imageView.highlighted = YES;
@@ -103,7 +103,7 @@
     [themeCtl addTarget:self action:@selector(changeContent:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:themeCtl];
     
-    timeCtl = [[ImageControl alloc] initWithFrame:CGRectMake(148, 12, 74, 43)];
+    timeCtl = [[ImageControl alloc] initWithFrame:CGRectMake(148, 12+64, 74, 43)];
     timeCtl.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"time_off"] highlightedImage:[UIImage imageNamed:@"time_on"]];
     timeCtl.imageView.frame = CGRectMake(1, 0, 23, 23);
     UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 31, 24, 12)];
@@ -116,7 +116,7 @@
     [timeCtl addTarget:self action:@selector(changeContent:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:timeCtl];
     
-    locationCtl = [[ImageControl alloc] initWithFrame:CGRectMake(self.view.bounds.size.width-56, 12, 74, 43)];
+    locationCtl = [[ImageControl alloc] initWithFrame:CGRectMake(self.view.bounds.size.width-56, 12+64, 74, 43)];
     locationCtl.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location_off"] highlightedImage:[UIImage imageNamed:@"location_on"]];
     locationCtl.imageView.frame = CGRectMake(1, 0, 23, 23);
     UILabel *locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 31, 24, 12)];
@@ -129,7 +129,7 @@
     [locationCtl addTarget:self action:@selector(changeContent:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:locationCtl];
     
-    contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 58, self.view.bounds.size.width, self.view.bounds.size.height-58)];
+    contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 58+64, self.view.bounds.size.width, self.view.bounds.size.height-58)];
     
     [self buildContentView];
     
@@ -208,6 +208,7 @@
     
     [sessionDataTask resume];
 }
+
 - (void)createEventOnServer {
     NSString *createEventService = @"/services/activity";
     NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,createEventService];

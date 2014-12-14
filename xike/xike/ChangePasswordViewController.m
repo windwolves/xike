@@ -35,19 +35,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.navigationItem setTitle:@"设置"];
-    self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
-    self.navigationController.navigationBar.translucent = NO;
-    NSMutableDictionary *titleFont= [NSMutableDictionary new];
-    [titleFont setValue:[UIColor whiteColor] forKeyPath:NSForegroundColorAttributeName];
-    [titleFont setValue:[UIFont fontWithName:@"HelveticaNeue-Light" size:20] forKeyPath:NSFontAttributeName];
-    self.navigationController.navigationBar.titleTextAttributes = titleFont;
-    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    
     UIBarButtonItem *saveBtn = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleDone target:self action:@selector(savePassword)];
     [self.navigationItem setRightBarButtonItem:saveBtn];
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignKeyBoard)];
     
-    UIView *whiteView = [[UIView alloc] initWithFrame:CGRectMake(3, 0, self.view.bounds.size.width-6, 144)];
+    UIView *whiteView = [[UIView alloc] initWithFrame:CGRectMake(3, 64, self.view.bounds.size.width-6, 144)];
     whiteView.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
     
     UILabel *oldPwd = [[UILabel alloc] initWithFrame:CGRectMake(7, 17, 100, 15)];

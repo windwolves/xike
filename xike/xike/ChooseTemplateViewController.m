@@ -38,6 +38,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     templates = [_database getAllTemplates];
     [chooseListTableView reloadData];
+    self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)viewDidLoad
@@ -54,7 +56,7 @@
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     templates = [_database getAllTemplates];
     //templateView = [[UIWebView alloc] initWithFrame:CGRectMake(31.5, 3.5, 257, 405)];
-    templateView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-81)];
+    templateView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-81+64)];
     templateView.delegate = self;
     //default choose
     if (_event.templateID.length == 0) {
@@ -66,7 +68,7 @@
     [templateView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:URL]]];
     [self.view addSubview:templateView];
     
-    chooseListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 420, 320, 81)];
+    chooseListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 420+64, 320, 81)];
     [self buildChooseList];
     
 }
@@ -74,7 +76,7 @@
 - (void)buildChooseList {
     CGAffineTransform rotateTable = CGAffineTransformMakeRotation(-M_PI_2);
     chooseListTableView.transform = rotateTable;
-    chooseListTableView.frame = CGRectMake(0, 420, 320, 81);
+    chooseListTableView.frame = CGRectMake(0, 420+64, 320, 81);
     chooseListTableView.dataSource = self;
     chooseListTableView.delegate = self;
     chooseListTableView.separatorStyle = UITableViewCellSeparatorStyleNone;

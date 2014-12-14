@@ -13,6 +13,7 @@
 #import "PeopleInfo.h"
 #import "TemplateInfo.h"
 #import "NotificationMessage.h"
+#import "GreetingInfo.h"
 
 @interface XikeDatabase : NSObject
 - (void)openDatabase;
@@ -42,5 +43,12 @@
 - (BOOL)deleteNotification:(NotificationMessage *)message;
 - (BOOL)updateNotification:(NotificationMessage *)message;
 - (NSInteger)getCountOfUnreadMessage:(NSString *)user;
+
+//v1.11 update
+- (NSMutableArray *)getAllGreetingCards:(UserInfo *)user;
+- (GreetingInfo *)getGreetingCard:(NSString *)uuid;
+- (BOOL)insertGreetingCard:(GreetingInfo *)greetingCard :(UserInfo *)user;
+- (BOOL)deleteGreetingCard:(GreetingInfo *)greetingCard;
+- (BOOL)updateGreetingCard:(GreetingInfo *)greetingCard;
 
 @end

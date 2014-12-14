@@ -8,7 +8,7 @@
 
 #import "SuggestionViewController.h"
 #import "ColorHandler.h"
-#import "MainViewController.h"
+#import "MainView2Controller.h"
 #import "Contants.h"
 
 @interface SuggestionViewController ()
@@ -35,6 +35,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.automaticallyAdjustsScrollViewInsets = NO; //it's used for letting textView's text display correctly.
     [self.navigationItem setTitle:@"意见反馈"];
     UIBarButtonItem *returnBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(returnToPreviousView)];
     returnBtn.tintColor = [UIColor whiteColor];
@@ -43,10 +44,11 @@
     shareBtn.tintColor = [UIColor whiteColor];
     [self.navigationItem setRightBarButtonItem:shareBtn];
     
-    self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
+    self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f3f3f3"];
     tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignKeyBoard)];
     
-    UIView *suggestionView = [[UIView alloc] initWithFrame:CGRectMake(3, 0, 314, 303)];
+    /*
+    UIView *suggestionView = [[UIView alloc] initWithFrame:CGRectMake(3, 64, 314, 303)];
     suggestionView.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
     
     UIImageView *border1 = [[UIImageView alloc] initWithFrame:CGRectMake(7, 28, 300, 0.5)];
@@ -63,6 +65,7 @@
     [suggestionView addSubview:border4];
     
     suggestionTextView = [[UITextView alloc] initWithFrame:CGRectMake(20, 37, 280, 180)];
+    suggestionTextView.backgroundColor = [UIColor redColor];
     suggestionTextView.font = [UIFont systemFontOfSize:15];
     suggestionTextView.textColor = [ColorHandler colorWithHexString:@"#c7c7c7"];
     suggestionPlaceholderString = @"感谢您的使用，请留下您的宝贵意见哦~";
@@ -71,6 +74,27 @@
     
     [suggestionView addSubview:suggestionTextView];
     [self.view addSubview:suggestionView];
+    */
+    
+    [self buildView];
+}
+
+- (void)buildView {
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(4, 64+4, self.view.bounds.size.width-8, 125)];
+    contentView.layer.borderWidth = 0.5f;
+    contentView.layer.borderColor = [ColorHandler colorWithHexString:@"#c7c7c7"].CGColor;
+    contentView.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
+    
+    //suggestion Text
+    suggestionTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, 288, 100)];
+    suggestionTextView.font = [UIFont systemFontOfSize:12];
+    suggestionTextView.textColor = [ColorHandler colorWithHexString:@"#c7c7c7"];
+    suggestionPlaceholderString = @"感谢您的使用，请留下您的宝贵意见哦~";
+    suggestionTextView.text = suggestionPlaceholderString;
+    suggestionTextView.delegate = self;
+    [contentView addSubview:suggestionTextView];
+    
+    [self.view addSubview:contentView];
 }
 
 - (void)returnToPreviousView {
@@ -114,7 +138,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     for (UIViewController *viewController in self.navigationController.viewControllers) {
-        if ([viewController isKindOfClass:[MainViewController class]]) {
+        if ([viewController isKindOfClass:[MainView2Controller class]]) {
             [self.navigationController popToRootViewControllerAnimated:YES];
             break;
         }

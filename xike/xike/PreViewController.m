@@ -12,10 +12,11 @@
 #import "ImageControl.h"
 #import "PeoplePickerViewController.h"
 #import "CreateNewEventViewController.h"
-#import "MainViewController.h"
+#import "CreateGreetingCardViewController.h"
+#import "MainView2Controller.h"
 #import <MessageUI/MessageUI.h>
 #import "ShareEngine.h"
-
+#import "CreateInvitationViewController.h"
 
 
 @interface PreViewController ()
@@ -29,6 +30,7 @@
     ImageControl *sendCtl;
     ImageControl *shareCtl;
     UITapGestureRecognizer *tapGestureRecognizer;
+    NSString *slogon;
     
 }
 #define MAIL_SENT @"邮件发送成功"
@@ -43,6 +45,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBarHidden = NO;
     actionBarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-49, self.view.bounds.size.width, 49)];
     actionBarView.backgroundColor = [ColorHandler colorWithHexString:@"#1de9b6"];
     
@@ -72,6 +75,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [ShareEngine sharedInstance].delegate = nil;
+    self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)viewDidLoad
@@ -85,15 +90,23 @@
     if ([_fromController isEqualToString:@"eventsTable"]) {
         UIBarButtonItem *editBtn = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editEvent)];
         [self.navigationItem setRightBarButtonItem:editBtn];
+    } else if ([_fromController isEqualToString:@"greetingsTable"]) {
+        UIBarButtonItem *editBtn = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editGreetingCard)];
+        [self.navigationItem setRightBarButtonItem:editBtn];
     }
     
-    //_previewWebView.frame = self.view.bounds;
     _previewWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-49)];
-    //_URL = [_URL substringToIndex:([_URL length]-11)];
-    _URL = [self generateURLWithEvent:_event];
+    if ([_createItem isEqualToString:@"greetingCard"]) {
+        _URL = [self generateURLWithGreetingCard:_greeting];
+    } else {
+        _URL = [self generateURLWithEvent:_event];
+    }
+
     [_previewWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_URL]]];
     
     [self.view addSubview:_previewWebView];
+    
+    slogon = @"和喜欢的人，做喜欢的事。                       From 稀客App";
     
 }
 
@@ -101,7 +114,13 @@
     sender.imageView.highlighted = YES;
     switch (sender.tag) {
         case 1:
-            [self saveEvent:_event];
+            if ([_createItem isEqualToString:@"greetingCard"]) {
+                [self saveGreetingCard];
+                
+            } else {
+                [self saveEvent:_event];
+            }
+            
             break;
         case 2:
             [self showAct];
@@ -197,21 +216,32 @@
 
 #pragma mark Share Button Actions
 - (void)wechatSessionShare {
-    [[ShareEngine sharedInstance] sendLinkContent:WXSceneSession :@"和喜欢的人，做喜欢的事。 from 稀客邀请函" :_event.content :[UIImage imageNamed:@"logo_120"] :[NSURL URLWithString:_URL]];
-    //[[ShareEngine sharedInstance] sendLinkContent:WXSceneSession :@"中路资本投融资晚宴邀请函" :@"我们诚邀您加入这场创业者和投资人的交流的盛宴" :[UIImage imageNamed:@"zhonglu"] :[NSURL URLWithString:_URL]];
+    NSString *theme = _event.content;
+    if ([_createItem isEqualToString:@"greetingCard"]) {
+        theme = [_greeting.theme isEqualToString:@"Christmas"]?@"Merry Christmas!":@"Happy New Year!";
+    }
+    [[ShareEngine sharedInstance] sendLinkContent:WXSceneSession :theme :slogon :[UIImage imageNamed:@"logo_120"] :[NSURL URLWithString:_URL]];
 }
 
 - (void)wechatTimelineShare {
-    [[ShareEngine sharedInstance] sendLinkContent:WXSceneTimeline :@"和喜欢的人，做喜欢的事。 from 稀客邀请函" :_event.content :[UIImage imageNamed:@"logo_120"] :[NSURL URLWithString:_URL]];
+    NSString *theme = _event.content;
+    if ([_createItem isEqualToString:@"greetingCard"]) {
+        theme = [_greeting.theme isEqualToString:@"Christmas"]?@"Merry Christmas!":@"Happy New Year!";
+    }
+    [[ShareEngine sharedInstance] sendLinkContent:WXSceneTimeline :theme :slogon :[UIImage imageNamed:@"logo_120"] :[NSURL URLWithString:_URL]];
 }
 
 - (void)sinaWeiboShare {
-    [[ShareEngine sharedInstance] sendWBLinkeContent:@"和喜欢的人，做喜欢的事。 from 稀客邀请函" :_event.content :[UIImage imageNamed:@"logo_120"] :[NSURL URLWithString:_URL]];
+    NSString *theme = _event.content;
+    if ([_createItem isEqualToString:@"greetingCard"]) {
+        theme = [_greeting.theme isEqualToString:@"Christmas"]?@"Merry Christmas!":@"Happy New Year!";
+    }
+    [[ShareEngine sharedInstance] sendWBLinkeContent:slogon :theme :[UIImage imageNamed:@"logo_120"] :[NSURL URLWithString:_URL]];
 }
 
 - (void)smsShare {
     PeoplePickerViewController *peoplePickerViewController = [[PeoplePickerViewController alloc] init];
-    peoplePickerViewController.sendOutContent = [[NSString alloc] initWithFormat:@"%@,%@", @"和喜欢的人，做喜欢的事。 from 稀客邀请函", _URL];
+    peoplePickerViewController.sendOutContent = [[NSString alloc] initWithFormat:@"%@,%@", slogon, _URL];
     peoplePickerViewController.delegate = self;
     peoplePickerViewController.event = _event;
     peoplePickerViewController.database = _database;
@@ -222,10 +252,22 @@
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *emailViewController = [[MFMailComposeViewController alloc] init];
         emailViewController.mailComposeDelegate = self;
-        [emailViewController setMessageBody:[[NSString alloc] initWithFormat:@"%@,%@", @"和喜欢的人，做喜欢的事。 from 稀客邀请函", _URL] isHTML:YES];
+        [emailViewController setMessageBody:[[NSString alloc] initWithFormat:slogon, _URL] isHTML:YES];
         [self.navigationController presentViewController:emailViewController animated:YES completion:nil];
     } else {
         
+    }
+}
+
+- (void)saveGreetingCard {
+    if ([_database updateGreetingCard:_greeting]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"保存" message:@"保存成功!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        alertView.tag = 1;
+        [alertView show];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"保存" message:@"保存失败!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        alertView.tag = 2;
+        [alertView show];
     }
 }
 
@@ -244,8 +286,14 @@
 
 - (void)didShareContent:(BOOL)success {
     if (success) {
-        _event.send_status = 1;
-        [self saveEvent:_event];
+        if ([_createItem isEqualToString:@"greetingCard"]) {
+            _greeting.send_status = 1;
+            [self saveGreetingCard];
+        } else {
+            _event.send_status = 1;
+            [self saveEvent:_event];
+        }
+        
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"分享" message:@"分享失败!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         alertView.tag = 2;
@@ -281,8 +329,23 @@
     modifyEventContorller.database = _database;
     modifyEventContorller.event = _event;
     modifyEventContorller.isCreate = NO;
+    
+    CreateInvitationViewController *modifyInvitationController = [CreateInvitationViewController new];
+    modifyInvitationController.database = _database;
+    modifyInvitationController.event = _event;
+    modifyInvitationController.isCreate = NO;
+    
+    [self.navigationController pushViewController:modifyInvitationController animated:YES];
+}
+
+- (void)editGreetingCard {
+    CreateGreetingCardViewController *modifyEventContorller = [CreateGreetingCardViewController new];
+    modifyEventContorller.database = _database;
+    modifyEventContorller.greeting = _greeting;
+    modifyEventContorller.isCreate = NO;
     [self.navigationController pushViewController:modifyEventContorller animated:YES];
 }
+
 
 - (void)returnToPreviousView {
     [self.navigationController popViewControllerAnimated:YES];
@@ -315,6 +378,13 @@
     
 }
 
+- (NSString *)generateURLWithGreetingCard:(GreetingInfo *)greeting {
+    NSString *path = [[NSString alloc] initWithFormat:@"%@/#/greeting-card/",HOST];
+    NSString *uuid = greeting.uuid;
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",path,uuid];
+    return urlString;
+}
+
 
 
 - (void)didReceiveMemoryWarning
@@ -330,7 +400,7 @@
        // [self.navigationController popToRootViewControllerAnimated:YES];
 
         for (UIViewController *viewController in self.navigationController.viewControllers) {
-            if ([viewController isKindOfClass:[MainViewController class]]) {
+            if ([viewController isKindOfClass:[MainView2Controller class]]) {
                 [self.navigationController popToViewController:viewController animated:YES];
                 break;
             }
@@ -354,7 +424,7 @@
     //[self.navigationController popToRootViewControllerAnimated:YES];
 
     for (UIViewController *viewController in self.navigationController.viewControllers) {
-        if ([viewController isKindOfClass:[MainViewController class]]) {
+        if ([viewController isKindOfClass:[MainView2Controller class]]) {
             [self.navigationController popToViewController:viewController animated:YES];
             break;
         }

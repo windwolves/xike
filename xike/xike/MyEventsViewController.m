@@ -9,7 +9,6 @@
 #import "MyEventsViewController.h"
 #import "Contants.h"
 #import "ColorHandler.h"
-#import "EventCell.h"
 #import "PreViewController.h"
 
 #define ORIGINAL_MAX_WIDTH 640.0f
@@ -35,31 +34,22 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    eventsArray = [_database getAllEvents :_user];
-    [_eventsTable removeFromSuperview];
-    [tipsImageView removeFromSuperview];
-    if (eventsArray.count == 0) {
-        tipsImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width-125)/2, 350, 125, 86)];
-        tipsImageView.image = [UIImage imageNamed:@"event_tips"];
-        [self.view addSubview:tipsImageView];
-    } else {
-        [self.view addSubview:_eventsTable];
-        [_eventsTable reloadData];
-    }
+    [self buildTipsView];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
+    self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f3f3f3"];
+    //self.navigationController.navigationBarHidden = YES;
     
-    _backImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 135)];
+    _backImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 135)];
     //user_background_imageView
     if (_user.backgroundPic) {
         _backImageView.image = [UIImage imageWithData:_user.backgroundPic];
     } else {
-        _backImageView.image = [UIImage imageNamed:@"user_bg_default"];;
+        _backImageView.image = [UIImage imageNamed:@"user_bg_default"];
     }
 
     [self.view addSubview:_backImageView];
@@ -68,7 +58,7 @@
     UIImageView *userPicBorderImageView = [[UIImageView alloc] initWithFrame:CGRectMake(160-36, 22, 72, 72)];
     userPicBorderImageView.image = [UIImage imageNamed:@"user_pic_border"];
     
-    UIControl *pictureCtl = [[UIControl alloc] initWithFrame:CGRectMake((self.view.bounds.size.width-72+4)/2 , (44+4)/2, 68, 68)];
+    UIControl *pictureCtl = [[UIControl alloc] initWithFrame:CGRectMake((self.view.bounds.size.width-72+4)/2 , (44+4)/2+64, 68, 68)];
     _pictureView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 68, 68)];
     _pictureView.layer.cornerRadius = CGRectGetHeight(_pictureView.bounds) / 2;
     _pictureView.clipsToBounds = YES;
@@ -98,7 +88,7 @@
     [self.view addSubview:pictureCtl]; //TO ENABLE THE TOUCH EVENT
     
     //Events table
-    _eventsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 135, self.view.bounds.size.width, self.view.bounds.size.height - 135 - 49-64)];
+    _eventsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 135+64, self.view.bounds.size.width, self.view.bounds.size.height - 135 - 49-64)];
     _eventsTable.dataSource = self;
     _eventsTable.delegate = self;
     _eventsTable.backgroundColor = [UIColor whiteColor];
@@ -108,6 +98,20 @@
     
     //[self.view addSubview:_eventsTable];
     
+}
+
+- (void)buildTipsView {
+    eventsArray = [_database getAllEvents :_user];
+    [_eventsTable removeFromSuperview];
+    [tipsImageView removeFromSuperview];
+    if (eventsArray.count == 0) {
+        tipsImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width-125)/2, 350+64, 125, 86)];
+        tipsImageView.image = [UIImage imageNamed:@"event_tips"];
+        [self.view addSubview:tipsImageView];
+    } else {
+        [self.view addSubview:_eventsTable];
+        [_eventsTable reloadData];
+    }
 }
 
 - (void)changePic {
@@ -205,7 +209,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         [_database deleteEvent:eventToDelete];
         eventsArray = [_database getAllEvents :_user];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [_eventsTable reloadData];
+        [self buildTipsView];
     }
 }
 

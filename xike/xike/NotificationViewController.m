@@ -19,18 +19,26 @@
 @implementation NotificationViewController {
     UITableView *notificationsTable;
     NSMutableArray *messagesArray;
+    UIImageView *noMessageImageView;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBarHidden = NO;
     messagesArray = [_database getAllNotificationMessage:_user.userID];
     if (notificationsTable) {
         [notificationsTable removeFromSuperview];
+    }
+    if (noMessageImageView) {
+        [noMessageImageView removeFromSuperview];
     }
     if ([messagesArray count] != 0) {
         [self.view addSubview:notificationsTable];
         [notificationsTable reloadData];
     } else {
-        //TODO
+        noMessageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(101, 169, 119, 58)];
+        noMessageImageView.image = [UIImage imageNamed:@"no_message"];
+        [self.view addSubview:noMessageImageView];
+        
     }
     //TestUse
     //[self testMessage];
@@ -39,6 +47,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    self.navigationController.navigationBarHidden = NO;
     for (NotificationMessage *notification in messagesArray) {
         notification.isRead = 1;
         [_database updateNotification:notification];
@@ -53,8 +62,9 @@
     // Do any additional setup after loading the view.
     [self.navigationItem setTitle:@"消息"];
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
     UIBarButtonItem *returnBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(returnToPreviousView)];
+    returnBtn.tintColor = [ColorHandler colorWithHexString:@"#ffffff"];
     [self.navigationItem setLeftBarButtonItem:returnBtn];
     
     notificationsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];

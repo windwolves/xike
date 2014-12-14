@@ -38,8 +38,10 @@ static sqlite3 *_database;
     const char *createGuestInfoSQL = "create table if not exists guestinfo (event_uuid integer,guest_id text,guest_name text, guest_phone text,guest_pic blob defalut null)";
     const char *createFriendInfoSQL = "create table if not exists friendinfo (user_id text, name text,phone text,photo blob defalut null)";
     const char *createTemplateInfoSQL = "create table if not exists templateinfo (uuid text, name text, desc text,thumbnail blob defalut null,category text,recommendation int)";
-    //v1.1
+    //v1.10
     const char *createNotificationMessageSQL = "create table if not exists notificationmessage (ID integer primary key, type text,content text,pic blob defalut null,eventUUID text,date text,time text,isRead integer default 0,user text)";
+    //v1.11
+    const char *createGreetingCardInfoSQL = "create table if not exists greetingcardinfo (greetingcard_id integer primary key, theme text, default_content text, content text, sender_id text, template_id text,send_status integer, create_datetime timestamp default current_timestamp, uuid text default null, user_id text)";
     
     if (sqlite3_exec(_database, createUserInfoSQL, NULL, NULL, &errMsg) == SQLITE_OK) {
         NSLog(@"userinfo created");
@@ -90,6 +92,15 @@ static sqlite3 *_database;
         [self closeDatabase];
         return NO;
     }
+    if (sqlite3_exec(_database, createGreetingCardInfoSQL, NULL, NULL, &errMsg) == SQLITE_OK) {
+        NSLog(@"greetingCardInfo created!");
+    } else {
+        NSLog(@"greetingCardInfo creation failed!");
+        [self ErrorReport:createGreetingCardInfoSQL];
+        [self closeDatabase];
+        return NO;
+    }
+    
     [self closeDatabase];
     return YES;
 }
@@ -995,6 +1006,170 @@ static sqlite3 *_database;
     [self closeDatabase];
     return messages;
 
+}
+
+#pragma update v1.11
+- (BOOL)insertGreetingCard:(GreetingInfo *)greetingCard :(UserInfo *)user {
+    [self openDatabase];
+    const char *insertGreetingCardInfoSQL = "Insert into greetingcardinfo (theme,default_content,content,sender_id,template_id,send_status,uuid,user_id) values (?,?,?,?,?,?,?,?)";
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(_database, insertGreetingCardInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [greetingCard.theme UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 2, [greetingCard.defaultContent UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 3, [greetingCard.content UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 4, [greetingCard.senderID UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 5, [greetingCard.templateID UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 6, greetingCard.send_status);
+        sqlite3_bind_text(stmt, 7, [greetingCard.uuid UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 8, [user.userID UTF8String], -1, NULL);
+        if (sqlite3_step(stmt) == SQLITE_DONE) {
+            sqlite3_finalize(stmt);
+            [self closeDatabase];
+            return YES;
+        } else {
+            NSLog(@"insert greetingCardInfo failed!");
+            [self ErrorReport:insertGreetingCardInfoSQL];
+            sqlite3_finalize(stmt);
+            [self closeDatabase];
+            return NO;
+        }
+    } else {
+        NSLog(@"prepareStatement failed!");
+        sqlite3_finalize(stmt);
+        [self closeDatabase];
+        return NO;
+    }
+}
+
+- (BOOL)deleteGreetingCard:(GreetingInfo *)greetingCard {
+    [self openDatabase];
+    const char *deleteGreetingCardInfoSQL = "delete from greetingcardinfo where uuid = ?";
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(_database, deleteGreetingCardInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [greetingCard.uuid UTF8String], -1, NULL);
+        
+        if (sqlite3_step(stmt) == SQLITE_DONE) {
+            sqlite3_finalize(stmt);
+            NSLog(@"greetingCard deleted!");
+            [self closeDatabase];
+            return YES;
+        } else {
+            sqlite3_finalize(stmt);
+            [self ErrorReport:deleteGreetingCardInfoSQL];
+            NSLog(@"delete greetingCardInfo failed!");
+            [self closeDatabase];
+            return NO;
+        }
+    } else {
+        NSLog(@"prepareStatment failed!");
+        sqlite3_finalize(stmt);
+        [self closeDatabase];
+        return NO;
+    }
+}
+
+- (BOOL)updateGreetingCard:(GreetingInfo *)greetingCard {
+    [self openDatabase];
+    const char *updateGreetingCardInfoSQL = "update greetingcardinfo set theme=?,default_content=?,content=?,sender_id=?,template_id=?,send_status=? where uuid = ?";
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(_database, updateGreetingCardInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [greetingCard.theme UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 2, [greetingCard.defaultContent UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 3, [greetingCard.content UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 4, [greetingCard.senderID UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 5, [greetingCard.templateID UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt,  6,  greetingCard.send_status);
+        sqlite3_bind_text(stmt, 7, [greetingCard.uuid UTF8String], -1, NULL);
+        
+        if (sqlite3_step(stmt) == SQLITE_DONE) {
+            sqlite3_finalize(stmt);
+            NSLog(@"GreetingCard Updated!");
+            [self closeDatabase];
+            return YES;
+        } else {
+            sqlite3_finalize(stmt);
+            NSLog(@"GreetingCard update failed!");
+            [self ErrorReport:updateGreetingCardInfoSQL];
+            [self closeDatabase];
+            return NO;
+        }
+    } else {
+        NSLog(@"prepareStatement failed!");
+        sqlite3_finalize(stmt);
+        [self closeDatabase];
+        return NO;
+    }
+}
+
+- (GreetingInfo *)getGreetingCard:(NSString *)uuid {
+    [self openDatabase];
+    GreetingInfo *greetingCard = [GreetingInfo new];
+    const char *getGreetingCardInfoSQL = "select theme,default_content,content,sender_id,template_id,send_status,strftime('%Y%m%d',create_datetime,'localtime') from greetingCardInfo where uuid = ?";
+    sqlite3_stmt *stmt;
+    
+    if (sqlite3_prepare_v2(_database, getGreetingCardInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [uuid UTF8String], -1, NULL);
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            greetingCard.theme = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 0)];
+            greetingCard.defaultContent = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
+            greetingCard.content = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
+            greetingCard.senderID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 3)];
+
+            if (sqlite3_column_text(stmt, 4)) {
+                greetingCard.templateID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 4)];
+            } else {
+                greetingCard.templateID = @"7095bc04-0949-4985-801e-e9340c9e756c";
+            }
+            greetingCard.send_status = (NSInteger)sqlite3_column_int(stmt, 5);
+            greetingCard.create_date = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 6)];
+            greetingCard.template = [self getTemplate:greetingCard.templateID];
+        }
+    }
+    sqlite3_finalize(stmt);
+    [self closeDatabase];
+    
+    return greetingCard;
+}
+
+- (NSMutableArray *)getAllGreetingCards:(UserInfo *)user {
+    [self openDatabase];
+    NSMutableArray *greetingCards = [NSMutableArray new];
+    const char *getGreetingCardInfoSQL = "select uuid,theme,default_content,content,sender_id,template_id,send_status,strftime('%Y%m%d',create_datetime,'localtime') from greetingcardinfo where user_id = ? order by create_datetime desc";
+    sqlite3_stmt *stmt;
+    
+    if (sqlite3_prepare_v2(_database, getGreetingCardInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [user.userID UTF8String], -1, NULL);
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            GreetingInfo *greetingCard = [GreetingInfo new];
+            if (sqlite3_column_text(stmt, 0)) {
+                greetingCard.uuid = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 0)];
+            }
+            if (sqlite3_column_text(stmt, 1)) {
+                greetingCard.theme = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
+            }
+            if (sqlite3_column_text(stmt, 2)) {
+                greetingCard.defaultContent = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
+            }
+            if (sqlite3_column_text(stmt, 3)) {
+                greetingCard.content = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 3)];
+            }
+            if (sqlite3_column_text(stmt, 4)) {
+                greetingCard.senderID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 4)];
+            }
+            if (sqlite3_column_text(stmt, 5)) {
+                greetingCard.templateID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 5)];
+            }
+            if (sqlite3_column_text(stmt, 6)) {
+                greetingCard.send_status = (NSInteger)sqlite3_column_int(stmt, 6);
+            }
+            greetingCard.create_date = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 7)];
+            greetingCard.template = [self getTemplate:greetingCard.templateID];
+            [greetingCards addObject:greetingCard];
+        }
+    }
+    sqlite3_finalize(stmt);
+    [self closeDatabase];
+    return greetingCards;
 }
 
 //error handling

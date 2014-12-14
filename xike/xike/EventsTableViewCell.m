@@ -42,7 +42,7 @@
         _timeLabel.textColor = [ColorHandler colorWithHexString:@"#00bfa5"];
         _timeLabel.font = [UIFont systemFontOfSize:12];
 
-        _tempalteImageView = [[UIImageView alloc] initWithFrame:CGRectMake(269, 5, 48, 74)];
+        _tempalteImageView = [[UIImageView alloc] initWithFrame:CGRectMake(260, 5, 48, 74)];
         
         [self addSubview:_yearMonthLabel];
         [self addSubview:_dayLabel];
