@@ -96,7 +96,7 @@
     }
     
     _previewWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-49)];
-    if ([_createItem isEqualToString:@"greetingCard"]) {
+    if ([_createItem isEqualToString:@"GreetingCard"]) {
         _URL = [self generateURLWithGreetingCard:_greeting];
     } else {
         _URL = [self generateURLWithEvent:_event];
@@ -106,7 +106,7 @@
     
     [self.view addSubview:_previewWebView];
     
-    slogon = @"和喜欢的人，做喜欢的事。                       From 稀客App";
+    slogon = @"创造最美邀请，制作最IN贺卡。和喜欢的人，做喜欢的事。";
     
 }
 
@@ -114,7 +114,7 @@
     sender.imageView.highlighted = YES;
     switch (sender.tag) {
         case 1:
-            if ([_createItem isEqualToString:@"greetingCard"]) {
+            if ([_createItem isEqualToString:@"GreetingCard"]) {
                 [self saveGreetingCard];
                 
             } else {
@@ -217,26 +217,39 @@
 #pragma mark Share Button Actions
 - (void)wechatSessionShare {
     NSString *theme = _event.content;
-    if ([_createItem isEqualToString:@"greetingCard"]) {
+    NSString *imageName = [[NSString alloc] initWithFormat:@"%@_120_120",_event.template.name];
+    _event.send_status = 1;
+    if ([_createItem isEqualToString:@"GreetingCard"]) {
         theme = [_greeting.theme isEqualToString:@"Christmas"]?@"Merry Christmas!":@"Happy New Year!";
+        imageName = [[NSString alloc] initWithFormat:@"%@_120_120",_greeting.template.name];
+        _greeting.send_status = 1;
     }
-    [[ShareEngine sharedInstance] sendLinkContent:WXSceneSession :theme :slogon :[UIImage imageNamed:@"logo_120"] :[NSURL URLWithString:_URL]];
+
+    [[ShareEngine sharedInstance] sendLinkContent:WXSceneSession :theme :slogon :[UIImage imageNamed:imageName] :[NSURL URLWithString:_URL]];
 }
 
 - (void)wechatTimelineShare {
     NSString *theme = _event.content;
-    if ([_createItem isEqualToString:@"greetingCard"]) {
+    NSString *imageName = [[NSString alloc] initWithFormat:@"%@_120_120",_event.template.name];
+    _event.send_status = 1;
+    if ([_createItem isEqualToString:@"GreetingCard"]) {
         theme = [_greeting.theme isEqualToString:@"Christmas"]?@"Merry Christmas!":@"Happy New Year!";
+        imageName = [[NSString alloc] initWithFormat:@"%@_120_120",_greeting.template.name];
+        _greeting.send_status = 1;
     }
-    [[ShareEngine sharedInstance] sendLinkContent:WXSceneTimeline :theme :slogon :[UIImage imageNamed:@"logo_120"] :[NSURL URLWithString:_URL]];
+    [[ShareEngine sharedInstance] sendLinkContent:WXSceneTimeline :theme :slogon :[UIImage imageNamed:imageName] :[NSURL URLWithString:_URL]];
 }
 
 - (void)sinaWeiboShare {
     NSString *theme = _event.content;
-    if ([_createItem isEqualToString:@"greetingCard"]) {
+    NSString *imageName = [[NSString alloc] initWithFormat:@"%@_120_120",_event.template.name];
+    _event.send_status = 1;
+    if ([_createItem isEqualToString:@"GreetingCard"]) {
         theme = [_greeting.theme isEqualToString:@"Christmas"]?@"Merry Christmas!":@"Happy New Year!";
+        imageName = [[NSString alloc] initWithFormat:@"%@_120_120",_greeting.template.name];
+        _greeting.send_status = 1;
     }
-    [[ShareEngine sharedInstance] sendWBLinkeContent:slogon :theme :[UIImage imageNamed:@"logo_120"] :[NSURL URLWithString:_URL]];
+    [[ShareEngine sharedInstance] sendWBLinkeContent:slogon :theme :[UIImage imageNamed:imageName] :[NSURL URLWithString:_URL]];
 }
 
 - (void)smsShare {
@@ -286,7 +299,7 @@
 
 - (void)didShareContent:(BOOL)success {
     if (success) {
-        if ([_createItem isEqualToString:@"greetingCard"]) {
+        if ([_createItem isEqualToString:@"GreetingCard"]) {
             _greeting.send_status = 1;
             [self saveGreetingCard];
         } else {
@@ -397,8 +410,6 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 1) {
         saveCtl.imageView.highlighted = NO;
-       // [self.navigationController popToRootViewControllerAnimated:YES];
-
         for (UIViewController *viewController in self.navigationController.viewControllers) {
             if ([viewController isKindOfClass:[MainView2Controller class]]) {
                 [self.navigationController popToViewController:viewController animated:YES];

@@ -35,6 +35,7 @@
     TabbarView *tabbarView;
     UIView *mainView;
     UIView *maskView;
+    UIView *tipsMaskView;
     UIView *createView;
     UIImageView *templateImageView;
     UIImageView *tipsForNewStuff_1;
@@ -44,6 +45,7 @@
     UIButton *createGreetingCardButton;
     UITapGestureRecognizer *tapGesture;
     UITapGestureRecognizer *tapGestureRecognizer;
+    UITapGestureRecognizer *tapGesture2;
     NSInteger g_flags;
     NSInteger tipsNum;
     TemplateInfo *templateToCreate;
@@ -75,6 +77,7 @@
     */
     
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeMaskView)];
+    tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissCreateView)];
     tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nextTips)];
     
     //HomePage
@@ -120,11 +123,7 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
-    //TabBar
-    tabbarView = [[TabbarView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-48, self.view.bounds.size.width, 48) withSelectedTag:g_flags];
-    tabbarView.delegate = self;
-    tabbarView.layer.contents = (id)[self getBlurImageWithCGRect:tabbarView.frame].CGImage;
-    [self.view addSubview:tabbarView];
+    [self buildTabbarView];
     
     //Tips
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"tipsForNewStuff"]) {
@@ -141,12 +140,20 @@
     
 }
 
+- (void)buildTabbarView {
+    //TabBar
+    tabbarView = [[TabbarView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-48, self.view.bounds.size.width, 48) withSelectedTag:g_flags];
+    tabbarView.delegate = self;
+    tabbarView.layer.contents = (id)[self getBlurImageWithCGRect:tabbarView.frame].CGImage;
+    [self.view addSubview:tabbarView];
+}
+
 - (void)buildTipsForNewStuff {
     tipsNum = 0;
-    maskView = [[UIView alloc] initWithFrame:self.view.bounds];
-    maskView.backgroundColor = [ColorHandler colorWithHexString:@"#000000"];
-    maskView.alpha = 0.8f;
-    [maskView addGestureRecognizer:tapGestureRecognizer];
+    tipsMaskView = [[UIView alloc] initWithFrame:self.view.bounds];
+    tipsMaskView.backgroundColor = [ColorHandler colorWithHexString:@"#000000"];
+    tipsMaskView.alpha = 0.8f;
+    [tipsMaskView addGestureRecognizer:tapGestureRecognizer];
     tipsForNewStuff_1 = [[UIImageView alloc] initWithFrame:CGRectMake(112, 70, 195, 90)];
     tipsForNewStuff_1.image = [UIImage imageNamed:@"TipsForNewStuff_1"];
     tipsForNewStuff_2 = [[UIImageView alloc] initWithFrame:CGRectMake(80, 225, 195, 173)];
@@ -154,25 +161,25 @@
     tipsForNewStuff_3 = [[UIImageView alloc] initWithFrame:CGRectMake(8, 449, 212, 120)];
     tipsForNewStuff_3.image = [UIImage imageNamed:@"TipsForNewStuff_3"];
     
-    [maskView addSubview:tipsForNewStuff_1];
-    [self.view addSubview:maskView];
+    [tipsMaskView addSubview:tipsForNewStuff_1];
+    [self.view addSubview:tipsMaskView];
 }
 
 - (void)nextTips {
     if (tipsNum == 0) {
         [tipsForNewStuff_1 removeFromSuperview];
-        [maskView addSubview:tipsForNewStuff_2];
+        [tipsMaskView addSubview:tipsForNewStuff_2];
         
     }
     if (tipsNum == 1) {
         [tipsForNewStuff_2 removeFromSuperview];
-        [maskView addSubview:tipsForNewStuff_3];
+        [tipsMaskView addSubview:tipsForNewStuff_3];
     }
     if (tipsNum == 2) {
         [tipsForNewStuff_3 removeFromSuperview];
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"tipsForNewStuff"];
-        [maskView removeGestureRecognizer:tapGestureRecognizer];
-        [maskView removeFromSuperview];
+        [tipsMaskView removeGestureRecognizer:tapGestureRecognizer];
+        [tipsMaskView removeFromSuperview];
         
     }
     tipsNum ++;
@@ -249,16 +256,17 @@
         }];
         
     } else if([direction isEqualToString:@"DOWN"]) {
-        [createGreetingCardButton setFrame:CGRectMake(196, -96, 71, 96)];
-        [createInvitationButton setFrame:CGRectMake(52, -96, 71, 96)];
-        [createGreetingCardButton setTransform:CGAffineTransformMakeTranslation(0,259)];
-        [createInvitationButton setTransform:CGAffineTransformMakeTranslation(0,259)];
+        [createGreetingCardButton setFrame:CGRectMake(196, self.view.bounds.size.height, 71, 96)];
+        [createInvitationButton setFrame:CGRectMake(52, self.view.bounds.size.height, 71, 96)];
+        [createGreetingCardButton setTransform:CGAffineTransformMakeTranslation(0,-259)];
+        [createInvitationButton setTransform:CGAffineTransformMakeTranslation(0,-259)];
         [UIView animateWithDuration:0.6f animations:^{
             [createGreetingCardButton setTransform:CGAffineTransformIdentity];
             [createInvitationButton setTransform:CGAffineTransformIdentity];
             [maskView removeFromSuperview];
             [maskView removeGestureRecognizer:tapGesture];
         }];
+        [self buildTabbarView];
     }
 }
 
@@ -305,8 +313,9 @@
 }
 
 - (void)dismissCreateView {
-    [createView setFrame:CGRectMake(31, 116-self.view.bounds.size.height, 257, 380)];
-    [createView setTransform:CGAffineTransformMakeTranslation(0, 576)];
+    [maskView removeGestureRecognizer:tapGesture2];
+    [createView setFrame:CGRectMake(31, self.view.bounds.size.height, 257, 380)];
+    [createView setTransform:CGAffineTransformMakeTranslation(0, -(self.view.bounds.size.height-116))];
     [UIView animateWithDuration:0.6f animations:^{
         [createView setTransform:CGAffineTransformIdentity];
         [maskView removeFromSuperview];
@@ -358,9 +367,9 @@
 - (void)didChooseTemplate:(TemplateInfo *)template {
     templateToCreate = template;
     [self buildCreateView];
-    
+    [maskView addGestureRecognizer:tapGesture2];
     [createView setFrame:CGRectMake(31, 116, 257, 380)];
-    [createView setTransform:CGAffineTransformMakeTranslation(0, 576)];
+    [createView setTransform:CGAffineTransformMakeTranslation(0, self.view.bounds.size.height-116)];
     [UIView animateWithDuration:0.6f animations:^{
         [createView setTransform:CGAffineTransformIdentity];
         [createView removeFromSuperview];

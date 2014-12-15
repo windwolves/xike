@@ -159,7 +159,7 @@
     template_001.name = @"x001";
     template_001.desc = @"";
     template_001.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x001_362_570.jpg"]);
-    template_001.category = @"";
+    template_001.category = @"Invitation";
     template_001.recommendation = 10;
     [basicTemplates addObject:template_001];
     //x002
@@ -168,7 +168,7 @@
     template_002.name = @"x002";
     template_002.desc = @"";
     template_002.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x002_362_570.jpg"]);
-    template_002.category = @"";
+    template_002.category = @"Invitation";
     template_002.recommendation = 10;
     [basicTemplates addObject:template_002];
     //x003
@@ -177,7 +177,7 @@
     template_003.name = @"x003";
     template_003.desc = @"";
     template_003.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x003_362_570.jpg"]);
-    template_003.category = @"";
+    template_003.category = @"Invitation";
     template_003.recommendation = 10;
     [basicTemplates addObject:template_003];
     //x004
@@ -186,7 +186,7 @@
     template_004.name = @"x004";
     template_004.desc = @"";
     template_004.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x004_362_570.jpg"]);
-    template_004.category = @"";
+    template_004.category = @"Invitation";
     template_004.recommendation = 10;
     [basicTemplates addObject:template_004];
     //x005
@@ -195,7 +195,7 @@
     template_005.name = @"x005";
     template_005.desc = @"";
     template_005.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x005_362_570.jpg"]);
-    template_005.category = @"";
+    template_005.category = @"Invitation";
     template_005.recommendation = 10;
     [basicTemplates addObject:template_005];
     //x006
@@ -204,7 +204,7 @@
     template_006.name = @"x006";
     template_006.desc = @"";
     template_006.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x006_362_570.jpg"]);
-    template_006.category = @"";
+    template_006.category = @"Invitation";
     template_006.recommendation = 10;
     [basicTemplates addObject:template_006];
     //x007
@@ -213,7 +213,7 @@
     template_007.name = @"x007";
     template_007.desc = @"";
     template_007.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x007_362_570.jpg"]);
-    template_007.category = @"";
+    template_007.category = @"Invitation";
     template_007.recommendation = 10;
     [basicTemplates addObject:template_007];
     //x008
@@ -222,7 +222,7 @@
     template_008.name = @"x008";
     template_008.desc = @"";
     template_008.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x008_362_570.jpg"]);
-    template_008.category = @"";
+    template_008.category = @"Invitation";
     template_008.recommendation = 10;
     [basicTemplates addObject:template_008];
     //x009
@@ -231,7 +231,7 @@
     template_009.name = @"x009";
     template_009.desc = @"";
     template_009.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x009_362_570.jpg"]);
-    template_009.category = @"";
+    template_009.category = @"Invitation";
     template_009.recommendation = 10;
     [basicTemplates addObject:template_009];
     //x010
@@ -240,7 +240,7 @@
     template_010.name = @"x010";
     template_010.desc = @"";
     template_010.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x010_362_570.jpg"]);
-    template_010.category = @"";
+    template_010.category = @"Invitation";
     template_010.recommendation = 10;
     [basicTemplates addObject:template_010];
     //x011
@@ -249,7 +249,7 @@
     template_011.name = @"x011";
     template_011.desc = @"";
     template_011.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x011_362_570.jpg"]);
-    template_011.category = @"";
+    template_011.category = @"Invitation";
     template_011.recommendation = 10;
     [basicTemplates addObject:template_011];
     //x012
@@ -258,7 +258,7 @@
     template_012.name = @"x012";
     template_012.desc = @"";
     template_012.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"x012_362_570.jpg"]);
-    template_012.category = @"";
+    template_012.category = @"Invitation";
     template_012.recommendation = 10;
     [basicTemplates addObject:template_012];
     //update on 2014-11-14
@@ -269,7 +269,7 @@
     template_y001.name = @"y001";
     template_y001.desc = @"";
     template_y001.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"y001_362_570.jpg"]);
-    template_y001.category = @"";
+    template_y001.category = @"Invitation";
     template_y001.recommendation = 8.8;
     [basicTemplates addObject:template_y001];
     //y002
@@ -278,7 +278,7 @@
     template_y002.name = @"y002";
     template_y002.desc = @"";
     template_y002.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"y002_362_570.jpg"]);
-    template_y002.category = @"";
+    template_y002.category = @"Invitation";
     template_y002.recommendation = 8.7;
     [basicTemplates addObject:template_y002];
     //y003
@@ -287,7 +287,7 @@
     template_y003.name = @"y003";
     template_y003.desc = @"";
     template_y003.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"y003_362_570.jpg"]);
-    template_y003.category = @"";
+    template_y003.category = @"Invitation";
     template_y003.recommendation = 8.6;
     [basicTemplates addObject:template_y003];
     //y004
@@ -296,7 +296,7 @@
     template_y004.name = @"y004";
     template_y004.desc = @"";
     template_y004.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"y004_362_570.jpg"]);
-    template_y004.category = @"";
+    template_y004.category = @"Invitation";
     template_y004.recommendation = 8.5;
     [basicTemplates addObject:template_y004];
     
@@ -305,7 +305,7 @@
     //christmas 1
     TemplateInfo *template_christmas_1 = [TemplateInfo new];
     template_christmas_1.ID = @"7095bc04-0949-4985-801e-e9340c9e756c";
-    template_christmas_1.name = @"christmas_1";
+    template_christmas_1.name = @"Christmas_1";
     template_christmas_1.desc = @"Card_hy_Christmas_1";
     template_christmas_1.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"Christmas_1_362_570.jpg"]);
     template_christmas_1.category = @"Christmas";
@@ -314,7 +314,7 @@
     //christmas 2
     TemplateInfo *template_christmas_2 = [TemplateInfo new];
     template_christmas_2.ID = @"9adabeb9-9405-4d9e-91ce-a5608c79934a";
-    template_christmas_2.name = @"christmas_2";
+    template_christmas_2.name = @"Christmas_2";
     template_christmas_2.desc = @"Card_hy_Christmas_2";
     template_christmas_2.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"Christmas_2_362_570.jpg"]);
     template_christmas_2.category = @"Christmas";
@@ -323,7 +323,7 @@
     //christmas 3
     TemplateInfo *template_christmas_3 = [TemplateInfo new];
     template_christmas_3.ID = @"61e744e8-430b-4d7a-841b-d34caaf49a36";
-    template_christmas_3.name = @"christmas_3";
+    template_christmas_3.name = @"Christmas_3";
     template_christmas_3.desc = @"tem_rey_Christmasx1";
     template_christmas_3.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"Christmas_3_362_570.jpg"]);
     template_christmas_3.category = @"Christmas";
@@ -332,7 +332,7 @@
     //christmas 1
     TemplateInfo *template_christmas_4 = [TemplateInfo new];
     template_christmas_4.ID = @"cb99c1f7-3dc4-4848-b080-296ed0a4c254";
-    template_christmas_4.name = @"christmas_4";
+    template_christmas_4.name = @"Christmas_4";
     template_christmas_4.desc = @"tem_rey_Christmasx2";
     template_christmas_4.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"Christmas_4_362_570.jpg"]);
     template_christmas_4.category = @"Christmas";
@@ -341,7 +341,7 @@
     //New Year Day 1
     TemplateInfo *template_nyd_1 = [TemplateInfo new];
     template_nyd_1.ID = @"c961aaf3-0155-416c-8e84-3b5216e7e177";
-    template_nyd_1.name = @"new_year_day_1";
+    template_nyd_1.name = @"NewYearDay_1";
     template_nyd_1.desc = @"Card_hy_new_year_1";
     template_nyd_1.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"NewYearDay_1_362_570.jpg"]);
     template_nyd_1.category = @"NewYearDay";
@@ -350,7 +350,7 @@
     //New Year Day 2
     TemplateInfo *template_nyd_2 = [TemplateInfo new];
     template_nyd_2.ID = @"3a7cb5ca-c5b3-4afc-9c01-1633a1092da5";
-    template_nyd_2.name = @"new_year_day_2";
+    template_nyd_2.name = @"NewYearDay_2";
     template_nyd_2.desc = @"Card_hy_new_year_2";
     template_nyd_2.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"NewYearDay_2_362_570.jpg"]);
     template_nyd_2.category = @"NewYearDay";
@@ -359,7 +359,7 @@
     //New Year Day 3
     TemplateInfo *template_nyd_3 = [TemplateInfo new];
     template_nyd_3.ID = @"68a69ccb-3c46-4982-a83d-1e194a12cfb2";
-    template_nyd_3.name = @"new_year_day_3";
+    template_nyd_3.name = @"NewYearDay_3";
     template_nyd_3.desc = @"Card_zoe_new_year_1";
     template_nyd_3.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"NewYearDay_3_362_570.jpg"]);
     template_nyd_3.category = @"NewYearDay";
@@ -368,7 +368,7 @@
     //New Year Day 4
     TemplateInfo *template_nyd_4 = [TemplateInfo new];
     template_nyd_4.ID = @"fa4af1c2-8aaa-483a-b680-ecfaa64f3d8b";
-    template_nyd_4.name = @"new_year_day_4";
+    template_nyd_4.name = @"NewYearDay_4";
     template_nyd_4.desc = @"Card_zoe_new_year_2";
     template_nyd_4.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"NewYearDay_4_362_570.jpg"]);
     template_nyd_4.category = @"NewYearDay";

@@ -45,11 +45,11 @@ enum ControlFlag {
     navigationBar.backgroundColor = [ColorHandler colorWithHexString:@"#1de9b6"];
     navigationBar.layer.shadowOpacity = 0;
     
-    UIImageView *titleImageView = [[UIImageView alloc] initWithFrame:CGRectMake((navigationBar.bounds.size.width-35)/2, (navigationBar.bounds.size.height-17)/2+9, 35, 17)];
+    UIImageView *titleImageView = [[UIImageView alloc] initWithFrame:CGRectMake((navigationBar.bounds.size.width-35)/2, 33, 35, 17)];
     [titleImageView setImage:[[UIImage imageNamed:@"xike_navigationbar"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [navigationBar addSubview:titleImageView];
     
-    notificationButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 28, 16, 20)];
+    notificationButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 33, 16, 20)];
     [notificationButton setImage:[[UIImage imageNamed:@"notification_off"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
     [notificationButton addTarget:self action:@selector(popNotificationView) forControlEvents:UIControlEventTouchUpInside];
     [navigationBar addSubview:notificationButton];

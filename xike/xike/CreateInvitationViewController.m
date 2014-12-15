@@ -130,6 +130,7 @@
     [participateIcon setImage:[UIImage imageNamed:@"create_invitation_participate_icon"]];
     UISwitch *participateSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(253, 10, 50, 35)];
     [participateSwitch setOnTintColor:[ColorHandler colorWithHexString:@"#1de9b6"]];
+    [participateSwitch setOn:YES];
     [participateView addSubview:participateSwitch];
     
     [participateView addSubview:participateLabel];

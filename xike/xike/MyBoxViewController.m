@@ -74,10 +74,10 @@ enum ControlFlag {
     [_backImageView setUserInteractionEnabled:YES];
     
     //User nickname
-    _nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 60)];
+    _nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 35, self.view.bounds.size.width, 18)];
     _nicknameLabel.font = [UIFont systemFontOfSize:18];
     _nicknameLabel.textAlignment = NSTextAlignmentCenter;
-    _nicknameLabel.textColor = [ColorHandler colorWithHexString:@"#413445"];
+    _nicknameLabel.textColor = [ColorHandler colorWithHexString:@"#ffffff"];
     if (_user.name) {
         _nicknameLabel.text = _user.name;
     } else {
@@ -86,7 +86,7 @@ enum ControlFlag {
     [_backImageView addSubview:_nicknameLabel];
     
     //Setting Button
-    UIControl *settingCtl = [[UIControl alloc] initWithFrame:CGRectMake(270, 10+4, 40, 40)];
+    UIControl *settingCtl = [[UIControl alloc] initWithFrame:CGRectMake(270, 25, 40, 40)];
     UIImageView *settingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 20, 20)];
     [settingImageView setImage:[UIImage imageNamed:@"setting_icon"]];
     [settingCtl addSubview:settingImageView];
@@ -94,14 +94,14 @@ enum ControlFlag {
     [_backImageView addSubview:settingCtl];
     
     //user_pic_imageView
-    UIImageView *userPicBorderImageView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 76, 72, 72)];
+    UIImageView *userPicBorderImageView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 76, 78, 78)];
     userPicBorderImageView.layer.cornerRadius = CGRectGetHeight(userPicBorderImageView.bounds) / 2;
     userPicBorderImageView.clipsToBounds = YES;
     userPicBorderImageView.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
     [_backImageView addSubview:userPicBorderImageView];
     
-    UIControl *pictureCtl = [[UIControl alloc] initWithFrame:CGRectMake((self.view.bounds.size.width-72+4)/2 , 76+2, 68, 68)];
-    _pictureView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 68, 68)];
+    UIControl *pictureCtl = [[UIControl alloc] initWithFrame:CGRectMake((self.view.bounds.size.width-72+4)/2 , 76+2, 74, 74)];
+    _pictureView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 74, 74)];
     _pictureView.layer.cornerRadius = CGRectGetHeight(_pictureView.bounds) / 2;
     _pictureView.clipsToBounds = YES;
     if (_user.photo) {

@@ -133,7 +133,7 @@
     PreViewController *previewController = [PreViewController new];
     previewController.greeting = _greeting;
     previewController.database = _database;
-    previewController.createItem = @"greetingCard";
+    previewController.createItem = @"GreetingCard";
     [self.navigationController pushViewController:previewController animated:YES];
     
 }
