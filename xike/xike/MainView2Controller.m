@@ -209,9 +209,10 @@
     [self transitionFromViewController:currentViewController toViewController:homepageViewController duration:0 options:0 animations:^{
     }  completion:^(BOOL finished) {
         currentViewController=homepageViewController;
-        [tabbarView removeFromSuperview];
-        tabbarView.layer.contents = (id)[self getBlurImageWithCGRect:tabbarView.frame].CGImage;
-        [self.view addSubview:tabbarView];
+        //[tabbarView removeFromSuperview];
+        //tabbarView.layer.contents = (id)[self getBlurImageWithCGRect:tabbarView.frame].CGImage;
+        //[self.view addSubview:tabbarView];
+                [self.view bringSubviewToFront:tabbarView];
         g_flags=1;
     }];
     [tabbarView buttonClickAction:tabbarView.firstBtn];
@@ -230,9 +231,10 @@
     [self transitionFromViewController:currentViewController toViewController:myBoxViewController duration:0 options:0 animations:^{
     }  completion:^(BOOL finished) {
         currentViewController=myBoxViewController;
-        [tabbarView removeFromSuperview];
-        tabbarView.layer.contents = (id)[self getBlurImageWithCGRect:tabbarView.frame].CGImage;
-        [self.view addSubview:tabbarView];
+        //[tabbarView removeFromSuperview];
+        //tabbarView.layer.contents = (id)[self getBlurImageWithCGRect:tabbarView.frame].CGImage;
+        [self.view bringSubviewToFront:tabbarView];
+        //[self.view addSubview:tabbarView];
         g_flags=3;
     }];
     [tabbarView buttonClickAction:tabbarView.thirdBtn];
@@ -263,10 +265,11 @@
         [UIView animateWithDuration:0.6f animations:^{
             [createGreetingCardButton setTransform:CGAffineTransformIdentity];
             [createInvitationButton setTransform:CGAffineTransformIdentity];
-            [maskView removeFromSuperview];
             [maskView removeGestureRecognizer:tapGesture];
+        } completion:^(BOOL finished){
+            [maskView removeFromSuperview];
+            [self buildTabbarView];
         }];
-        [self buildTabbarView];
     }
 }
 

@@ -289,7 +289,13 @@
 }
 
 - (void)WXLogon {
-    [[ShareEngine sharedInstance] sendAuthRequest];
+    if ([WXApi isWXAppInstalled]) {
+        [[ShareEngine sharedInstance] sendAuthRequest];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"未安装微信" message:@"您手机未安装微信或者微信不是最新版本" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alertView show];
+    }
+    
 }
 
 - (void)WBLogon {

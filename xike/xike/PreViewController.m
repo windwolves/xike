@@ -46,6 +46,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
     actionBarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-49, self.view.bounds.size.width, 49)];
     actionBarView.backgroundColor = [ColorHandler colorWithHexString:@"#1de9b6"];
     
@@ -75,7 +76,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [ShareEngine sharedInstance].delegate = nil;
-    self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
     self.navigationController.navigationBarHidden = NO;
 }
 
@@ -83,6 +83,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSMutableDictionary *titleFont= [NSMutableDictionary new];
+    [titleFont setValue:[UIColor whiteColor] forKeyPath:NSForegroundColorAttributeName];
+    [titleFont setValue:[UIFont fontWithName:@"HelveticaNeue-Light" size:20] forKeyPath:NSFontAttributeName];
+    self.navigationController.navigationBar.titleTextAttributes = titleFont;
     [self.navigationItem setTitle:@"预览"];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     UIBarButtonItem *returnBtn = [[UIBarButtonItem alloc] initWithTitle:@"上一步" style:UIBarButtonItemStylePlain target:self action:@selector(returnToPreviousView)];

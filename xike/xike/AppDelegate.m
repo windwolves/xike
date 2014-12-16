@@ -308,7 +308,7 @@
     template_christmas_1.name = @"Christmas_1";
     template_christmas_1.desc = @"Card_hy_Christmas_1";
     template_christmas_1.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"Christmas_1_362_570.jpg"]);
-    template_christmas_1.category = @"Christmas";
+    template_christmas_1.category = @"GreetingCard_Christmas";
     template_christmas_1.recommendation = 8.5;
     [basicTemplates addObject:template_christmas_1];
     //christmas 2
@@ -317,7 +317,7 @@
     template_christmas_2.name = @"Christmas_2";
     template_christmas_2.desc = @"Card_hy_Christmas_2";
     template_christmas_2.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"Christmas_2_362_570.jpg"]);
-    template_christmas_2.category = @"Christmas";
+    template_christmas_2.category = @"GreetingCard_Christmas";
     template_christmas_2.recommendation = 8.5;
     [basicTemplates addObject:template_christmas_2];
     //christmas 3
@@ -326,7 +326,7 @@
     template_christmas_3.name = @"Christmas_3";
     template_christmas_3.desc = @"tem_rey_Christmasx1";
     template_christmas_3.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"Christmas_3_362_570.jpg"]);
-    template_christmas_3.category = @"Christmas";
+    template_christmas_3.category = @"GreetingCard_Christmas";
     template_christmas_3.recommendation = 8.5;
     [basicTemplates addObject:template_christmas_3];
     //christmas 1
@@ -335,7 +335,7 @@
     template_christmas_4.name = @"Christmas_4";
     template_christmas_4.desc = @"tem_rey_Christmasx2";
     template_christmas_4.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"Christmas_4_362_570.jpg"]);
-    template_christmas_4.category = @"Christmas";
+    template_christmas_4.category = @"GreetingCard_Christmas";
     template_christmas_4.recommendation = 8.5;
     [basicTemplates addObject:template_christmas_4];
     //New Year Day 1
@@ -344,7 +344,7 @@
     template_nyd_1.name = @"NewYearDay_1";
     template_nyd_1.desc = @"Card_hy_new_year_1";
     template_nyd_1.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"NewYearDay_1_362_570.jpg"]);
-    template_nyd_1.category = @"NewYearDay";
+    template_nyd_1.category = @"GreetingCard_NewYearDay";
     template_nyd_1.recommendation = 8.5;
     [basicTemplates addObject:template_nyd_1];
     //New Year Day 2
@@ -353,7 +353,7 @@
     template_nyd_2.name = @"NewYearDay_2";
     template_nyd_2.desc = @"Card_hy_new_year_2";
     template_nyd_2.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"NewYearDay_2_362_570.jpg"]);
-    template_nyd_2.category = @"NewYearDay";
+    template_nyd_2.category = @"GreetingCard_NewYearDay";
     template_nyd_2.recommendation = 8.5;
     [basicTemplates addObject:template_nyd_2];
     //New Year Day 3
@@ -362,7 +362,7 @@
     template_nyd_3.name = @"NewYearDay_3";
     template_nyd_3.desc = @"Card_zoe_new_year_1";
     template_nyd_3.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"NewYearDay_3_362_570.jpg"]);
-    template_nyd_3.category = @"NewYearDay";
+    template_nyd_3.category = @"GreetingCard_NewYearDay";
     template_nyd_3.recommendation = 8.5;
     [basicTemplates addObject:template_nyd_3];
     //New Year Day 4
@@ -371,7 +371,7 @@
     template_nyd_4.name = @"NewYearDay_4";
     template_nyd_4.desc = @"Card_zoe_new_year_2";
     template_nyd_4.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"NewYearDay_4_362_570.jpg"]);
-    template_nyd_4.category = @"NewYearDay";
+    template_nyd_4.category = @"GreetingCard_NewYearDay";
     template_nyd_4.recommendation = 8.5;
     [basicTemplates addObject:template_nyd_4];
 

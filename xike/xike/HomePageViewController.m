@@ -31,6 +31,8 @@
     UIButton *notificationButton;
     int sectionFlag;
     TemplateInfo *templateToCreate;
+    UISwipeGestureRecognizer *swipeGestureLeft;
+    UISwipeGestureRecognizer *swipeGestureRight;
 }
 
 enum ControlFlag {
@@ -72,7 +74,22 @@ enum ControlFlag {
     maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     maskView.backgroundColor = [ColorHandler colorWithHexString:@"#000000"];
     maskView.alpha = 0.8f;
+    
+    //Gesture
+    swipeGestureLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    [swipeGestureLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
+    swipeGestureRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    [swipeGestureRight setDirection:UISwipeGestureRecognizerDirectionRight];
+    
     [self buildView];
+}
+
+- (void)handleSwipe:(UISwipeGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
+        [self showGreetingCardView];
+    } else if (gestureRecognizer.direction == UISwipeGestureRecognizerDirectionRight) {
+        [self showInvitationView];
+    }
 }
 
 - (void)popNotificationView {
@@ -123,54 +140,61 @@ enum ControlFlag {
 
 - (void)changeSection:(UIControl *)section {
     if (section.tag == InvitationTag) {
-        if (sectionFlag == InvitationTag) {
-            return;
-        }
-        invitationLabel.textColor = [ColorHandler colorWithHexString:@"#1de9B6"];
-        greetingCardLabel.textColor = [ColorHandler colorWithHexString:@"#413445"];
-        [sectionIndicator setFrame:CGRectMake(35, 39, 90, 2)];
-        [greetingCardView setFrame:CGRectMake(self.view.bounds.size.width, 4+105, self.view.bounds.size.width, self.view.bounds.size.height-4)];
-        [invitationView setFrame:CGRectMake(0, 4+105, self.view.bounds.size.width, self.view.bounds.size.height-4)];
-        
-        [sectionIndicator setTransform:CGAffineTransformMakeTranslation(160,0)];
-        [greetingCardView setTransform:CGAffineTransformMakeTranslation(-320,0)];
-        [invitationView setTransform:CGAffineTransformMakeTranslation(-320, 0)];
-        [UIView animateWithDuration:0.4f animations:^{
-            [sectionIndicator setTransform:CGAffineTransformIdentity];
-            [greetingCardView setTransform:CGAffineTransformIdentity];
-            [invitationView setTransform:CGAffineTransformIdentity];
-            sectionFlag = InvitationTag;
-        }];
-        
+        [self showInvitationView];
     } else if (section.tag == GreetingCardTag) {
-        if (sectionFlag == GreetingCardTag) {
-            return;
-        }
-        invitationLabel.textColor = [ColorHandler colorWithHexString:@"#413445"];
-        greetingCardLabel.textColor = [ColorHandler colorWithHexString:@"#1de9B6"];
-        [sectionIndicator setFrame:CGRectMake(195, 39, 90, 2)];
-        [greetingCardView setFrame:CGRectMake(0, 4+105, self.view.bounds.size.width, self.view.bounds.size.height-4)];
-        [invitationView setFrame:CGRectMake(-1*self.view.bounds.size.width, 4+105, self.view.bounds.size.width, self.view.bounds.size.height-4)];
-        
-        [sectionIndicator setTransform:CGAffineTransformMakeTranslation(-160,0)];
-        [greetingCardView setTransform:CGAffineTransformMakeTranslation(320,0)];
-        [invitationView setTransform:CGAffineTransformMakeTranslation(320, 0)];
-        
-        [UIView animateWithDuration:0.4f animations:^{
-            [sectionIndicator setTransform:CGAffineTransformIdentity];
-            [greetingCardView setTransform:CGAffineTransformIdentity];
-            [invitationView setTransform:CGAffineTransformIdentity];
-            sectionFlag = GreetingCardTag;
-        }];
+        [self showGreetingCardView];
     }
+}
+
+- (void)showInvitationView {
+    if (sectionFlag == InvitationTag) {
+        return;
+    }
+    invitationLabel.textColor = [ColorHandler colorWithHexString:@"#1de9B6"];
+    greetingCardLabel.textColor = [ColorHandler colorWithHexString:@"#413445"];
+    [sectionIndicator setFrame:CGRectMake(35, 39, 90, 2)];
+    [greetingCardView setFrame:CGRectMake(self.view.bounds.size.width, 4+105, self.view.bounds.size.width, self.view.bounds.size.height-4)];
+    [invitationView setFrame:CGRectMake(0, 4+105, self.view.bounds.size.width, self.view.bounds.size.height-4)];
+    
+    [sectionIndicator setTransform:CGAffineTransformMakeTranslation(160,0)];
+    [greetingCardView setTransform:CGAffineTransformMakeTranslation(-320,0)];
+    [invitationView setTransform:CGAffineTransformMakeTranslation(-320, 0)];
+    [UIView animateWithDuration:0.4f animations:^{
+        [sectionIndicator setTransform:CGAffineTransformIdentity];
+        [greetingCardView setTransform:CGAffineTransformIdentity];
+        [invitationView setTransform:CGAffineTransformIdentity];
+        sectionFlag = InvitationTag;
+    }];
+}
+
+- (void)showGreetingCardView {
+    if (sectionFlag == GreetingCardTag) {
+        return;
+    }
+    invitationLabel.textColor = [ColorHandler colorWithHexString:@"#413445"];
+    greetingCardLabel.textColor = [ColorHandler colorWithHexString:@"#1de9B6"];
+    [sectionIndicator setFrame:CGRectMake(195, 39, 90, 2)];
+    [greetingCardView setFrame:CGRectMake(0, 4+105, self.view.bounds.size.width, self.view.bounds.size.height-4)];
+    [invitationView setFrame:CGRectMake(-1*self.view.bounds.size.width, 4+105, self.view.bounds.size.width, self.view.bounds.size.height-4)];
+    
+    [sectionIndicator setTransform:CGAffineTransformMakeTranslation(-160,0)];
+    [greetingCardView setTransform:CGAffineTransformMakeTranslation(320,0)];
+    [invitationView setTransform:CGAffineTransformMakeTranslation(320, 0)];
+    
+    [UIView animateWithDuration:0.4f animations:^{
+        [sectionIndicator setTransform:CGAffineTransformIdentity];
+        [greetingCardView setTransform:CGAffineTransformIdentity];
+        [invitationView setTransform:CGAffineTransformIdentity];
+        sectionFlag = GreetingCardTag;
+    }];
 }
 
 - (void)buildInvitationView {
     //build template
     TemplateInfo *template_1 = [self buildTemplateWith:@"36c7f4b4-dbe7-4886-9c87-f8ac6679a9ee" :[UIImage imageNamed:@"y001_362_570.jpg"] :@"Invitation"];
     TemplateInfo *template_2 = [self buildTemplateWith:@"69639840-f7a3-4b96-97db-c4128ce6c358" :[UIImage imageNamed:@"y002_362_570.jpg"] :@"Invitation"];
-    TemplateInfo *template_3 = [self buildTemplateWith:@"c3c931ea-c690-43d1-ae28-9863bad7799b" :[UIImage imageNamed:@"y003_362_570.jpg"] :@"Invitation"];
-    TemplateInfo *template_4 = [self buildTemplateWith:@"68290803-d3ad-428e-9307-f8382be5cc83" :[UIImage imageNamed:@"y004_362_570.jpg"] :@"Invitation"];
+    TemplateInfo *template_3 = [self buildTemplateWith:@"68290803-d3ad-428e-9307-f8382be5cc83" :[UIImage imageNamed:@"y003_362_570.jpg"] :@"Invitation"];
+    TemplateInfo *template_4 = [self buildTemplateWith:@"c3c931ea-c690-43d1-ae28-9863bad7799b" :[UIImage imageNamed:@"y004_362_570.jpg"] :@"Invitation"];
     TemplateInfo *template_5 = [self buildTemplateWith:@"544331a9-e6e5-41c1-9212-6fcf6f3b3ebc" :[UIImage imageNamed:@"x001_362_570.jpg"] :@"Invitation"];
     TemplateInfo *template_6 = [self buildTemplateWith:@"9f42133f-929f-4998-9bbd-315effcb2c38" :[UIImage imageNamed:@"x002_362_570.jpg"] :@"Invitation"];
     TemplateInfo *template_7 = [self buildTemplateWith:@"300a3507-751a-4fbf-8187-a82d1e68860c" :[UIImage imageNamed:@"x003_362_570.jpg"] :@"Invitation"];
@@ -237,6 +261,8 @@ enum ControlFlag {
     [invitationView addSubview:templateContentView_3];
     [invitationView addSubview:templateContentView_4];
     
+    [invitationView addGestureRecognizer:swipeGestureLeft];
+    
 }
 
 - (void)buildGreetingCardView {
@@ -280,6 +306,7 @@ enum ControlFlag {
     [greetingCardView addSubview:templateContentView_1];
     [greetingCardView addSubview:templateContentView_2];
     
+    [greetingCardView addGestureRecognizer:swipeGestureRight];
 }
 
 - (TemplateInfo *)buildTemplateWith:(NSString *)ID :(UIImage *)image :(NSString *)category {

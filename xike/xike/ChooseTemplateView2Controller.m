@@ -32,7 +32,8 @@
     NSInteger sectionFlag;
     float sectionWidth;
     float sectionHeight;
-    UISwipeGestureRecognizer *swipeGesture;
+    UISwipeGestureRecognizer *swipeGestureLeft;
+    UISwipeGestureRecognizer *swipeGestureRight;
 }
 
 - (void)viewDidLoad {
@@ -57,7 +58,15 @@
     returnBtn.tintColor = [UIColor whiteColor];
     [self.navigationItem setLeftBarButtonItem:returnBtn];
     
-    swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToChangeSection)];
+    //Gesture
+    swipeGestureLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    [swipeGestureLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
+    swipeGestureRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    [swipeGestureRight setDirection:UISwipeGestureRecognizerDirectionRight];
+
+    [self.view addGestureRecognizer:swipeGestureLeft];
+    [self.view addGestureRecognizer:swipeGestureRight];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -65,14 +74,35 @@
     self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
 }
 
+- (void)handleSwipe:(UISwipeGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
+        UIControl *ctl = [UIControl new];
+        ctl.tag = sectionFlag +1;
+        [self changeSection:ctl];
+    } else if (gestureRecognizer.direction == UISwipeGestureRecognizerDirectionRight) {
+        UIControl *ctl = [UIControl new];
+        ctl.tag = sectionFlag - 1;
+        [self changeSection:ctl];
+    }
+}
+
 - (void)returnBtnClicked {
+    if (categoryView_1) {
+        [categoryView_1 removeFromSuperview];
+    }
+    if (categoryView_2) {
+        [categoryView_2 removeFromSuperview];
+    }
+    if (categoryView_3) {
+        [categoryView_3 removeFromSuperview];
+    }
+    if (categoryView_4) {
+        [categoryView_4 removeFromSuperview];
+    }
     self.navigationController.navigationBarHidden = YES;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)swipeToChangeSection {
-    
-}
 
 - (void)buildGreetingCardTemplateView {
     //section view
