@@ -91,10 +91,10 @@ const float MoveAnimationDuration = 0.3;
     [titleFont setValue:[UIFont fontWithName:@"HelveticaNeue-Light" size:20] forKeyPath:NSFontAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = titleFont;
     UIBarButtonItem *settingButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"setting"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(popSettingView)];
-    settingButtonItem.tintColor = [UIColor whiteColor];
+    settingButtonItem.tintColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     [self.navigationItem setLeftBarButtonItem:settingButtonItem];
     notificationButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"notification_off"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(popNotificationView)];
-    notificationButtonItem.tintColor = [UIColor whiteColor];
+    notificationButtonItem.tintColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     [self.navigationItem setRightBarButtonItem:notificationButtonItem];
     
     

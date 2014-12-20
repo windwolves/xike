@@ -34,10 +34,10 @@
     [titleFont setValue:[UIFont fontWithName:@"HelveticaNeue-Light" size:20] forKeyPath:NSFontAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = titleFont;
     UIBarButtonItem *returnBtn = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(returnToPreviousView)];
-    returnBtn.tintColor = [UIColor whiteColor];
+    returnBtn.tintColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     [self.navigationItem setLeftBarButtonItem:returnBtn];
     UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(done)];
-    doneBtn.tintColor = [ColorHandler colorWithHexString:@"#413445"];
+    doneBtn.tintColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     [self.navigationItem setRightBarButtonItem:doneBtn];
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f3f3f3"];
     tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignKeyBoard)];

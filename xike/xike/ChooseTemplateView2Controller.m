@@ -181,8 +181,8 @@
     //these should be fetched from database;
     TemplateInfo *info_1 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y001_362_570.jpg"] :@"36c7f4b4-dbe7-4886-9c87-f8ac6679a9ee"];
     TemplateInfo *info_2 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y002_362_570.jpg"] :@"69639840-f7a3-4b96-97db-c4128ce6c358"];
-    TemplateInfo *info_3 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y003_362_570.jpg"] :@"c3c931ea-c690-43d1-ae28-9863bad7799b"];
-    TemplateInfo *info_4 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y004_362_570.jpg"] :@"68290803-d3ad-428e-9307-f8382be5cc83"];
+    TemplateInfo *info_3 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y003_362_570.jpg"] :@"68290803-d3ad-428e-9307-f8382be5cc83"];
+    TemplateInfo *info_4 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y004_362_570.jpg"] :@"c3c931ea-c690-43d1-ae28-9863bad7799b"];
     TemplateInfo *info_5 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x001_362_570.jpg"] :@"544331a9-e6e5-41c1-9212-6fcf6f3b3ebc"];
     TemplateInfo *info_6 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x002_362_570.jpg"] :@"9f42133f-929f-4998-9bbd-315effcb2c38"];
     TemplateInfo *info_7 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x003_362_570.jpg"] :@"300a3507-751a-4fbf-8187-a82d1e68860c"];

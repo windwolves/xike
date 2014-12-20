@@ -71,10 +71,10 @@
     // Do any additional setup after loading the view.
     [self.navigationItem setTitle:@"编辑文本"];
     UIBarButtonItem *returnBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(returnToPreviousView)];
-    returnBtn.tintColor = [UIColor whiteColor];
+    returnBtn.tintColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     [self.navigationItem setLeftBarButtonItem:returnBtn];
     UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(done)];
-    doneBtn.tintColor = [UIColor whiteColor];
+    doneBtn.tintColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     [self.navigationItem setRightBarButtonItem:doneBtn];
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     

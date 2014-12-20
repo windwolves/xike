@@ -51,7 +51,7 @@
     returnBtn.tintColor = [UIColor whiteColor];
     [self.navigationItem setLeftBarButtonItem:returnBtn];
     UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(done)];
-    doneBtn.tintColor = [UIColor whiteColor];
+    doneBtn.tintColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     [self.navigationItem setRightBarButtonItem:doneBtn];
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f3f3f3"];
     tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignKeyBoard)];
@@ -342,13 +342,15 @@
     [self.view removeGestureRecognizer:tapGestureRecognizer];
 }
 
-#pragma SetLocationViewControllerDelegate
+#pragma mark SetLocationViewControllerDelegate
 - (void)didFinishSetLocation:(NSString *)location {
-    locationlabel.text = location;
+    if (location.length != 0) {
+        locationlabel.text = location;
+    }
     _event.location = location;
 }
 
-#pragma SetLocationViewControllerDelegate
+#pragma mark SetLocationViewControllerDelegate
 - (void)didFinishSetDate:(EventInfo *)event {
     NSString *dateString = [self getFormatDateStringWith:_event.date];
     NSString *timeString = [self getFormatTimeStringWith:_event.time];

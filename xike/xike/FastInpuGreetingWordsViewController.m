@@ -33,11 +33,11 @@
     [self.navigationItem setTitle:@"快速添加"];
     
     UIBarButtonItem *returnBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(returnBtnClicked)];
-    returnBtn.tintColor = [UIColor whiteColor];
+    returnBtn.tintColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     [self.navigationItem setLeftBarButtonItem:returnBtn];
     
     UIBarButtonItem *nextBtn = [[UIBarButtonItem alloc] initWithTitle:@"下一步" style:UIBarButtonItemStylePlain target:self action:@selector(nextBtnClicked)];
-    nextBtn.tintColor = [UIColor whiteColor];
+    nextBtn.tintColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     [self.navigationItem setRightBarButtonItem:nextBtn];
     
     tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignKeyBoard)];

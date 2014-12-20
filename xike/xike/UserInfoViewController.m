@@ -57,7 +57,7 @@
     UIControl *picImageCtl = [[UIControl alloc] initWithFrame:CGRectMake(107, 98, 106, 105)];
     picImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 105, 105)];
     picImageView.layer.cornerRadius = CGRectGetHeight(picImageView.bounds) / 2;
-    picImageView.image = [UIImage imageNamed:@"user_pic_default"];
+    picImageView.image = [self getDefaultUserPic];
     picImageView.clipsToBounds = YES;
     [picImageCtl addSubview:picImageView];
     [picImageCtl addTarget:self action:@selector(changePic) forControlEvents:UIControlEventTouchUpInside];
@@ -116,6 +116,32 @@
     mainView2Controller.database = _database;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainView2Controller];
     [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (UIImage *)getDefaultUserPic {
+    UIImage *image;
+    NSString *imageName;
+    int x = arc4random()%100;
+    if (x >= 0 && x <= 10) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"1"];
+    } else if (x >= 11 && x <= 20) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"2"];
+    } else if (x >= 21 && x <= 30) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"3"];
+    } else if (x >= 31 && x <= 40) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"4"];
+    } else if (x >= 41 && x <= 50) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"5"];
+    } else if (x >= 51 && x <= 60) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"6"];
+    } else if (x >= 61 && x <= 70) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"7"];
+    } else {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"8"];
+    }
+    
+    image = [UIImage imageNamed:imageName];
+    return image;
 }
 
 - (void)updateAccountOnServer {

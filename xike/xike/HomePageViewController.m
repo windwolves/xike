@@ -29,6 +29,8 @@
     UIScrollView *invitationView;
     UIScrollView *greetingCardView;
     UIButton *notificationButton;
+    UIControl *notificationCtl;
+    UIImageView *notificationImageView;
     int sectionFlag;
     TemplateInfo *templateToCreate;
     UISwipeGestureRecognizer *swipeGestureLeft;
@@ -51,18 +53,34 @@ enum ControlFlag {
     [titleImageView setImage:[[UIImage imageNamed:@"xike_navigationbar"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [navigationBar addSubview:titleImageView];
     
+    notificationCtl = [[UIControl alloc] initWithFrame:CGRectMake(270, 28, 36, 30)];
+    notificationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 16, 20)];
+    notificationImageView.image = [[UIImage imageNamed:@"notification_off"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [notificationCtl addSubview:notificationImageView];
+    [notificationCtl addTarget:self action:@selector(popNotificationView) forControlEvents:UIControlEventTouchUpInside];
+    [navigationBar addSubview:notificationCtl];
+    
+    /*
     notificationButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 33, 16, 20)];
     [notificationButton setImage:[[UIImage imageNamed:@"notification_off"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
     [notificationButton addTarget:self action:@selector(popNotificationView) forControlEvents:UIControlEventTouchUpInside];
     [navigationBar addSubview:notificationButton];
+    */
     
     [self.view addSubview:navigationBar];
     //notification button
     if ([_database getCountOfUnreadMessage:_user.userID] != 0) {
+        notificationImageView.image = [[UIImage imageNamed:@"notification_on"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    } else {
+        notificationImageView.image = [[UIImage imageNamed:@"notification_off"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+    
+    /*
+    if ([_database getCountOfUnreadMessage:_user.userID] != 0) {
         [notificationButton setImage:[[UIImage imageNamed:@"notification_on"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
     } else {
         [notificationButton setImage:[[UIImage imageNamed:@"notification_off"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
-    }
+    }*/
 }
 
 - (void)viewDidLoad {
@@ -282,7 +300,7 @@ enum ControlFlag {
     float contentViewHeight = 232;
     float contentViewWidth = greetingCardView.bounds.size.width-8;
     
-    greetingCardView.contentSize = CGSizeMake(greetingCardView.bounds.size.width, 5*contentViewHeight);//TO BE RESIZE
+    greetingCardView.contentSize = CGSizeMake(greetingCardView.bounds.size.width, 3*contentViewHeight);//TO BE RESIZE
     greetingCardView.showsHorizontalScrollIndicator = NO;
     greetingCardView.showsVerticalScrollIndicator = NO;
     

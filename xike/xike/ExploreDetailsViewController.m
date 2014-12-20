@@ -40,10 +40,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     UIBarButtonItem *returnBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(returnBtnClicked)];
-    returnBtn.tintColor = [UIColor whiteColor];
+    returnBtn.tintColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     [self.navigationItem setLeftBarButtonItem:returnBtn];
     UIBarButtonItem *shareBtn = [[UIBarButtonItem alloc] initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(shareBtnClicked)];
-    shareBtn.tintColor = [UIColor whiteColor];
+    shareBtn.tintColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     [self.navigationItem setRightBarButtonItem:shareBtn];
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
     

@@ -50,6 +50,7 @@ enum ControlFlag {
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f3f3f3"];
     
+    [self buildBackImageView];
     [self buildInvitationsView];
     [self buildGreetingsView];
     [self.view addSubview:invitationsView];
@@ -63,7 +64,6 @@ enum ControlFlag {
     //Hide the navigationBar
     self.navigationController.navigationBarHidden = YES;
     [self buildTipsView];
-    [self buildBackImageView];
 }
 
 - (void)buildBackImageView {
@@ -110,7 +110,7 @@ enum ControlFlag {
     if (_user.photo) {
         _pictureView.image = [UIImage imageWithData:_user.photo];
     } else {
-        _pictureView.image = [UIImage imageNamed:@"user_pic_default"];
+        _pictureView.image = [self getDefaultUserPic];
     }
     [pictureCtl addSubview:_pictureView];
     [pictureCtl addTarget:self action:@selector(changePic) forControlEvents:UIControlEventTouchUpInside];
@@ -164,7 +164,7 @@ enum ControlFlag {
 }
 
 - (void)buildGreetingsView {
-    greetingsView = [[UIView alloc] initWithFrame:CGRectMake(4+320, 184, self.view.bounds.size.width-8, self.view.bounds.size.height-184)];
+    greetingsView = [[UIView alloc] initWithFrame:CGRectMake(4+self.view.bounds.size.width, 184, self.view.bounds.size.width-8, self.view.bounds.size.height-184)];
     greetingsView.backgroundColor = [UIColor clearColor];
     _greetingsTables = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, greetingsView.bounds.size.width, greetingsView.bounds.size.height)];
     _greetingsTables.dataSource = self;
@@ -202,6 +202,32 @@ enum ControlFlag {
         [_greetingsTables reloadData];
     }
     
+}
+
+- (UIImage *)getDefaultUserPic {
+    UIImage *image;
+    NSString *imageName;
+    int x = arc4random()%100;
+    if (x >= 0 && x <= 10) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"1"];
+    } else if (x >= 11 && x <= 20) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"2"];
+    } else if (x >= 21 && x <= 30) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"3"];
+    } else if (x >= 31 && x <= 40) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"4"];
+    } else if (x >= 41 && x <= 50) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"5"];
+    } else if (x >= 51 && x <= 60) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"6"];
+    } else if (x >= 61 && x <= 70) {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"7"];
+    } else {
+        imageName = [[NSString alloc] initWithFormat:@"user_default_pic_%@",@"8"];
+    }
+    
+    image = [UIImage imageNamed:imageName];
+    return image;
 }
 
 - (void)uploadProfileOnServer {
@@ -379,7 +405,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     } else if (tableView.tag == GreetingCardTag) {
         preViewController.greeting = [greetingsArray objectAtIndex:indexPath.row];
         preViewController.fromController = @"greetingsTable";
-        preViewController.createItem = @"greetingCard";
+        preViewController.createItem = @"GreetingCard";
     }
     
     [self.navigationController pushViewController:preViewController animated:YES];
