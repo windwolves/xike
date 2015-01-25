@@ -22,5 +22,6 @@
 @property (nonatomic, strong) XikeDatabase *database;
 @property (nonatomic, strong) UserInfo *user;
 @property (nonatomic, strong) UIImageView *pictureView;
+@property (nonatomic, strong) UIImage *pic;
 
 @end

@@ -19,13 +19,20 @@
 #import "CreateInvitationViewController.h"
 
 
+#define viewWidth self.view.bounds.size.width
+#define viewHeight self.view.bounds.size.height
+
 @interface PreViewController ()
 
 @end
 
 @implementation PreViewController {
+    UIView *navigationBar;
     UIView *actionBarView;
     UIView *actionView;
+    ImageControl *returnBtn;
+    ImageControl *doneBtn;
+    ImageControl *editBtn;
     ImageControl *saveCtl;
     ImageControl *sendCtl;
     ImageControl *shareCtl;
@@ -45,8 +52,10 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    /*
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
+    
     actionBarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-49, self.view.bounds.size.width, 49)];
     actionBarView.backgroundColor = [ColorHandler colorWithHexString:@"#1de9b6"];
     
@@ -66,10 +75,14 @@
     [shareCtl addTarget:self action:@selector(clickOnCtl:) forControlEvents:UIControlEventTouchUpInside];
     [actionBarView addSubview:shareCtl];
     
-    [self.view addSubview:actionBarView];
-    [self buildActionView];
+    //[self.view addSubview:actionBarView];
+    //[self buildActionView];
     [actionView removeFromSuperview];
+     */
+    self.navigationController.navigationBarHidden = YES;
+
     [ShareEngine sharedInstance].delegate = self;
+    [self buildNavigationBar];
 }
 
 
@@ -83,6 +96,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
+    self.navigationController.navigationBarHidden = YES;
+    /*
     NSMutableDictionary *titleFont= [NSMutableDictionary new];
     [titleFont setValue:[UIColor whiteColor] forKeyPath:NSForegroundColorAttributeName];
     [titleFont setValue:[UIFont fontWithName:@"HelveticaNeue-Light" size:20] forKeyPath:NSFontAttributeName];
@@ -98,8 +114,9 @@
         UIBarButtonItem *editBtn = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editGreetingCard)];
         [self.navigationItem setRightBarButtonItem:editBtn];
     }
+    */
     
-    _previewWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-49)];
+    _previewWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, viewWidth, viewHeight)];
     if ([_createItem isEqualToString:@"GreetingCard"]) {
         _URL = [self generateURLWithGreetingCard:_greeting];
     } else {
@@ -112,6 +129,50 @@
     
     slogon = @"创造最美邀请，制作最IN贺卡。和喜欢的人，做喜欢的事。";
     
+}
+
+- (void)buildNavigationBar {
+    if (navigationBar) {
+        [navigationBar removeFromSuperview];
+    } else {
+        navigationBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 64)];
+        navigationBar.backgroundColor= [ColorHandler colorWithHexString:@"#1de9b6"];
+        [self.view addSubview:navigationBar];
+        
+        returnBtn = [[ImageControl alloc] initWithFrame:CGRectMake(10, 33, 43, 18)];
+        returnBtn.imageView = [[UIImageView alloc] initWithFrame:returnBtn.bounds];
+        returnBtn.imageView.image = [UIImage imageNamed:@"return_icon"];
+        [returnBtn addSubview:returnBtn.imageView];
+        [returnBtn addTarget:self action:@selector(returnToPreviousView) forControlEvents:UIControlEventTouchUpInside];
+        [navigationBar addSubview:returnBtn];
+        
+        doneBtn = [[ImageControl alloc] initWithFrame:CGRectMake(viewWidth-53, 33, 43, 18)];
+        doneBtn.imageView = [[UIImageView alloc] initWithFrame:doneBtn.bounds];
+        doneBtn.imageView.image = [UIImage imageNamed:@"done_icon"];
+        [doneBtn addSubview:doneBtn.imageView];
+        [doneBtn addTarget:self action:@selector(done) forControlEvents:UIControlEventTouchUpInside];
+        [navigationBar addSubview:doneBtn];
+        
+        editBtn = [[ImageControl alloc] initWithFrame:CGRectMake(viewWidth-100, 33, 40, 18)];
+//        editBtn.backgroundColor = [UIColor blackColor];
+        editBtn.label = [[UILabel alloc] initWithFrame:editBtn.bounds];
+        editBtn.label.textColor = [UIColor whiteColor];
+        editBtn.label.font = [UIFont systemFontOfSize:18];
+        editBtn.label.text = @"编辑";
+        [editBtn addSubview:editBtn.label];
+        if ([_fromController isEqualToString:@"eventsTable"]) {
+            [navigationBar addSubview:editBtn];
+            [editBtn addTarget:self action:@selector(editEvent) forControlEvents:UIControlEventTouchUpInside];
+        } else if ([_fromController isEqualToString:@"greetingsTable"]) {
+            [navigationBar addSubview:editBtn];
+            [editBtn addTarget:self action:@selector(editGreetingCard) forControlEvents:UIControlEventTouchUpInside];
+        }
+        
+        UIImageView *titleView = [[UIImageView alloc] initWithFrame:CGRectMake((viewWidth-39)/2, 33, 39, 18)];
+        titleView.image = [UIImage imageNamed:@"preview_title"];
+        [navigationBar addSubview:titleView];
+    }
+    [self.view addSubview:navigationBar];
 }
 
 - (void)clickOnCtl:(ImageControl *)sender {
@@ -276,28 +337,25 @@
     }
 }
 
-- (void)saveGreetingCard {
+- (BOOL)saveGreetingCard {
     if ([_database updateGreetingCard:_greeting]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"保存" message:@"保存成功!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        alertView.tag = 1;
-        [alertView show];
+        return YES;
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"保存" message:@"保存失败!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         alertView.tag = 2;
         [alertView show];
+        return NO;
     }
 }
 
-- (void)saveEvent:(EventInfo *)event {
+- (BOOL)saveEvent:(EventInfo *)event {
     if ([_database updateEvent:_event]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"保存" message:@"保存成功!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-        alertView.tag = 1;
-        [alertView show];
-        //[self uploadEventToServer];
+        return YES;
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"保存" message:@"保存失败!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         alertView.tag = 2;
         [alertView show];
+        return NO;
     }
 }
 
@@ -363,6 +421,21 @@
     [self.navigationController pushViewController:modifyEventContorller animated:YES];
 }
 
+- (void)done {
+    if ([_createItem isEqualToString:@"GreetingCard"]) {
+        if (![self saveGreetingCard]) {
+            return;
+        }
+    } else {
+        if (![self saveEvent:_event]) {
+            return;
+        }
+    }
+    
+    ShareViewController *shareViewController = [ShareViewController new];
+    shareViewController.delegate = self;
+    [self.navigationController pushViewController:shareViewController animated:YES];
+}
 
 - (void)returnToPreviousView {
     [self.navigationController popViewControllerAnimated:YES];
@@ -370,7 +443,7 @@
 
 - (void)uploadEventToServer {
     NSString *sendEventService = @"/services/activity/send";
-    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST,sendEventService];
+    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@",HOST_2,sendEventService];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -390,7 +463,8 @@
 - (NSString *)generateURLWithEvent:(EventInfo *)event {
     NSString *path = [[NSString alloc] initWithFormat:@"%@/#/activity/",HOST];
     NSString *uuid = event.uuid;
-    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",path,uuid];
+    NSString *mode = @"inapp";
+    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@?mode=%@",path,uuid,mode];
     return urlString;
     
 }
@@ -408,6 +482,21 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark ShareViewControllerDelegate
+- (void)share:(NSInteger)type {
+    if (type == WXTimeLine) {
+        [self wechatTimelineShare];
+    } else if (type == WXSession) {
+        [self wechatSessionShare];
+    } else if (type == Email) {
+        [self emailShare];
+    } else if (type == SinaWB) {
+        [self sinaWeiboShare];
+    } else if (type == SMS) {
+        [self smsShare];
+    }
 }
 
 #pragma mark AlertView Action
@@ -433,10 +522,9 @@
 #pragma mark PeoplePickerViewDelegate
 - (void)DidSendEvent:(EventInfo *)event {
     sendCtl.imageView.highlighted = NO;
-    _event.send_status = 1;
-    [_database updateEvent:_event];
-    [self uploadEventToServer];
-    //[self.navigationController popToRootViewControllerAnimated:YES];
+    //_event.send_status = 1;
+    //[_database updateEvent:_event];
+    //[self uploadEventToServer];
 
     for (UIViewController *viewController in self.navigationController.viewControllers) {
         if ([viewController isKindOfClass:[MainView2Controller class]]) {

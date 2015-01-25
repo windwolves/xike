@@ -84,7 +84,8 @@
     }
     
     if (_event.send_status == 0) {
-        _contentLabel.text = [[NSString alloc] initWithFormat:@"(草稿) %@",_event.content];
+//        _contentLabel.text = [[NSString alloc] initWithFormat:@"(草稿) %@",_event.content];
+        _contentLabel.text = _event.content;
     } else {
         _contentLabel.text = _event.content;
     }

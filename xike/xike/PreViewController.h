@@ -13,8 +13,9 @@
 #import <MessageUI/MessageUI.h>
 #import "ShareEngine.h"
 #import "GreetingInfo.h"
+#import "ShareViewController.h"
 
-@interface PreViewController : UIViewController <PeoplePickerViewControllerDelegate, UIWebViewDelegate,NSURLSessionDataDelegate,MFMailComposeViewControllerDelegate,ShareEngineDelegate>
+@interface PreViewController : UIViewController <PeoplePickerViewControllerDelegate, UIWebViewDelegate,NSURLSessionDataDelegate,MFMailComposeViewControllerDelegate,ShareEngineDelegate,ShareViewControllerDelegate>
 @property (nonatomic, strong) XikeDatabase *database;
 @property (nonatomic, strong) EventInfo *event;
 @property (nonatomic, strong) GreetingInfo *greeting;

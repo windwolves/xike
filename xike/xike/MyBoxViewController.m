@@ -81,7 +81,7 @@ enum ControlFlag {
     _nicknameLabel.font = [UIFont systemFontOfSize:18];
     _nicknameLabel.textAlignment = NSTextAlignmentCenter;
     _nicknameLabel.textColor = [ColorHandler colorWithHexString:@"#ffffff"];
-    if (_user.name) {
+    if (_user.name.length > 0) {
         _nicknameLabel.text = _user.name;
     } else {
         _nicknameLabel.text = @"";
@@ -333,6 +333,7 @@ enum ControlFlag {
     settingViewController.delegate = self;
     settingViewController.database = _database;
     settingViewController.user = _user;
+    settingViewController.pic = _pictureView.image;
     
     [self.navigationController pushViewController:settingViewController animated:YES];
 }

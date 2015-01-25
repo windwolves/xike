@@ -98,9 +98,6 @@
                 [database createAllTables];
                 [self setUpBasicTemplate];
                 user = [database getUserInfo];
-                mainViewController = [MainViewController new];
-                mainViewController.database = database;
-                mainViewController.user = user;
                 
                 mainView2Controller = [MainView2Controller new];
                 mainView2Controller.database = database;
@@ -112,8 +109,6 @@
                 navigation = [[UINavigationController alloc] initWithRootViewController:guideViewController];
             }
         } else {
-            [database createAllTables];
-            [self setUpBasicTemplate];
             if (![defaults boolForKey:@"isLogin"]) {
                 logonViewController = [UserLogonViewController new];
                 logonViewController.database = database;
@@ -283,7 +278,7 @@
     [basicTemplates addObject:template_y002];
     //y003
     TemplateInfo *template_y003 = [TemplateInfo new];
-    template_y003.ID = @"c3c931ea-c690-43d1-ae28-9863bad7799b";
+    template_y003.ID = @"68290803-d3ad-428e-9307-f8382be5cc83";
     template_y003.name = @"y003";
     template_y003.desc = @"";
     template_y003.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"y003_362_570.jpg"]);
@@ -292,7 +287,7 @@
     [basicTemplates addObject:template_y003];
     //y004
     TemplateInfo *template_y004 = [TemplateInfo new];
-    template_y004.ID = @"68290803-d3ad-428e-9307-f8382be5cc83";
+    template_y004.ID = @"c3c931ea-c690-43d1-ae28-9863bad7799b";
     template_y004.name = @"y004";
     template_y004.desc = @"";
     template_y004.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"y004_362_570.jpg"]);

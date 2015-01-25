@@ -32,11 +32,11 @@
 
 - (void)buildGuideView {
     guideView = [[ImageScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    UIImage *guide_1 = [UIImage imageNamed:@"guide_1.jpg"];
-    UIImage *guide_2 = [UIImage imageNamed:@"guide_2.jpg"];
-    UIImage *guide_3 = [UIImage imageNamed:@"guide_3.jpg"];
-    UIImage *guide_4 = [UIImage imageNamed:@"guide_4.jpg"];
-    UIImage *guide_5 = [UIImage imageNamed:@"guide_5.jpg"];
+    UIImage *guide_1 = [UIImage imageNamed:@"guide_1"];
+    UIImage *guide_2 = [UIImage imageNamed:@"guide_2"];
+    UIImage *guide_3 = [UIImage imageNamed:@"guide_3"];
+    UIImage *guide_4 = [UIImage imageNamed:@"guide_4"];
+    UIImage *guide_5 = [UIImage imageNamed:@"guide_5"];
     [guideView initializeWith:@[guide_1,guide_2,guide_3,guide_4,guide_5]];
     [guideView setAutoScroll:NO];
     [self.view addSubview:guideView];

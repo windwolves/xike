@@ -24,7 +24,7 @@
     self.host = [[PeopleInfo alloc] initWithID:_user.userID Name:_user.name Phone:_user.phone Photo:nil];
     self.guestList = [NSMutableArray new];
     self.templateID = @"";
-    self.send_status = 0; //0 not send; 1 send
+    self.send_status = 1; //0 not send; 1 send
     
     return self;
 }

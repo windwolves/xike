@@ -69,9 +69,10 @@
 		04850B591A4027E90091FF9D /* user_default_pic_6.png in Resources */ = {isa = PBXBuildFile; fileRef = 04850B511A4027E90091FF9D /* user_default_pic_6.png */; };
 		04850B5A1A4027E90091FF9D /* user_default_pic_7.png in Resources */ = {isa = PBXBuildFile; fileRef = 04850B521A4027E90091FF9D /* user_default_pic_7.png */; };
 		04850B5B1A4027E90091FF9D /* user_default_pic_8.png in Resources */ = {isa = PBXBuildFile; fileRef = 04850B531A4027E90091FF9D /* user_default_pic_8.png */; };
+		04850B6D1A4E9F490091FF9D /* aboutUS.png in Resources */ = {isa = PBXBuildFile; fileRef = 04850B6C1A4E9F490091FF9D /* aboutUS.png */; };
+		04850B6F1A4EACA00091FF9D /* logo_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 04850B6E1A4EACA00091FF9D /* logo_120.png */; };
 		04A83BC719C71BC30069F4AB /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A83BC619C71BC30069F4AB /* ChangePasswordViewController.m */; };
 		04A83BCA19C9A5530069F4AB /* EventsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A83BC919C9A5530069F4AB /* EventsTableViewCell.m */; };
-		04A83BCC19C9A8300069F4AB /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A83BCB19C9A8300069F4AB /* logo_57.png */; };
 		04A83BD319CB52390069F4AB /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A83BD219CB52390069F4AB /* UserInfoViewController.m */; };
 		04A83BD619CB55DF0069F4AB /* pic_border.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A83BD419CB55DF0069F4AB /* pic_border.png */; };
 		04A99A9219B31982009AE0E0 /* ExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A99A9119B31982009AE0E0 /* ExploreViewController.m */; };
@@ -174,7 +175,17 @@
 		04C7F3501A3C865E0075BE50 /* NewYearDay_2_362_570.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04C7F3491A3C865E0075BE50 /* NewYearDay_2_362_570.jpg */; };
 		04C7F3511A3C865E0075BE50 /* NewYearDay_3_362_570.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04C7F34A1A3C865E0075BE50 /* NewYearDay_3_362_570.jpg */; };
 		04C7F3521A3C865E0075BE50 /* NewYearDay_4_362_570.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04C7F34B1A3C865E0075BE50 /* NewYearDay_4_362_570.jpg */; };
-		04CD0B4819FF8FAA00698765 /* aboutUS.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CD0B4719FF8FAA00698765 /* aboutUS.png */; };
+		04C849BF1A749B2E005E99D8 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C849BE1A749B2E005E99D8 /* ShareViewController.m */; };
+		04C849C21A749E30005E99D8 /* return_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C849C01A749E30005E99D8 /* return_icon.png */; };
+		04C849C31A749E30005E99D8 /* back_to_home_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C849C11A749E30005E99D8 /* back_to_home_icon.png */; };
+		04C849C51A752D9F005E99D8 /* share_title.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C849C41A752D9F005E99D8 /* share_title.png */; };
+		04C849C71A753FE8005E99D8 /* already_saved.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C849C61A753FE8005E99D8 /* already_saved.png */; };
+		04C849CA1A75415B005E99D8 /* done_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C849C81A75415B005E99D8 /* done_icon.png */; };
+		04C849CB1A75415B005E99D8 /* preview_title.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C849C91A75415B005E99D8 /* preview_title.png */; };
+		04C849D01A754D75005E99D8 /* receiever_label.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C849CC1A754D75005E99D8 /* receiever_label.png */; };
+		04C849D11A754D75005E99D8 /* preview_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C849CD1A754D75005E99D8 /* preview_icon.png */; };
+		04C849D21A754D75005E99D8 /* produce_title.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C849CE1A754D75005E99D8 /* produce_title.png */; };
+		04C849D31A754D75005E99D8 /* greeting_word_label.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C849CF1A754D75005E99D8 /* greeting_word_label.png */; };
 		04CD0B5A1A00D1C500698765 /* TemplateDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CD0B591A00D1C500698765 /* TemplateDisplayViewController.m */; };
 		04CD0B6C1A020AE700698765 /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CD0B6B1A020AE700698765 /* ImageScrollView.m */; };
 		04CD0B821A021D9800698765 /* TemplateCategoryDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CD0B811A021D9800698765 /* TemplateCategoryDisplayViewController.m */; };
@@ -219,11 +230,6 @@
 		04DBE55A1A0A1E4900E7F906 /* wechatTimeline_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DBE5551A0A1E4900E7F906 /* wechatTimeline_icon.png */; };
 		04DC9E7919D62675009E8E20 /* TemplateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC9E7819D62675009E8E20 /* TemplateInfo.m */; };
 		04DC9E7C19D66F36009E8E20 /* TemplateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC9E7B19D66F36009E8E20 /* TemplateTableViewCell.m */; };
-		04DC9E9F19DBE04D009E8E20 /* logo_29.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E9A19DBE04D009E8E20 /* logo_29.png */; };
-		04DC9EA019DBE04D009E8E20 /* logo_58.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E9B19DBE04D009E8E20 /* logo_58.png */; };
-		04DC9EA119DBE04D009E8E20 /* logo_80.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E9C19DBE04D009E8E20 /* logo_80.png */; };
-		04DC9EA219DBE04D009E8E20 /* logo_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E9D19DBE04D009E8E20 /* logo_114.png */; };
-		04DC9EA319DBE04D009E8E20 /* logo_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC9E9E19DBE04D009E8E20 /* logo_120.png */; };
 		04F10EA819D15BCA00094A52 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F10EA519D15BCA00094A52 /* Default.png */; };
 		04F10EA919D15BCA00094A52 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F10EA619D15BCA00094A52 /* Default~iphone.png */; };
 		04F10EAA19D15BCA00094A52 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F10EA719D15BCA00094A52 /* Default-568h@2x.png */; };
@@ -322,11 +328,12 @@
 		04850B511A4027E90091FF9D /* user_default_pic_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_default_pic_6.png; sourceTree = "<group>"; };
 		04850B521A4027E90091FF9D /* user_default_pic_7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_default_pic_7.png; sourceTree = "<group>"; };
 		04850B531A4027E90091FF9D /* user_default_pic_8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_default_pic_8.png; sourceTree = "<group>"; };
+		04850B6C1A4E9F490091FF9D /* aboutUS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutUS.png; sourceTree = "<group>"; };
+		04850B6E1A4EACA00091FF9D /* logo_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_120.png; sourceTree = "<group>"; };
 		04A83BC519C71BC30069F4AB /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
 		04A83BC619C71BC30069F4AB /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
 		04A83BC819C9A5530069F4AB /* EventsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsTableViewCell.h; sourceTree = "<group>"; };
 		04A83BC919C9A5530069F4AB /* EventsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventsTableViewCell.m; sourceTree = "<group>"; };
-		04A83BCB19C9A8300069F4AB /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
 		04A83BD119CB52390069F4AB /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
 		04A83BD219CB52390069F4AB /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
 		04A83BD419CB55DF0069F4AB /* pic_border.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_border.png; sourceTree = "<group>"; };
@@ -464,7 +471,18 @@
 		04C7F3491A3C865E0075BE50 /* NewYearDay_2_362_570.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = NewYearDay_2_362_570.jpg; sourceTree = "<group>"; };
 		04C7F34A1A3C865E0075BE50 /* NewYearDay_3_362_570.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = NewYearDay_3_362_570.jpg; sourceTree = "<group>"; };
 		04C7F34B1A3C865E0075BE50 /* NewYearDay_4_362_570.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = NewYearDay_4_362_570.jpg; sourceTree = "<group>"; };
-		04CD0B4719FF8FAA00698765 /* aboutUS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutUS.png; sourceTree = "<group>"; };
+		04C849BD1A749B2E005E99D8 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
+		04C849BE1A749B2E005E99D8 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
+		04C849C01A749E30005E99D8 /* return_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = return_icon.png; sourceTree = "<group>"; };
+		04C849C11A749E30005E99D8 /* back_to_home_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back_to_home_icon.png; sourceTree = "<group>"; };
+		04C849C41A752D9F005E99D8 /* share_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_title.png; sourceTree = "<group>"; };
+		04C849C61A753FE8005E99D8 /* already_saved.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = already_saved.png; sourceTree = "<group>"; };
+		04C849C81A75415B005E99D8 /* done_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = done_icon.png; sourceTree = "<group>"; };
+		04C849C91A75415B005E99D8 /* preview_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_title.png; sourceTree = "<group>"; };
+		04C849CC1A754D75005E99D8 /* receiever_label.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = receiever_label.png; sourceTree = "<group>"; };
+		04C849CD1A754D75005E99D8 /* preview_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_icon.png; sourceTree = "<group>"; };
+		04C849CE1A754D75005E99D8 /* produce_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = produce_title.png; sourceTree = "<group>"; };
+		04C849CF1A754D75005E99D8 /* greeting_word_label.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greeting_word_label.png; sourceTree = "<group>"; };
 		04CD0B581A00D1C500698765 /* TemplateDisplayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateDisplayViewController.h; sourceTree = "<group>"; };
 		04CD0B591A00D1C500698765 /* TemplateDisplayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateDisplayViewController.m; sourceTree = "<group>"; };
 		04CD0B6A1A020AE700698765 /* ImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScrollView.h; sourceTree = "<group>"; };
@@ -519,11 +537,6 @@
 		04DC9E7819D62675009E8E20 /* TemplateInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateInfo.m; sourceTree = "<group>"; };
 		04DC9E7A19D66F36009E8E20 /* TemplateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateTableViewCell.h; sourceTree = "<group>"; };
 		04DC9E7B19D66F36009E8E20 /* TemplateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateTableViewCell.m; sourceTree = "<group>"; };
-		04DC9E9A19DBE04D009E8E20 /* logo_29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_29.png; sourceTree = "<group>"; };
-		04DC9E9B19DBE04D009E8E20 /* logo_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_58.png; sourceTree = "<group>"; };
-		04DC9E9C19DBE04D009E8E20 /* logo_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_80.png; sourceTree = "<group>"; };
-		04DC9E9D19DBE04D009E8E20 /* logo_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_114.png; sourceTree = "<group>"; };
-		04DC9E9E19DBE04D009E8E20 /* logo_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_120.png; sourceTree = "<group>"; };
 		04F10EA519D15BCA00094A52 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		04F10EA619D15BCA00094A52 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		04F10EA719D15BCA00094A52 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -661,12 +674,7 @@
 		0419FDB319C203D000D45030 /* AppIcon */ = {
 			isa = PBXGroup;
 			children = (
-				04DC9E9A19DBE04D009E8E20 /* logo_29.png */,
-				04DC9E9B19DBE04D009E8E20 /* logo_58.png */,
-				04DC9E9C19DBE04D009E8E20 /* logo_80.png */,
-				04DC9E9D19DBE04D009E8E20 /* logo_114.png */,
-				04DC9E9E19DBE04D009E8E20 /* logo_120.png */,
-				04A83BCB19C9A8300069F4AB /* logo_57.png */,
+				04850B6E1A4EACA00091FF9D /* logo_120.png */,
 			);
 			name = AppIcon;
 			sourceTree = "<group>";
@@ -733,6 +741,8 @@
 				04A99A9919B3230E009AE0E0 /* CreateNewEvent */,
 				04BD1A5819C072CF00F03804 /* PreViewController.h */,
 				04BD1A5919C072CF00F03804 /* PreViewController.m */,
+				04C849BD1A749B2E005E99D8 /* ShareViewController.h */,
+				04C849BE1A749B2E005E99D8 /* ShareViewController.m */,
 				0419FD8C19C1BA9300D45030 /* ContractPicker */,
 				04A83BC819C9A5530069F4AB /* EventsTableViewCell.h */,
 				04A83BC919C9A5530069F4AB /* EventsTableViewCell.m */,
@@ -749,8 +759,8 @@
 		04404B1A19AF85DE003CBF8D /* SettingView */ = {
 			isa = PBXGroup;
 			children = (
+				04850B6C1A4E9F490091FF9D /* aboutUS.png */,
 				04C2FD711A344262005E6E11 /* arrow_right.png */,
-				04CD0B4719FF8FAA00698765 /* aboutUS.png */,
 				04404B1B19AF889C003CBF8D /* logo_setting.png */,
 			);
 			name = SettingView;
@@ -812,6 +822,16 @@
 				0419FD8219C14D5C00D45030 /* save_icon_on.png */,
 				0419FD8319C14D5C00D45030 /* share_icon_on.png */,
 				04A99AAC19B5AA61009AE0E0 /* timeLabel.png */,
+				04C849C41A752D9F005E99D8 /* share_title.png */,
+				04C849C01A749E30005E99D8 /* return_icon.png */,
+				04C849C11A749E30005E99D8 /* back_to_home_icon.png */,
+				04C849C61A753FE8005E99D8 /* already_saved.png */,
+				04C849C81A75415B005E99D8 /* done_icon.png */,
+				04C849C91A75415B005E99D8 /* preview_title.png */,
+				04C849CC1A754D75005E99D8 /* receiever_label.png */,
+				04C849CD1A754D75005E99D8 /* preview_icon.png */,
+				04C849CE1A754D75005E99D8 /* produce_title.png */,
+				04C849CF1A754D75005E99D8 /* greeting_word_label.png */,
 			);
 			name = NewEventView;
 			sourceTree = "<group>";
@@ -1211,6 +1231,7 @@
 				04404B1C19AF889C003CBF8D /* logo_setting.png in Resources */,
 				04C7F3431A3C85980075BE50 /* y003_362_570.jpg in Resources */,
 				0419FDAA19C1BFED00D45030 /* search_picker.png in Resources */,
+				04C849C31A749E30005E99D8 /* back_to_home_icon.png in Resources */,
 				0419FD8619C14D5C00D45030 /* share_icon_off.png in Resources */,
 				04CEA3091A3EC7E4007BCC64 /* x008_120_120.png in Resources */,
 				041818141A39E1AE00B62A3E /* new_year_day_word_6.png in Resources */,
@@ -1228,6 +1249,7 @@
 				04CEA3071A3EC7E4007BCC64 /* x006_120_120.png in Resources */,
 				0419FD9819C1BAD100D45030 /* icon-checkbox-unselected-25x25@2x.png in Resources */,
 				04CEA2FC1A3EC7E4007BCC64 /* Christmas_3_120_120.png in Resources */,
+				04C849D11A754D75005E99D8 /* preview_icon.png in Resources */,
 				041818091A39E1AE00B62A3E /* christmas_word_4.png in Resources */,
 				04C7F3361A3C85980075BE50 /* x002_362_570.jpg in Resources */,
 				04C2FD721A344262005E6E11 /* arrow_right.png in Resources */,
@@ -1245,13 +1267,16 @@
 				04CEA30C1A3EC7E4007BCC64 /* x011_120_120.png in Resources */,
 				0419FD8719C14D5C00D45030 /* save_icon_on.png in Resources */,
 				0419FD9319C1BAD100D45030 /* icon-avatar-60x60.png in Resources */,
+				04C849C21A749E30005E99D8 /* return_icon.png in Resources */,
 				04C7F33A1A3C85980075BE50 /* x006_362_570.jpg in Resources */,
 				04C7F3501A3C865E0075BE50 /* NewYearDay_2_362_570.jpg in Resources */,
 				0418180F1A39E1AE00B62A3E /* new_year_day_word_1.png in Resources */,
 				04CEA3151A3EE87D007BCC64 /* guide_5.png in Resources */,
+				04850B6D1A4E9F490091FF9D /* aboutUS.png in Resources */,
 				04C7F33F1A3C85980075BE50 /* x011_362_570.jpg in Resources */,
 				04C7F3511A3C865E0075BE50 /* NewYearDay_3_362_570.jpg in Resources */,
 				041817071A374C3E00B62A3E /* box_bg_pic.png in Resources */,
+				04C849CB1A75415B005E99D8 /* preview_title.png in Resources */,
 				04A99ABC19B5E4E8009AE0E0 /* user_pic_default.png in Resources */,
 				04C7F33C1A3C85980075BE50 /* x008_362_570.jpg in Resources */,
 				04CEA30F1A3EC7E4007BCC64 /* y002_120_120.png in Resources */,
@@ -1263,12 +1288,10 @@
 				0419FD8419C14D5C00D45030 /* save_icon_off.png in Resources */,
 				04C7F3381A3C85980075BE50 /* x004_362_570.jpg in Resources */,
 				04C7F3241A3B81480075BE50 /* no_message.png in Resources */,
-				04A83BCC19C9A8300069F4AB /* logo_57.png in Resources */,
 				04C7F3521A3C865E0075BE50 /* NewYearDay_4_362_570.jpg in Resources */,
 				0418170C1A376E7A00B62A3E /* create_greeting_card.png in Resources */,
 				04C7F3111A3B512D0075BE50 /* create_invitation_participate_icon.png in Resources */,
 				04C2FD571A2BE27A005E6E11 /* h_category_2.png in Resources */,
-				04DC9EA219DBE04D009E8E20 /* logo_114.png in Resources */,
 				04CEA2DF1A3E09AD007BCC64 /* cancel_cross.png in Resources */,
 				04BCEC6619AB2C6700F22284 /* QQ_logon.png in Resources */,
 				0418170D1A376E7A00B62A3E /* create_invitation.png in Resources */,
@@ -1276,15 +1299,14 @@
 				04CEA3111A3EC7E4007BCC64 /* y004_120_120.png in Resources */,
 				04D1D8251A1108850028BADF /* WeiboSDK.bundle in Resources */,
 				04C2FD651A2D2809005E6E11 /* create.png in Resources */,
-				04CD0B4819FF8FAA00698765 /* aboutUS.png in Resources */,
 				04C7F3411A3C85980075BE50 /* y001_362_570.jpg in Resources */,
 				0418180E1A39E1AE00B62A3E /* christmas_word_9.png in Resources */,
 				04C2FD791A346C7A005E6E11 /* tips_invitation.png in Resources */,
 				04CEA2FA1A3EC7E4007BCC64 /* Christmas_1_120_120.png in Resources */,
 				04DBE5561A0A1E4900E7F906 /* email_icon.png in Resources */,
+				04850B6F1A4EACA00091FF9D /* logo_120.png in Resources */,
 				04BCEC6219AB18D900F22284 /* emailImage.png in Resources */,
 				04CEA3061A3EC7E4007BCC64 /* x005_120_120.png in Resources */,
-				04DC9EA019DBE04D009E8E20 /* logo_58.png in Resources */,
 				041818101A39E1AE00B62A3E /* new_year_day_word_2.png in Resources */,
 				04404B3019B063A4003CBF8D /* changePasswordPic.png in Resources */,
 				04C7F3441A3C85980075BE50 /* y004_362_570.jpg in Resources */,
@@ -1298,16 +1320,16 @@
 				04CEA30E1A3EC7E4007BCC64 /* y001_120_120.png in Resources */,
 				04F10EAA19D15BCA00094A52 /* Default-568h@2x.png in Resources */,
 				04C7CA561A178DAE00886982 /* notification_off.png in Resources */,
-				04DC9EA119DBE04D009E8E20 /* logo_80.png in Resources */,
 				04C7F3171A3B735B0075BE50 /* TipsForNewStuff_2.png in Resources */,
 				04C7F3121A3B512D0075BE50 /* create_invitation_time_icon.png in Resources */,
 				04C2FD781A346C7A005E6E11 /* tips_greeting.png in Resources */,
-				04DC9EA319DBE04D009E8E20 /* logo_120.png in Resources */,
+				04C849C51A752D9F005E99D8 /* share_title.png in Resources */,
 				04850B561A4027E90091FF9D /* user_default_pic_3.png in Resources */,
 				04C7CA441A120C2000886982 /* WX_logon.png in Resources */,
 				04CEA3001A3EC7E4007BCC64 /* NewYearDay_3_120_120.png in Resources */,
 				04DBE55A1A0A1E4900E7F906 /* wechatTimeline_icon.png in Resources */,
 				04C7F3101A3B512D0075BE50 /* create_invitation_location_icon.png in Resources */,
+				04C849C71A753FE8005E99D8 /* already_saved.png in Resources */,
 				0418180A1A39E1AE00B62A3E /* christmas_word_5.png in Resources */,
 				04C2FD691A2D2809005E6E11 /* recommend_on.png in Resources */,
 				04C7F3371A3C85980075BE50 /* x003_362_570.jpg in Resources */,
@@ -1316,6 +1338,7 @@
 				04BCEBF619A7313200F22284 /* InfoPlist.strings in Resources */,
 				04CEA2FF1A3EC7E4007BCC64 /* NewYearDay_2_120_120.png in Resources */,
 				04CEA3141A3EE87D007BCC64 /* guide_4.png in Resources */,
+				04C849D31A754D75005E99D8 /* greeting_word_label.png in Resources */,
 				0419FD9619C1BAD100D45030 /* icon-checkbox-selected-green-25x25@2x.png in Resources */,
 				04C7F3401A3C85980075BE50 /* x012_362_570.jpg in Resources */,
 				04C7F33B1A3C85980075BE50 /* x007_362_570.jpg in Resources */,
@@ -1324,14 +1347,15 @@
 				04CEA2DA1A3DE6E8007BCC64 /* guide_2.png in Resources */,
 				04F10EA919D15BCA00094A52 /* Default~iphone.png in Resources */,
 				04CEA3011A3EC7E4007BCC64 /* NewYearDay_4_120_120.png in Resources */,
-				04DC9E9F19DBE04D009E8E20 /* logo_29.png in Resources */,
 				04CEA30A1A3EC7E4007BCC64 /* x009_120_120.png in Resources */,
 				04BCEC6B19AB367B00F22284 /* logo_text_big.png in Resources */,
 				041818071A39E1AE00B62A3E /* christmas_word_2.png in Resources */,
 				041818061A39E1AE00B62A3E /* christmas_word_1.png in Resources */,
 				04850B551A4027E90091FF9D /* user_default_pic_2.png in Resources */,
 				04CEA3021A3EC7E4007BCC64 /* x001_120_120.png in Resources */,
+				04C849D21A754D75005E99D8 /* produce_title.png in Resources */,
 				04BCEC6019A8CD1A00F22284 /* logo_big.png in Resources */,
+				04C849CA1A75415B005E99D8 /* done_icon.png in Resources */,
 				04DBE5581A0A1E4900E7F906 /* sms_icon.png in Resources */,
 				041818121A39E1AE00B62A3E /* new_year_day_word_4.png in Resources */,
 				04C2FD581A2BE27A005E6E11 /* h_category_3.png in Resources */,
@@ -1344,6 +1368,7 @@
 				0419FD9419C1BAD100D45030 /* icon-avatar-60x60@2x.png in Resources */,
 				041818151A39E1AE00B62A3E /* new_year_day_word_7.png in Resources */,
 				04A99ABD19B5E4E8009AE0E0 /* user_pic_border.png in Resources */,
+				04C849D01A754D75005E99D8 /* receiever_label.png in Resources */,
 				041817F21A39E0E400B62A3E /* fast_input_edit_icon.png in Resources */,
 				04850B5A1A4027E90091FF9D /* user_default_pic_7.png in Resources */,
 				0419FD9519C1BAD100D45030 /* icon-checkbox-selected-green-25x25.png in Resources */,
@@ -1422,6 +1447,7 @@
 				041818191A3A0C2C00B62A3E /* GreetingCardTableViewCell.m in Sources */,
 				04F10EBB19D169CF00094A52 /* ImageCropperViewController.m in Sources */,
 				04C2FD501A2BDFFD005E6E11 /* UIImage+Blur.m in Sources */,
+				04C849BF1A749B2E005E99D8 /* ShareViewController.m in Sources */,
 				04CD0B6C1A020AE700698765 /* ImageScrollView.m in Sources */,
 				0419FDA619C1BAF400D45030 /* CRJContactPickerView.m in Sources */,
 				04BCEC5D19A8BECD00F22284 /* UserLogonViewController.m in Sources */,
@@ -1551,8 +1577,8 @@
 		04BCEC1519A7313300F22284 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1572,8 +1598,8 @@
 		04BCEC1619A7313300F22284 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

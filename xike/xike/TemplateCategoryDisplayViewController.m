@@ -54,16 +54,16 @@
     
 }
 
+- (void)returnBtnClicked {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)createNewEvent {
     CreateNewEventViewController *createNewEventViewController = [CreateNewEventViewController new];
     createNewEventViewController.database = _database;
     createNewEventViewController.user = _user;
     createNewEventViewController.isCreate = YES;
     [self.navigationController pushViewController:createNewEventViewController animated:YES];
-}
-
-- (void)returnBtnClicked {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

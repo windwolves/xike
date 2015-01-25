@@ -62,7 +62,7 @@
     [pictureContentView addSubview:picLabel];
     
     UIImageView *picBorderView = [[UIImageView alloc] initWithFrame:CGRectMake(pictureContentView.bounds.size.width-9-70, 10, 70, 70)];
-    picBorderView.backgroundColor = [ColorHandler colorWithHexString:@"#1de9b6"];
+    picBorderView.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
     picBorderView.layer.cornerRadius = CGRectGetHeight(picBorderView.bounds) / 2;
     picBorderView.clipsToBounds = YES;
     [pictureContentView addSubview:picBorderView];
@@ -72,7 +72,7 @@
     if (_user.photo) {
         _pictureView.image = [UIImage imageWithData:_user.photo];
     } else {
-        _pictureView.image = [UIImage imageNamed:@"user_pic_default.png"];
+        _pictureView.image = _pic;
     }
     [picBorderView addSubview:_pictureView];
     
@@ -95,7 +95,7 @@
     nicknameField.textColor = [ColorHandler colorWithHexString:@"#c7c7c7"];
     nicknameField.font = [UIFont systemFontOfSize:15];
     nicknameField.delegate = self;
-    if (_user.name) {
+    if (_user.name.length > 0) {
         nicknameField.text = _user.name;
     } else {
         nicknameField.text = @"";

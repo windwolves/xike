@@ -7,6 +7,7 @@
 //
 
 #import "XikeDatabase.h"
+#import "Contants.h"
 
 @implementation XikeDatabase
 static sqlite3 *_database;
@@ -178,7 +179,12 @@ static sqlite3 *_database;
     if (sqlite3_prepare_v2(_database, getPasswordSQL, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_text(stmt, 1, [user.userID UTF8String], -1, nil);
         while (sqlite3_step(stmt) == SQLITE_ROW) {
-            password = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 0)];
+            if (sqlite3_column_text(stmt, 0)) {
+                password = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 0)];
+            } else {
+                password = otherLogonPassword;
+            }
+            
         }
     }
     sqlite3_finalize(stmt);

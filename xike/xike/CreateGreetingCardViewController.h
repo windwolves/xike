@@ -13,8 +13,9 @@
 #import "XikeDatabase.h"
 #import "FastInpuGreetingWordsViewController.h"
 
-@interface CreateGreetingCardViewController : UIViewController <UITextViewDelegate, NSURLSessionDataDelegate, FastInpuGreetingWordsViewControllerDelegate>
+@interface CreateGreetingCardViewController : UIViewController <UITextViewDelegate,UITextFieldDelegate, NSURLSessionDataDelegate, FastInpuGreetingWordsViewControllerDelegate>
 @property (nonatomic, strong) TemplateInfo *template;
+@property (nonatomic, strong) NSString *receiever;
 @property (nonatomic, strong) NSString *content;
 @property (nonatomic, strong) NSString *theme;
 @property (nonatomic, strong) GreetingInfo *greeting;

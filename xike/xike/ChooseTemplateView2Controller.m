@@ -114,8 +114,8 @@
     sectionHeight = categorySectionView.bounds.size.height;
     UIControl *categoryCtl_1 = [self buildCategoryControlWith:CGRectMake(0*sectionWidth, 0, sectionWidth, sectionHeight) :1];
     UIControl *categoryCtl_2 = [self buildCategoryControlWith:CGRectMake(1*sectionWidth, 0, sectionWidth, sectionHeight) :2];
-    categoryLable_1 = [self buildCategoryLabelWith:CGRectMake((sectionWidth-24)/2, 0, 24, sectionHeight) :@"圣诞狂欢"];
-    categoryLable_2 = [self buildCategoryLabelWith:CGRectMake((sectionWidth-24)/2, 0, 24, sectionHeight) :@"元旦来啦"];
+    categoryLable_1 = [self buildCategoryLabelWith:CGRectMake((sectionWidth-24)/2, 0, 24, sectionHeight) :@"新年春节"];
+    categoryLable_2 = [self buildCategoryLabelWith:CGRectMake((sectionWidth-24)/2, 0, 24, sectionHeight) :@"情人佳节"];
     [categoryCtl_1 addSubview:categoryLable_1];
     [categoryCtl_2 addSubview:categoryLable_2];
     [categorySectionView addSubview:categoryCtl_1];

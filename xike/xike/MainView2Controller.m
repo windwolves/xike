@@ -119,12 +119,13 @@
     [createGreetingCardButton setImage:[UIImage imageNamed:@"create_greeting_card"] forState:UIControlStateNormal];
     [createGreetingCardButton addTarget:self action:@selector(createGreetingCard) forControlEvents:UIControlEventTouchUpInside];
     //[self.view addSubview:createGreetingCardButton];
+    
+    //Tabbar View
+    [self buildTabbarView];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self buildTabbarView];
-    
     //Tips
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"tipsForNewStuff"]) {
         [self buildTipsForNewStuff];
@@ -137,7 +138,6 @@
     [createInvitationButton removeFromSuperview];
     [createGreetingCardButton removeFromSuperview];
     [createView removeFromSuperview];
-    
 }
 
 - (void)buildTabbarView {
@@ -146,6 +146,7 @@
     tabbarView.delegate = self;
     tabbarView.layer.contents = (id)[self getBlurImageWithCGRect:tabbarView.frame].CGImage;
     [self.view addSubview:tabbarView];
+    [self.view bringSubviewToFront:tabbarView];
 }
 
 - (void)buildTipsForNewStuff {

@@ -83,11 +83,11 @@
     [self.view addSubview:contentView];
     
     //Words View
-    //_greeting = [GreetingInfo new];
-    //_greeting.theme = @"NewYearDay";
     if ([_greeting.theme isEqualToString:@"Christmas"]) {
         [self buildChristmasWords];
     } else if ([_greeting.theme isEqualToString:@"NewYearDay"]) {
+        [self buildNewYearDayWords];
+    } else {
         [self buildNewYearDayWords];
     }
 }
