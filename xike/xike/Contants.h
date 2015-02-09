@@ -9,9 +9,10 @@
 #ifndef xike_Contants_h
 #define xike_Contants_h
 
-#define app_version 1.121f
+#define app_version 1.200f
 #define HOST @"http://121.40.139.180:8081"
-#define HOST_2 @"http://121.40.139.180:8082"
+#define HOST_2 @"http://121.40.139.180:80"
+#define HOST_3 @"shaker.mobi"
 #define tmpHost @"http://10.207.194.63:18080"
 #define WXAppid @"wxca9958c9b1340c67"
 #define WXAppSecect @"da1c1b7d4c36be3f5bdcb8be017c5911"

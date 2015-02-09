@@ -54,12 +54,13 @@
     
     tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignKeyBoard)];
     contentPlaceholderString = @"输入祝福语(内页展示,100字以内)";
+    
     //Create greeting card if new
     if (!_greeting) {
         [self createGreetingCard];
     }
-    
-    [self buildView_v2];
+    [self buildView];
+//    [self buildView_v2];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -77,16 +78,16 @@
         navigationBar.backgroundColor= [ColorHandler colorWithHexString:@"#1de9b6"];
         [self.view addSubview:navigationBar];
         
-        returnBtn = [[ImageControl alloc] initWithFrame:CGRectMake(10, 33, 43, 18)];
-        returnBtn.imageView = [[UIImageView alloc] initWithFrame:returnBtn.bounds];
+        returnBtn = [[ImageControl alloc] initWithFrame:CGRectMake(10, 23, 43, 38)];
+        returnBtn.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 43, 18)];
         returnBtn.imageView.image = [UIImage imageNamed:@"return_icon"];
         [returnBtn addSubview:returnBtn.imageView];
         [returnBtn addTarget:self action:@selector(returnToPreviousView) forControlEvents:UIControlEventTouchUpInside];
         [navigationBar addSubview:returnBtn];
         
-        doneBtn = [[ImageControl alloc] initWithFrame:CGRectMake(viewWidth-53, 33, 43, 18)];
-        doneBtn.imageView = [[UIImageView alloc] initWithFrame:doneBtn.bounds];
-        doneBtn.imageView.image = [UIImage imageNamed:@"done_icon"];
+        doneBtn = [[ImageControl alloc] initWithFrame:CGRectMake(viewWidth-53, 23, 43, 38)];
+        doneBtn.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 43, 18)];
+        doneBtn.imageView.image = [UIImage imageNamed:@"go_to_preview"];
         [doneBtn addSubview:doneBtn.imageView];
         [doneBtn addTarget:self action:@selector(nextBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         [navigationBar addSubview:doneBtn];
@@ -99,14 +100,23 @@
 }
 
 - (void)returnToPreviousView {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (_greeting.content.length == 0) {
+        if (_isCreate) {
+            [self deleteGreetingCard:_greeting];
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"取消创建" message:@"贺卡尚未保存，真的要离开么？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alertView.tag = 2;
+        [alertView show];
+    }
 }
 
 - (void)createGreetingCard {
     _greeting = [GreetingInfo new];
     _greeting.senderID = _user.ID;
     _greeting.templateID = _template.ID;
-    _greeting.template = [_database getTemplate:_template.ID];
+    _greeting.template = [_database getTemplateWithName:_template.name];
     _greeting.theme = _theme;
     [self createGreetingCardOnServer];
 }
@@ -211,24 +221,11 @@
 }
 
 - (void)popFastInputForGreetingCard {
+    [self setGreetingCardContent:contentTextView];
     FastInpuGreetingWordsViewController *fastInputViewController = [FastInpuGreetingWordsViewController new];
     fastInputViewController.greeting = _greeting;
     fastInputViewController.delegate = self;
     [self.navigationController pushViewController:fastInputViewController animated:YES];
-}
-
-- (void)returnBtnClicked {
-    self.navigationController.navigationBarHidden = YES;
-    if (_greeting.content.length == 0) {
-        if (_isCreate) {
-            [self deleteGreetingCard:_greeting];
-        }
-        [self.navigationController popViewControllerAnimated:YES];
-    } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"取消创建" message:@"贺卡尚未保存，真的要离开么？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        alertView.tag = 2;
-        [alertView show];
-    }
 }
 
 - (void)nextBtnClicked {
@@ -237,6 +234,7 @@
     PreViewController *previewController = [PreViewController new];
     previewController.greeting = _greeting;
     previewController.database = _database;
+    previewController.user = _user;
     previewController.createItem = @"GreetingCard";
     [self.navigationController pushViewController:previewController animated:YES];
     
@@ -245,6 +243,8 @@
 - (void)setGreetingCardContent:(UITextView *)textView {
     if ([textView.text isEqualToString:@""]) {
         textView.text = contentPlaceholderString;
+        _greeting.content = @"";
+    } else if ([textView.text isEqualToString:contentPlaceholderString]) {
         _greeting.content = @"";
     } else {
         _greeting.content = textView.text;
@@ -278,9 +278,9 @@
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPMethod:@"POST"];
+    [request setHTTPMethod:@"DELETE"];
     NSMutableDictionary *dic = [NSMutableDictionary new];
-    [dic setValue:@"delete" forKey:@"_method"];
+    //[dic setValue:@"delete" forKey:@"_method"];
     
     NSError *err;
     NSData *bodyData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&err];
@@ -293,7 +293,7 @@
         //NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
             _greeting.uuid = [[dataDic valueForKey:@"data"] valueForKey:@"id"];
-            [_database insertGreetingCard:_greeting :_user];
+            //[_database insertGreetingCard:_greeting :_user];
         }
     }];
     
@@ -304,17 +304,13 @@
     NSString *createGreetingCardService = @"/services/entity?";
     NSString *authString = [[NSString alloc] initWithFormat:@"_username=%@&_password=%@",_user.userID,[self md5HexDigest:[_database getUserPassword:_user]]];
     NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@%@",HOST_2,createGreetingCardService,authString];
-//    NSString *authString = [[NSString alloc] initWithFormat:@"_username=%@&_password=%@",@"admin",[self md5HexDigest:@"admin"]];
-//    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@%@",tmpHost,createGreetingCardService,authString];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
 
     NSString *typeString = [[NSString alloc] initWithFormat:@"type=%@",@"greeting-card"];
-    NSString *templateIdString = [[NSString alloc] initWithFormat:@"category=%@",_greeting.theme];
-//    NSString *templateIdString = [[NSString alloc] initWithFormat:@"category=%@",@"valentine_day_zxy_02"];
-    
+    NSString *templateIdString = [[NSString alloc] initWithFormat:@"category=%@",_greeting.template.name];
     NSString *titleString = [[NSString alloc] initWithFormat:@"title=%@",[_greeting.theme isEqualToString:@"Valentine"]?@"情人节快乐!":@"新春快乐!"];
     NSString *loginDataString = [[NSString alloc] initWithFormat:@"%@&%@&%@",typeString,templateIdString,titleString];
     [request setHTTPBody:[loginDataString dataUsingEncoding:NSUTF8StringEncoding]];
@@ -327,7 +323,8 @@
             _greeting.uuid = [[dataDic valueForKey:@"data"] valueForKey:@"id"];
             [_database insertGreetingCard:_greeting :_user];
         } else {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"服务器创建活动失败" message:@"请重新尝试" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//            NSString *code = [dataDic valueForKey:@"code"];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"服务器创建活动失败" message:@"请稍后再试" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             alertView.tag = 1;
             [alertView show];
         }
@@ -344,13 +341,17 @@
 //    NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@%@%@",tmpHost,updateGreetingCardService,IDString,authString];
     
     NSString *authString = [[NSString alloc] initWithFormat:@"_username=%@&_password=%@",_user.userID,[self md5HexDigest:[_database getUserPassword:_user]]];
+//    NSString *templateIdString = [[NSString alloc] initWithFormat:@"category=%@",_greeting.template.name];
     NSString *URLString = [[NSString alloc]initWithFormat:@"%@%@%@%@",HOST_2,updateGreetingCardService,IDString,authString];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPMethod:@"POST"];
+    [request setHTTPMethod:@"PUT"];
     NSMutableDictionary *dic = [NSMutableDictionary new];
-    [dic setValue:@"put" forKey:@"_method"];
+
+    [dic setValue:@"greeting-card" forKey:@"type"];
+    [dic setValue:_greeting.template.name forKey:@"category"];
+//    NSString *a = [_greeting.content stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [dic setValue:_greeting.content forKey:@"content"];
     
     NSError *err;
@@ -364,7 +365,8 @@
         //NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         if ([[dataDic valueForKey:@"status"] isEqualToString:@"success"]) {
             _greeting.uuid = [[dataDic valueForKey:@"data"] valueForKey:@"id"];
-            [_database insertGreetingCard:_greeting :_user];
+//            [_database insertGreetingCard:_greeting :_user];
+            [_database updateGreetingCard:_greeting];
         }
     }];
     
@@ -380,7 +382,16 @@
 #pragma FastInputViewDelegate
 - (void)done:(NSString *)content {
     _greeting.content = content;
+    if ([content length] != 0) {
+        contentTextView.text = content;
+    }
     [self nextBtnClicked];
+}
+
+- (void)returnWithWord:(NSString *)word {
+    if ([word length] != 0) {
+        contentTextView.text = word;
+    }
 }
 
 #pragma AlertViewDelegate

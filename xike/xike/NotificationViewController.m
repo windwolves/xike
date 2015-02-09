@@ -139,6 +139,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     event.uuid = notification.eventUUID;
     PreViewController *previewController = [PreViewController new];
     previewController.database = _database;
+    previewController.user = _user;
     previewController.event = event;
     
     [self.navigationController pushViewController:previewController animated:YES];

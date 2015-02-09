@@ -51,4 +51,7 @@
 - (BOOL)deleteGreetingCard:(GreetingInfo *)greetingCard;
 - (BOOL)updateGreetingCard:(GreetingInfo *)greetingCard;
 
+//v1.2 update
+- (TemplateInfo *)getTemplateWithName:(NSString *)name;
+
 @end

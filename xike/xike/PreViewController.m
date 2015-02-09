@@ -52,33 +52,6 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    /*
-    self.navigationController.navigationBarHidden = NO;
-    self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
-    
-    actionBarView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-49, self.view.bounds.size.width, 49)];
-    actionBarView.backgroundColor = [ColorHandler colorWithHexString:@"#1de9b6"];
-    
-    saveCtl = [[ImageControl alloc] initWithFrame:CGRectMake(69, 5, 24, 36)];
-    saveCtl.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"save_icon_off"] highlightedImage:[UIImage imageNamed:@"save_icon_on"]];
-    saveCtl.imageView.frame = CGRectMake(0, 0, 24, 36);
-    [saveCtl addSubview:saveCtl.imageView];
-    saveCtl.tag = 1;
-    [saveCtl addTarget:self action:@selector(clickOnCtl:) forControlEvents:UIControlEventTouchUpInside];
-    [actionBarView addSubview:saveCtl];
-    
-    shareCtl = [[ImageControl alloc] initWithFrame:CGRectMake(230, 5, 24, 36)];
-    shareCtl.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_icon_off"] highlightedImage:[UIImage imageNamed:@"share_icon_on"]];
-    shareCtl.imageView.frame = CGRectMake(0, 0, 24, 36) ;
-    [shareCtl addSubview:shareCtl.imageView];
-    shareCtl.tag = 2;
-    [shareCtl addTarget:self action:@selector(clickOnCtl:) forControlEvents:UIControlEventTouchUpInside];
-    [actionBarView addSubview:shareCtl];
-    
-    //[self.view addSubview:actionBarView];
-    //[self buildActionView];
-    [actionView removeFromSuperview];
-     */
     self.navigationController.navigationBarHidden = YES;
 
     [ShareEngine sharedInstance].delegate = self;
@@ -98,25 +71,8 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
     self.navigationController.navigationBarHidden = YES;
-    /*
-    NSMutableDictionary *titleFont= [NSMutableDictionary new];
-    [titleFont setValue:[UIColor whiteColor] forKeyPath:NSForegroundColorAttributeName];
-    [titleFont setValue:[UIFont fontWithName:@"HelveticaNeue-Light" size:20] forKeyPath:NSFontAttributeName];
-    self.navigationController.navigationBar.titleTextAttributes = titleFont;
-    [self.navigationItem setTitle:@"预览"];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    UIBarButtonItem *returnBtn = [[UIBarButtonItem alloc] initWithTitle:@"上一步" style:UIBarButtonItemStylePlain target:self action:@selector(returnToPreviousView)];
-    [self.navigationItem setLeftBarButtonItem:returnBtn];
-    if ([_fromController isEqualToString:@"eventsTable"]) {
-        UIBarButtonItem *editBtn = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editEvent)];
-        [self.navigationItem setRightBarButtonItem:editBtn];
-    } else if ([_fromController isEqualToString:@"greetingsTable"]) {
-        UIBarButtonItem *editBtn = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editGreetingCard)];
-        [self.navigationItem setRightBarButtonItem:editBtn];
-    }
-    */
     
-    _previewWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, viewWidth, viewHeight)];
+    _previewWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 44, viewWidth, viewHeight-44)];
     if ([_createItem isEqualToString:@"GreetingCard"]) {
         _URL = [self generateURLWithGreetingCard:_greeting];
     } else {
@@ -139,38 +95,40 @@
         navigationBar.backgroundColor= [ColorHandler colorWithHexString:@"#1de9b6"];
         [self.view addSubview:navigationBar];
         
-        returnBtn = [[ImageControl alloc] initWithFrame:CGRectMake(10, 33, 43, 18)];
-        returnBtn.imageView = [[UIImageView alloc] initWithFrame:returnBtn.bounds];
+        UIImageView *titleView = [[UIImageView alloc] initWithFrame:CGRectMake((viewWidth-39)/2, 33, 39, 18)];
+        titleView.image = [UIImage imageNamed:@"preview_title"];
+        [navigationBar addSubview:titleView];
+        
+        returnBtn = [[ImageControl alloc] initWithFrame:CGRectMake(10, 23, 43, 38)];
+        returnBtn.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 43, 18)];
         returnBtn.imageView.image = [UIImage imageNamed:@"return_icon"];
         [returnBtn addSubview:returnBtn.imageView];
         [returnBtn addTarget:self action:@selector(returnToPreviousView) forControlEvents:UIControlEventTouchUpInside];
         [navigationBar addSubview:returnBtn];
         
-        doneBtn = [[ImageControl alloc] initWithFrame:CGRectMake(viewWidth-53, 33, 43, 18)];
-        doneBtn.imageView = [[UIImageView alloc] initWithFrame:doneBtn.bounds];
+        doneBtn = [[ImageControl alloc] initWithFrame:CGRectMake(viewWidth-53, 23, 43, 38)];
+        doneBtn.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 43, 18)];
         doneBtn.imageView.image = [UIImage imageNamed:@"done_icon"];
         [doneBtn addSubview:doneBtn.imageView];
         [doneBtn addTarget:self action:@selector(done) forControlEvents:UIControlEventTouchUpInside];
         [navigationBar addSubview:doneBtn];
         
-        editBtn = [[ImageControl alloc] initWithFrame:CGRectMake(viewWidth-100, 33, 40, 18)];
-//        editBtn.backgroundColor = [UIColor blackColor];
-        editBtn.label = [[UILabel alloc] initWithFrame:editBtn.bounds];
-        editBtn.label.textColor = [UIColor whiteColor];
-        editBtn.label.font = [UIFont systemFontOfSize:18];
-        editBtn.label.text = @"编辑";
+        editBtn = [[ImageControl alloc] initWithFrame:CGRectMake(viewWidth-100, 23, 40, 38)];
+        editBtn.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 29, 18)];
+        editBtn.imageView.image = [UIImage imageNamed:@"edit_btn_icon"];
+        [editBtn addSubview:editBtn.imageView];
         [editBtn addSubview:editBtn.label];
         if ([_fromController isEqualToString:@"eventsTable"]) {
             [navigationBar addSubview:editBtn];
             [editBtn addTarget:self action:@selector(editEvent) forControlEvents:UIControlEventTouchUpInside];
+            titleView.image = [UIImage imageNamed:@"invitation_title"];
         } else if ([_fromController isEqualToString:@"greetingsTable"]) {
             [navigationBar addSubview:editBtn];
             [editBtn addTarget:self action:@selector(editGreetingCard) forControlEvents:UIControlEventTouchUpInside];
+            titleView.image = [UIImage imageNamed:@"greeting_title"];
         }
         
-        UIImageView *titleView = [[UIImageView alloc] initWithFrame:CGRectMake((viewWidth-39)/2, 33, 39, 18)];
-        titleView.image = [UIImage imageNamed:@"preview_title"];
-        [navigationBar addSubview:titleView];
+        
     }
     [self.view addSubview:navigationBar];
 }
@@ -285,7 +243,7 @@
     NSString *imageName = [[NSString alloc] initWithFormat:@"%@_120_120",_event.template.name];
     _event.send_status = 1;
     if ([_createItem isEqualToString:@"GreetingCard"]) {
-        theme = [_greeting.theme isEqualToString:@"Christmas"]?@"Merry Christmas!":@"Happy New Year!";
+        theme = [_greeting.theme isEqualToString:@"Valentine"]?@"情人节快乐!":@"新春快乐!";
         imageName = [[NSString alloc] initWithFormat:@"%@_120_120",_greeting.template.name];
         _greeting.send_status = 1;
     }
@@ -298,7 +256,7 @@
     NSString *imageName = [[NSString alloc] initWithFormat:@"%@_120_120",_event.template.name];
     _event.send_status = 1;
     if ([_createItem isEqualToString:@"GreetingCard"]) {
-        theme = [_greeting.theme isEqualToString:@"Christmas"]?@"Merry Christmas!":@"Happy New Year!";
+        theme = [_greeting.theme isEqualToString:@"Valentine"]?@"情人节快乐!":@"新春快乐!";
         imageName = [[NSString alloc] initWithFormat:@"%@_120_120",_greeting.template.name];
         _greeting.send_status = 1;
     }
@@ -310,7 +268,7 @@
     NSString *imageName = [[NSString alloc] initWithFormat:@"%@_120_120",_event.template.name];
     _event.send_status = 1;
     if ([_createItem isEqualToString:@"GreetingCard"]) {
-        theme = [_greeting.theme isEqualToString:@"Christmas"]?@"Merry Christmas!":@"Happy New Year!";
+        theme = [_greeting.theme isEqualToString:@"Valentine"]?@"情人节快乐!":@"新春快乐!";
         imageName = [[NSString alloc] initWithFormat:@"%@_120_120",_greeting.template.name];
         _greeting.send_status = 1;
     }
@@ -416,6 +374,7 @@
 - (void)editGreetingCard {
     CreateGreetingCardViewController *modifyEventContorller = [CreateGreetingCardViewController new];
     modifyEventContorller.database = _database;
+    modifyEventContorller.user = _user;
     modifyEventContorller.greeting = _greeting;
     modifyEventContorller.isCreate = NO;
     [self.navigationController pushViewController:modifyEventContorller animated:YES];
@@ -434,6 +393,7 @@
     
     ShareViewController *shareViewController = [ShareViewController new];
     shareViewController.delegate = self;
+    shareViewController.fromController = _fromController;
     [self.navigationController pushViewController:shareViewController animated:YES];
 }
 
@@ -470,10 +430,18 @@
 }
 
 - (NSString *)generateURLWithGreetingCard:(GreetingInfo *)greeting {
-    NSString *path = [[NSString alloc] initWithFormat:@"%@/#/greeting-card/",HOST];
-    NSString *uuid = greeting.uuid;
-    NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",path,uuid];
-    return urlString;
+    if ([_greeting.template.category isEqual:@"GreetingCard_Christmas"] || [_greeting.template.category isEqual:@"GreetingCard_NewYearDay"] ) {
+        NSString *path = [[NSString alloc] initWithFormat:@"%@/#/greeting-card/",HOST_2];
+        NSString *uuid = greeting.uuid;
+        NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",path,uuid];
+        return urlString;
+    } else {
+        NSString *path = [[NSString alloc] initWithFormat:@"%@/entity/",HOST_2];
+        NSString *uuid = greeting.uuid;
+        NSString *urlString = [[NSString alloc] initWithFormat:@"%@%@",path,uuid];
+        return urlString;
+    }
+    
 }
 
 

@@ -13,6 +13,9 @@
 #import "ForgetPasswordViewController.h"
 #import "Contants.h"
 
+#define viewWidth self.view.bounds.size.width
+#define viewHeight self.view.bounds.size.height
+
 @interface UserLogonViewController () {
     UIView *logonView;
     UIView *registerView;
@@ -68,10 +71,10 @@
     [titleFont setValue:[UIFont fontWithName:@"HelveticaNeue-Light" size:20] forKeyPath:NSFontAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = titleFont;
     
-    UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(115, 25, 90, 90)];
+    UIImageView *logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake((viewWidth-90)/2, 25, 90, 90)];
     logoImageView.image = [UIImage imageNamed:@"logo_big"];
     [self.view addSubview:logoImageView];
-    UIImageView *textLogoView = [[UIImageView alloc] initWithFrame:CGRectMake(140, 124, 40, 23)];
+    UIImageView *textLogoView = [[UIImageView alloc] initWithFrame:CGRectMake((viewWidth-38)/2, 124, 38, 20)];
     textLogoView.image = [UIImage imageNamed:@"logo_text_big"];
     [self.view addSubview:textLogoView];
     /*

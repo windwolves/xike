@@ -216,6 +216,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PreViewController *preViewController = [PreViewController new];
     preViewController.database = _database;
+    preViewController.user = _user;
     preViewController.event = [eventsArray objectAtIndex:indexPath.row];
     preViewController.fromController = @"eventsTable";
     [self.navigationController pushViewController:preViewController animated:YES];

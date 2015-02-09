@@ -14,6 +14,10 @@
 #import "CreateGreetingCardViewController.h"
 #import "CreateInvitationViewController.h"
 
+
+#define viewWidth self.view.bounds.size.width
+#define viewHeight self.view.bounds.size.height
+
 @interface ChooseTemplateView2Controller ()
 
 @end
@@ -34,29 +38,28 @@
     float sectionHeight;
     UISwipeGestureRecognizer *swipeGestureLeft;
     UISwipeGestureRecognizer *swipeGestureRight;
+    UIView *navigationBar;
+    ImageControl *returnBtn;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
    // _createItem = @"Invitation";
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f3f3f3"];
-    
+    /*
     self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
     NSMutableDictionary *titleFont= [NSMutableDictionary new];
     [titleFont setValue:[UIColor whiteColor] forKeyPath:NSForegroundColorAttributeName];
     [titleFont setValue:[UIFont fontWithName:@"HelveticaNeue-Light" size:20] forKeyPath:NSFontAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = titleFont;
+    */
     if ([_createItem isEqualToString:@"GreetingCard"]) {
-        [self.navigationItem setTitle:@"贺卡"];
+        //[self.navigationItem setTitle:@"贺卡"];
         [self buildGreetingCardTemplateView];
     } else if ([_createItem isEqualToString:@"Invitation"]) {
-        [self.navigationItem setTitle:@"邀请函"];
+        //[self.navigationItem setTitle:@"邀请函"];
         [self buildInvitationTemplateView];
     }
-    
-    UIBarButtonItem *returnBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(returnBtnClicked)];
-    returnBtn.tintColor = [UIColor whiteColor];
-    [self.navigationItem setLeftBarButtonItem:returnBtn];
     
     //Gesture
     swipeGestureLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
@@ -70,8 +73,40 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationController.navigationBarHidden = NO;
-    self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
+    self.navigationController.navigationBarHidden = YES;
+    [self buildNavigationBar];
+    
+}
+
+
+- (void)buildNavigationBar {
+    if (navigationBar) {
+        [navigationBar removeFromSuperview];
+    } else {
+        navigationBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 64)];
+        navigationBar.backgroundColor= [ColorHandler colorWithHexString:@"#1de9b6"];
+        [self.view addSubview:navigationBar];
+        
+        returnBtn = [[ImageControl alloc] initWithFrame:CGRectMake(10, 23, 43, 38)];
+        returnBtn.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 43, 18)];
+        returnBtn.imageView.image = [UIImage imageNamed:@"return_icon"];
+        [returnBtn addSubview:returnBtn.imageView];
+        [returnBtn addTarget:self action:@selector(returnToPreviousView) forControlEvents:UIControlEventTouchUpInside];
+        [navigationBar addSubview:returnBtn];
+        
+        UIImageView *titleView = [[UIImageView alloc] initWithFrame:CGRectMake((viewWidth-39)/2, 33, 39, 18)];
+        
+        if ([_createItem isEqualToString:@"GreetingCard"]) {
+            [titleView setFrame:CGRectMake((viewWidth-39)/2, 33, 39, 18)];
+            titleView.image = [UIImage imageNamed:@"template_greeting_title"];
+        } else if ([_createItem isEqualToString:@"Invitation"]) {
+            [titleView setFrame:CGRectMake((viewWidth-58)/2, 33, 58, 18)];
+            titleView.image = [UIImage imageNamed:@"template_invitation_title"];
+        }
+        
+        [navigationBar addSubview:titleView];
+    }
+    [self.view addSubview:navigationBar];
 }
 
 - (void)handleSwipe:(UISwipeGestureRecognizer *)gestureRecognizer {
@@ -86,7 +121,7 @@
     }
 }
 
-- (void)returnBtnClicked {
+- (void)returnToPreviousView {
     if (categoryView_1) {
         [categoryView_1 removeFromSuperview];
     }
@@ -127,16 +162,19 @@
     [categorySectionView addSubview:sectionIndicator];
     
     //set template info;
-    TemplateInfo *info_1 = [self buildTemplateInfoWith:[UIImage imageNamed:@"Christmas_1_362_570.jpg"] :@"7095bc04-0949-4985-801e-e9340c9e756c"];
-    TemplateInfo *info_2 = [self buildTemplateInfoWith:[UIImage imageNamed:@"Christmas_2_362_570.jpg"] :@"9adabeb9-9405-4d9e-91ce-a5608c79934a"];//sd2
-    TemplateInfo *info_3 = [self buildTemplateInfoWith:[UIImage imageNamed:@"Christmas_3_362_570.jpg"] :@"61e744e8-430b-4d7a-841b-d34caaf49a36"];
-    TemplateInfo *info_4 = [self buildTemplateInfoWith:[UIImage imageNamed:@"Christmas_4_362_570.jpg"] :@"cb99c1f7-3dc4-4848-b080-296ed0a4c254"];
-    TemplateInfo *info_5 = [self buildTemplateInfoWith:[UIImage imageNamed:@"NewYearDay_1_362_570.jpg"] :@"c961aaf3-0155-416c-8e84-3b5216e7e177"];
-    TemplateInfo *info_6 = [self buildTemplateInfoWith:[UIImage imageNamed:@"NewYearDay_2_362_570.jpg"] :@"3a7cb5ca-c5b3-4afc-9c01-1633a1092da5"];//yd1
-    TemplateInfo *info_7 = [self buildTemplateInfoWith:[UIImage imageNamed:@"NewYearDay_3_362_570.jpg"] :@"68a69ccb-3c46-4982-a83d-1e194a12cfb2"];
-    TemplateInfo *info_8 = [self buildTemplateInfoWith:[UIImage imageNamed:@"NewYearDay_4_362_570.jpg"] :@"fa4af1c2-8aaa-483a-b680-ecfaa64f3d8b"];
+    
+    TemplateInfo *info_1 = [self buildTemplateInfoWith:[UIImage imageNamed:@"spring_festival_zoe_01_362_570.jpg"] :@"spring_festival_zoe_01" :@"spring_festival_zoe_01"];
+    TemplateInfo *info_2 = [self buildTemplateInfoWith:[UIImage imageNamed:@"spring_festival_rey_01_362_570.jpg"] :@"spring_festival_rey_01" :@"spring_festival_rey_01"];
+    TemplateInfo *info_3 = [self buildTemplateInfoWith:[UIImage imageNamed:@"spring_festival_hy_01_362_570.jpg"] :@"spring_festival_hy_01" :@"spring_festival_hy_01"];
+    TemplateInfo *info_4 = [self buildTemplateInfoWith:[UIImage imageNamed:@"spring_festival_hy_02_362_570.jpg"] :@"spring_festival_hy_02" :@"spring_festival_hy_02"];
+    TemplateInfo *info_5 = [self buildTemplateInfoWith:[UIImage imageNamed:@"valentine_day_zxy_01_362_570.jpg"] :@"valentine_day_zxy_01" :@"valentine_day_zxy_01"];
+    TemplateInfo *info_6 = [self buildTemplateInfoWith:[UIImage imageNamed:@"valentine_day_zxy_02_362_570.jpg"] :@"valentine_day_zxy_02" :@"valentine_day_zxy_02"];
+    TemplateInfo *info_7 = [self buildTemplateInfoWith:[UIImage imageNamed:@"valentine_day_rey_01_362_570.jpg"] :@"valentine_day_rey_01" :@"valentine_day_rey_01"];
+    TemplateInfo *info_8 = [self buildTemplateInfoWith:[UIImage imageNamed:@"valentine_day_zoe_01_362_570.jpg"] :@"valentine_day_zoe_01" :@"valentine_day_zoe_01"];
+    
     NSArray *templateArray_1 = @[info_1,info_2,info_3,info_4];
     NSArray *templateArray_2 = @[info_5,info_6,info_7,info_8];
+    
     
     //build category view
     categoryView_1 = [self buildCategoryViewWith:templateArray_1];
@@ -179,22 +217,22 @@
     
     //set template info;
     //these should be fetched from database;
-    TemplateInfo *info_1 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y001_362_570.jpg"] :@"36c7f4b4-dbe7-4886-9c87-f8ac6679a9ee"];
-    TemplateInfo *info_2 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y002_362_570.jpg"] :@"69639840-f7a3-4b96-97db-c4128ce6c358"];
-    TemplateInfo *info_3 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y003_362_570.jpg"] :@"68290803-d3ad-428e-9307-f8382be5cc83"];
-    TemplateInfo *info_4 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y004_362_570.jpg"] :@"c3c931ea-c690-43d1-ae28-9863bad7799b"];
-    TemplateInfo *info_5 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x001_362_570.jpg"] :@"544331a9-e6e5-41c1-9212-6fcf6f3b3ebc"];
-    TemplateInfo *info_6 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x002_362_570.jpg"] :@"9f42133f-929f-4998-9bbd-315effcb2c38"];
-    TemplateInfo *info_7 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x003_362_570.jpg"] :@"300a3507-751a-4fbf-8187-a82d1e68860c"];
-    TemplateInfo *info_8 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x004_362_570.jpg"] :@"22b7fd9f-74d7-44f2-87ef-5af810bed314"];
-    TemplateInfo *info_9 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x005_362_570.jpg"] :@"71bf36af-bb1e-42d5-a233-471ba7dbb54c"];
-    TemplateInfo *info_10 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x006_362_570.jpg"] :@"8d7c8889-d3c1-4384-9edd-5c9691c2e790"];
-    TemplateInfo *info_11 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x007_362_570.jpg"] :@"08d3b3f3-cef5-4c9f-bee9-29371dd180ba"];
-    TemplateInfo *info_12 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x008_362_570.jpg"] :@"68868dc2-a7ab-4866-b27e-a5679aee2e25"];
-    TemplateInfo *info_13 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x009_362_570.jpg"] :@"49e81bde-d51e-485d-be42-bbb269330081"];
-    TemplateInfo *info_14 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x010_362_570.jpg"] :@"5fbbd474-2ecd-4054-add4-e994ddda128e"];
-    TemplateInfo *info_15 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x011_362_570.jpg"] :@"f127e1e0-0569-439c-ad03-2c980ed2f55a"];
-    TemplateInfo *info_16 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x012_362_570.jpg"] :@"27deb988-009b-431d-80cf-ba1349cef19c"];
+    TemplateInfo *info_1 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y001_362_570.jpg"] :@"36c7f4b4-dbe7-4886-9c87-f8ac6679a9ee" :@""];
+    TemplateInfo *info_2 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y002_362_570.jpg"] :@"69639840-f7a3-4b96-97db-c4128ce6c358" :@""];
+    TemplateInfo *info_3 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y003_362_570.jpg"] :@"68290803-d3ad-428e-9307-f8382be5cc83" :@""];
+    TemplateInfo *info_4 = [self buildTemplateInfoWith:[UIImage imageNamed:@"y004_362_570.jpg"] :@"c3c931ea-c690-43d1-ae28-9863bad7799b" :@""];
+    TemplateInfo *info_5 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x001_362_570.jpg"] :@"544331a9-e6e5-41c1-9212-6fcf6f3b3ebc" :@""];
+    TemplateInfo *info_6 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x002_362_570.jpg"] :@"9f42133f-929f-4998-9bbd-315effcb2c38" :@""];
+    TemplateInfo *info_7 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x003_362_570.jpg"] :@"300a3507-751a-4fbf-8187-a82d1e68860c" :@""];
+    TemplateInfo *info_8 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x004_362_570.jpg"] :@"22b7fd9f-74d7-44f2-87ef-5af810bed314" :@""];
+    TemplateInfo *info_9 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x005_362_570.jpg"] :@"71bf36af-bb1e-42d5-a233-471ba7dbb54c" :@""];
+    TemplateInfo *info_10 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x006_362_570.jpg"] :@"8d7c8889-d3c1-4384-9edd-5c9691c2e790" :@""];
+    TemplateInfo *info_11 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x007_362_570.jpg"] :@"08d3b3f3-cef5-4c9f-bee9-29371dd180ba" :@""];
+    TemplateInfo *info_12 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x008_362_570.jpg"] :@"68868dc2-a7ab-4866-b27e-a5679aee2e25" :@""];
+    TemplateInfo *info_13 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x009_362_570.jpg"] :@"49e81bde-d51e-485d-be42-bbb269330081" :@""];
+    TemplateInfo *info_14 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x010_362_570.jpg"] :@"5fbbd474-2ecd-4054-add4-e994ddda128e" :@""];
+    TemplateInfo *info_15 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x011_362_570.jpg"] :@"f127e1e0-0569-439c-ad03-2c980ed2f55a" :@""];
+    TemplateInfo *info_16 = [self buildTemplateInfoWith:[UIImage imageNamed:@"x012_362_570.jpg"] :@"27deb988-009b-431d-80cf-ba1349cef19c" :@""];
     NSArray *templateArray_1 = @[info_1,info_2,info_3,info_4];
     NSArray *templateArray_2 = @[info_5,info_6,info_7,info_8];
     NSArray *templateArray_3 = @[info_9,info_10,info_11,info_12];
@@ -216,10 +254,11 @@
     
 }
 
-- (TemplateInfo *)buildTemplateInfoWith:(UIImage *)image :(NSString *)ID {
+- (TemplateInfo *)buildTemplateInfoWith:(UIImage *)image :(NSString *)ID :(NSString *)name {
     TemplateInfo *info = [TemplateInfo new];
     info.thumbnail = UIImagePNGRepresentation(image);
     info.ID = ID;
+    info.name = name;
     return info;
 }
 
@@ -393,7 +432,8 @@
         createGreetingCardController.user = _user;
         createGreetingCardController.template = [TemplateInfo new];
         createGreetingCardController.template.ID = ctl.controlID;
-        createGreetingCardController.theme = (sectionFlag==1)?@"Christmas":@"NewYearDay";
+        createGreetingCardController.template.name = ctl.template.name;
+        createGreetingCardController.theme = (sectionFlag==1)?@"Spring":@"Valentine";
         createGreetingCardController.isCreate = YES;
         [self.navigationController pushViewController:createGreetingCardController animated:YES];
     }

@@ -126,18 +126,17 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
-    //Tips
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"tipsForNewStuff"]) {
-        [self buildTipsForNewStuff];
-    }
     //Remove maskView
-    //[self removeMaskView];
-    
     [maskView removeFromSuperview];
     [maskView removeGestureRecognizer:tapGesture];
     [createInvitationButton removeFromSuperview];
     [createGreetingCardButton removeFromSuperview];
     [createView removeFromSuperview];
+    [self buildTabbarView];
+    //Tips
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"tipsForNewStuff"]) {
+        [self buildTipsForNewStuff];
+    }
 }
 
 - (void)buildTabbarView {
@@ -159,7 +158,7 @@
     tipsForNewStuff_1.image = [UIImage imageNamed:@"TipsForNewStuff_1"];
     tipsForNewStuff_2 = [[UIImageView alloc] initWithFrame:CGRectMake(80, 225, 195, 173)];
     tipsForNewStuff_2.image = [UIImage imageNamed:@"TipsForNewStuff_2"];
-    tipsForNewStuff_3 = [[UIImageView alloc] initWithFrame:CGRectMake(8, 449, 212, 120)];
+    tipsForNewStuff_3 = [[UIImageView alloc] initWithFrame:CGRectMake(8, maskView.bounds.size.height-122, 212, 120)];
     tipsForNewStuff_3.image = [UIImage imageNamed:@"TipsForNewStuff_3"];
     
     [tipsMaskView addSubview:tipsForNewStuff_1];
@@ -335,20 +334,20 @@
         createInvitationViewController.isCreate = YES;
         
         [self.navigationController pushViewController:createInvitationViewController animated:YES];
-    } else if ([templateToCreate.category isEqualToString:@"GreetingCard_Christmas"]) {
+    } else if ([templateToCreate.category isEqualToString:@"GreetingCard_Valentine"]) {
         CreateGreetingCardViewController *createGreetingCardController = [CreateGreetingCardViewController new];
         createGreetingCardController.database = _database;
         createGreetingCardController.user = _user;
         createGreetingCardController.template = templateToCreate;
-        createGreetingCardController.theme = @"Christmas";
+        createGreetingCardController.theme = @"Valentine";
         createGreetingCardController.isCreate = YES;
         [self.navigationController pushViewController:createGreetingCardController animated:YES];
-    } else if ([templateToCreate.category isEqualToString:@"GreetingCard_NewYearDay"]) {
+    } else if ([templateToCreate.category isEqualToString:@"GreetingCard_Spring"]) {
         CreateGreetingCardViewController *createGreetingCardController = [CreateGreetingCardViewController new];
         createGreetingCardController.database = _database;
         createGreetingCardController.user = _user;
         createGreetingCardController.template = templateToCreate;
-        createGreetingCardController.theme = @"NewYearDay";
+        createGreetingCardController.theme = @"Spring";
         createGreetingCardController.isCreate = YES;
         [self.navigationController pushViewController:createGreetingCardController animated:YES];
     }

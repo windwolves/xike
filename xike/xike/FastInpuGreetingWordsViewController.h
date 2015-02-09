@@ -14,6 +14,7 @@
 @protocol FastInpuGreetingWordsViewControllerDelegate <NSObject>
 
 - (void)done:(NSString *)content;
+- (void)returnWithWord:(NSString *)word;
 
 @end
 

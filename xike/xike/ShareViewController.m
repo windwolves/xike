@@ -45,15 +45,15 @@
         navigationBar.backgroundColor= [ColorHandler colorWithHexString:@"#1de9b6"];
         [self.view addSubview:navigationBar];
         
-        returnBtn = [[ImageControl alloc] initWithFrame:CGRectMake(10, 33, 43, 18)];
-        returnBtn.imageView = [[UIImageView alloc] initWithFrame:returnBtn.bounds];
+        returnBtn = [[ImageControl alloc] initWithFrame:CGRectMake(10, 23, 43, 38)];
+        returnBtn.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 43, 18)];
         returnBtn.imageView.image = [UIImage imageNamed:@"return_icon"];
         [returnBtn addSubview:returnBtn.imageView];
         [returnBtn addTarget:self action:@selector(returnToPreviousView) forControlEvents:UIControlEventTouchUpInside];
         [navigationBar addSubview:returnBtn];
         
-        backToHomeBtn = [[ImageControl alloc] initWithFrame:CGRectMake(viewWidth-53, 33, 43, 18)];
-        backToHomeBtn.imageView = [[UIImageView alloc] initWithFrame:backToHomeBtn.bounds];
+        backToHomeBtn = [[ImageControl alloc] initWithFrame:CGRectMake(viewWidth-53, 23, 43, 38)];
+        backToHomeBtn.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 43, 18)];
         backToHomeBtn.imageView.image = [UIImage imageNamed:@"back_to_home_icon"];
         [backToHomeBtn addSubview:backToHomeBtn.imageView];
         [backToHomeBtn addTarget:self action:@selector(backToHomePage) forControlEvents:UIControlEventTouchUpInside];
@@ -71,6 +71,11 @@
     UIImageView *savedImageView = [[UIImageView alloc] initWithFrame:CGRectMake((viewWidth-145)/2, 90, 145, 18)];
     savedImageView.image = [UIImage imageNamed:@"already_saved"];
     [self.view addSubview:savedImageView];
+    
+    if ([_fromController isEqualToString:@"eventsTable"] || [_fromController isEqualToString:@"greetingsTable"]) {
+        [savedImageView removeFromSuperview];
+    }
+    
     
     UILabel *shareLabel = [[UILabel alloc] initWithFrame:CGRectMake((viewWidth-80)/2, 153, 80, 15)];
     shareLabel.textColor = [ColorHandler colorWithHexString:@"#00bfa5"];

@@ -24,5 +24,6 @@ enum {
 
 @interface ShareViewController : UIViewController
 @property (nonatomic, strong) id<ShareViewControllerDelegate> delegate;
+@property (nonatomic, strong) NSString *fromController;
 
 @end

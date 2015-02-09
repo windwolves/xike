@@ -119,7 +119,7 @@ enum ControlFlag {
     
     
     //Invitation Control
-    invitationCtl = [[UIControl alloc] initWithFrame:CGRectMake(0, 158, self.view.bounds.size.width/2, 15)];
+    invitationCtl = [[UIControl alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2, 158, self.view.bounds.size.width/2, 15)];
     invitationCtl.tag = InvitationTag;
     [invitationCtl addTarget:self action:@selector(changeSection:) forControlEvents:UIControlEventTouchUpInside];
     invitationLabel = [[UILabel alloc] initWithFrame:invitationCtl.bounds];
@@ -131,7 +131,7 @@ enum ControlFlag {
     [_backImageView addSubview:invitationCtl];
     
     //Greeting Control
-    greetingCardCtl = [[UIControl alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2, 158, self.view.bounds.size.width/2, 15)];
+    greetingCardCtl = [[UIControl alloc] initWithFrame:CGRectMake(0, 158, self.view.bounds.size.width/2, 15)];
     greetingCardCtl.tag = GreetingCardTag;
     [greetingCardCtl addTarget:self action:@selector(changeSection:) forControlEvents:UIControlEventTouchUpInside];
     greetingCardLabel = [[UILabel alloc] initWithFrame:greetingCardCtl.bounds];
@@ -143,16 +143,16 @@ enum ControlFlag {
     [_backImageView addSubview:greetingCardCtl];
     
     //Inidicator
-    sectionIndicator = [[UIView alloc] initWithFrame:CGRectMake(0+45, 178, 70, 2)];
+    sectionIndicator = [[UIView alloc] initWithFrame:CGRectMake((_backImageView.bounds.size.width/2-70)/2, 178, 70, 2)];
     sectionIndicator.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
     [_backImageView addSubview:sectionIndicator];
-    SectionFlag = InvitationTag;
+    SectionFlag = GreetingCardTag;
     
     [self.view addSubview:_backImageView];
 }
 
 - (void)buildInvitationsView {
-    invitationsView = [[UIView alloc] initWithFrame:CGRectMake(4, 184, self.view.bounds.size.width-8, self.view.bounds.size.height)];
+    invitationsView = [[UIView alloc] initWithFrame:CGRectMake(4+self.view.bounds.size.width, 184, self.view.bounds.size.width-8, self.view.bounds.size.height-184)];
     invitationsView.backgroundColor = [UIColor clearColor];
     _eventsTable = [[UITableView alloc] initWithFrame:invitationsView.bounds];
     _eventsTable.dataSource = self;
@@ -164,7 +164,7 @@ enum ControlFlag {
 }
 
 - (void)buildGreetingsView {
-    greetingsView = [[UIView alloc] initWithFrame:CGRectMake(4+self.view.bounds.size.width, 184, self.view.bounds.size.width-8, self.view.bounds.size.height-184)];
+    greetingsView = [[UIView alloc] initWithFrame:CGRectMake(4, 184, self.view.bounds.size.width-8, self.view.bounds.size.height)];
     greetingsView.backgroundColor = [UIColor clearColor];
     _greetingsTables = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, greetingsView.bounds.size.width, greetingsView.bounds.size.height)];
     _greetingsTables.dataSource = self;
@@ -181,7 +181,7 @@ enum ControlFlag {
     [_eventsTable removeFromSuperview];
     [invitationTipsImageView removeFromSuperview];
     if (eventsArray.count == 0) {
-        invitationTipsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(89, 246, 134, 79)];
+        invitationTipsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(96, 246, 126, 78)];
         invitationTipsImageView.image = [UIImage imageNamed:@"tips_invitation"];
         [invitationsView addSubview:invitationTipsImageView];
     } else {
@@ -194,7 +194,7 @@ enum ControlFlag {
     [_greetingsTables removeFromSuperview];
     [greetingTipsImageView removeFromSuperview];
     if (greetingsArray.count == 0) {
-        greetingTipsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(96, 246, 126, 78)];
+        greetingTipsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(89, 246, 134, 79)];
         greetingTipsImageView.image = [UIImage imageNamed:@"tips_greeting"];
         [greetingsView addSubview:greetingTipsImageView];
     } else {
@@ -289,14 +289,14 @@ enum ControlFlag {
     }
     invitationLabel.textColor = [ColorHandler colorWithHexString:@"#ffffff"];
     greetingCardLabel.textColor = [ColorHandler colorWithHexString:@"#413445"];
-    [sectionIndicator setFrame:CGRectMake(0+45, 178, 70, 2)];
+    [sectionIndicator setFrame:CGRectMake(160+45, 178, 70, 2)];
     
-    [greetingsView setFrame:CGRectMake(4+self.view.bounds.size.width, 184, self.view.bounds.size.width-8, self.view.bounds.size.height-184)];
+    [greetingsView setFrame:CGRectMake(-1*self.view.bounds.size.width+4, 184, self.view.bounds.size.width-8, self.view.bounds.size.height-184)];
     [invitationsView setFrame:CGRectMake(4, 184, self.view.bounds.size.width-8, self.view.bounds.size.height-184)];
     
-    [sectionIndicator setTransform:CGAffineTransformMakeTranslation(160,0)];
-    [greetingsView setTransform:CGAffineTransformMakeTranslation(-320,0)];
-    [invitationsView setTransform:CGAffineTransformMakeTranslation(-320, 0)];
+    [sectionIndicator setTransform:CGAffineTransformMakeTranslation(-160,0)];
+    [greetingsView setTransform:CGAffineTransformMakeTranslation(320,0)];
+    [invitationsView setTransform:CGAffineTransformMakeTranslation(320, 0)];
     [UIView animateWithDuration:0.4f animations:^{
         [sectionIndicator setTransform:CGAffineTransformIdentity];
         [greetingsView setTransform:CGAffineTransformIdentity];
@@ -311,14 +311,14 @@ enum ControlFlag {
     }
     invitationLabel.textColor = [ColorHandler colorWithHexString:@"#413445"];
     greetingCardLabel.textColor = [ColorHandler colorWithHexString:@"#ffffff"];
-    [sectionIndicator setFrame:CGRectMake(160+45, 178, 70, 2)];
+    [sectionIndicator setFrame:CGRectMake(0+45, 178, 70, 2)];
     
     [greetingsView setFrame:CGRectMake(4, 184, self.view.bounds.size.width-8, self.view.bounds.size.height-184)];
-    [invitationsView setFrame:CGRectMake(-1*self.view.bounds.size.width+4, 184, self.view.bounds.size.width-8, self.view.bounds.size.height-184)];
+    [invitationsView setFrame:CGRectMake(4+self.view.bounds.size.width, 184, self.view.bounds.size.width-8, self.view.bounds.size.height-184)];
     
-    [sectionIndicator setTransform:CGAffineTransformMakeTranslation(-160,0)];
-    [greetingsView setTransform:CGAffineTransformMakeTranslation(320,0)];
-    [invitationsView setTransform:CGAffineTransformMakeTranslation(320, 0)];
+    [sectionIndicator setTransform:CGAffineTransformMakeTranslation(160,0)];
+    [greetingsView setTransform:CGAffineTransformMakeTranslation(-320,0)];
+    [invitationsView setTransform:CGAffineTransformMakeTranslation(-320, 0)];
     
     [UIView animateWithDuration:0.4f animations:^{
         [sectionIndicator setTransform:CGAffineTransformIdentity];
@@ -400,6 +400,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PreViewController *preViewController = [PreViewController new];
     preViewController.database = _database;
+    preViewController.user = _user;
     if (tableView.tag == InvitationTag) {
         preViewController.event = [eventsArray objectAtIndex:indexPath.row];
         preViewController.fromController = @"eventsTable";

@@ -747,6 +747,53 @@ static sqlite3 *_database;
     }
 }
 
+- (TemplateInfo *)getTemplateWithName:(NSString *)name {
+    [self openDatabase];
+    TemplateInfo *template = [TemplateInfo new];
+    const char *getEventInfoSQL = "select uuid,name,desc,thumbnail,category,recommendation from templateinfo where name = ?";
+    sqlite3_stmt *stmt;
+    
+    if (sqlite3_prepare_v2(_database, getEventInfoSQL, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [name UTF8String], -1, NULL);
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            if (sqlite3_column_text(stmt, 0)) {
+                template.ID = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 0)];
+            } else {
+                template.ID = @"";
+            }
+            if (sqlite3_column_text(stmt, 1)) {
+                template.name = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
+            } else {
+                template.name = @"";
+            }
+            if (sqlite3_column_text(stmt, 2)) {
+                template.desc = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 2)];
+            } else {
+                template.desc = @"";
+            }
+            if (sqlite3_column_bytes(stmt, 3) != 0) {
+                template.thumbnail = [NSData dataWithBytes:sqlite3_column_blob(stmt, 3) length:sqlite3_column_bytes(stmt, 3)];
+            } else {
+                template.thumbnail = nil;
+            }
+            if (sqlite3_column_text(stmt, 4)) {
+                template.category = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 4)];
+            } else {
+                template.category = @"";
+            }
+            if (sqlite3_column_int(stmt, 5)) {
+                template.recommendation = sqlite3_column_int(stmt, 5);
+            } else {
+                template.recommendation = 0;
+            }
+        }
+    }
+    sqlite3_finalize(stmt);
+    [self closeDatabase];
+    return template;
+    
+}
+
 - (TemplateInfo *)getTemplate:(NSString *)templateID {
     [self openDatabase];
     TemplateInfo *template = [TemplateInfo new];
@@ -1169,7 +1216,12 @@ static sqlite3 *_database;
                 greetingCard.send_status = (NSInteger)sqlite3_column_int(stmt, 6);
             }
             greetingCard.create_date = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 7)];
-            greetingCard.template = [self getTemplate:greetingCard.templateID];
+            if ([greetingCard.theme isEqual:@"Valentine"] || [greetingCard.theme isEqual:@"Spring"]) {
+                greetingCard.template = [self getTemplateWithName:greetingCard.templateID];
+            } else {
+                greetingCard.template = [self getTemplate:greetingCard.templateID];
+            }
+            
             [greetingCards addObject:greetingCard];
         }
     }

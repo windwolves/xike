@@ -13,6 +13,8 @@
 #import "SetInvitationDateViewController.h"
 #import "PreViewController.h"
 
+#define viewWidth self.view.bounds.size.width
+#define viewHeight self.view.bounds.size.height
 
 @interface CreateInvitationViewController ()
 
@@ -29,18 +31,50 @@
     UILabel *participateLabel;
     UIGestureRecognizer *tapGestureRecognizer;
     NSString *placeHolderString;
+    UIView *navigationBar;
+    ImageControl *returnBtn;
+    ImageControl *doneBtn;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationController.navigationBarHidden = NO;
-    self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
+    self.navigationController.navigationBarHidden = YES;
+    [self buildNavigationBar];
     [self setEventInView];
+}
+
+- (void)buildNavigationBar {
+    if (navigationBar) {
+        [navigationBar removeFromSuperview];
+    } else {
+        navigationBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 64)];
+        navigationBar.backgroundColor= [ColorHandler colorWithHexString:@"#1de9b6"];
+        [self.view addSubview:navigationBar];
+        
+        returnBtn = [[ImageControl alloc] initWithFrame:CGRectMake(10, 23, 43, 38)];
+        returnBtn.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 43, 18)];
+        returnBtn.imageView.image = [UIImage imageNamed:@"return_icon"];
+        [returnBtn addSubview:returnBtn.imageView];
+        [returnBtn addTarget:self action:@selector(returnToPreviousView) forControlEvents:UIControlEventTouchUpInside];
+        [navigationBar addSubview:returnBtn];
+        
+        doneBtn = [[ImageControl alloc] initWithFrame:CGRectMake(viewWidth-53, 23, 43, 38)];
+        doneBtn.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 43, 18)];
+        doneBtn.imageView.image = [UIImage imageNamed:@"go_to_preview"];
+        [doneBtn addSubview:doneBtn.imageView];
+        [doneBtn addTarget:self action:@selector(done) forControlEvents:UIControlEventTouchUpInside];
+        [navigationBar addSubview:doneBtn];
+        
+        UIImageView *titleView = [[UIImageView alloc] initWithFrame:CGRectMake((viewWidth-39)/2, 33, 39, 18)];
+        titleView.image = [UIImage imageNamed:@"produce_title"];
+        [navigationBar addSubview:titleView];
+    }
+    [self.view addSubview:navigationBar];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
+    /*
     [self.navigationItem setTitle:@"制作"];
     self.navigationController.navigationBar.barTintColor = [ColorHandler colorWithHexString:@"#1de9b6"];
     NSMutableDictionary *titleFont= [NSMutableDictionary new];
@@ -53,6 +87,7 @@
     UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(done)];
     doneBtn.tintColor = [ColorHandler colorWithHexString:@"#f6f6f6"];
     [self.navigationItem setRightBarButtonItem:doneBtn];
+     */
     self.view.backgroundColor = [ColorHandler colorWithHexString:@"#f3f3f3"];
     tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignKeyBoard)];
     placeHolderString = @"输入你的活动内容(限100字)";
@@ -116,7 +151,7 @@
     [locationView addSubview:locationIcon];
     [locationView addSubview:arrowLocationIcon];
     [self.view addSubview:locationView];
-    
+    /*
     //participate
     participateView = [[UIView alloc] initWithFrame:CGRectMake(4, 217+64, self.view.bounds.size.width-8, 47)];
     participateView.backgroundColor = [ColorHandler colorWithHexString:@"#ffffff"];
@@ -136,7 +171,7 @@
     [participateView addSubview:participateLabel];
     [participateView addSubview:participateIcon];
     [self.view addSubview:participateView];
-    
+    */
 }
 
 - (void)setEventInView {
@@ -180,6 +215,7 @@
     PreViewController *previewController = [PreViewController new];
     previewController.event = _event;
     previewController.database = _database;
+    previewController.user = _user;
     previewController.createItem = @"Invitation";
     [self updateEventOnserver];
     [self.navigationController pushViewController:previewController animated:YES];

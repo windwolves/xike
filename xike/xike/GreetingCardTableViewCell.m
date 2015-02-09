@@ -78,6 +78,10 @@
         _themeLabel.text = @"圣诞贺卡";
     } else if ([_greeting.theme isEqualToString:@"NewYearDay"]) {
         _themeLabel.text = @"元旦贺卡";
+    } else if ([_greeting.theme isEqualToString:@"Spring"]) {
+        _themeLabel.text = @"春节贺卡";
+    } else if ([_greeting.theme isEqualToString:@"Valentine"]) {
+        _themeLabel.text = @"情人节贺卡";
     }
     _contentLabel.text = _greeting.content;
     

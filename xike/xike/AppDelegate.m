@@ -15,9 +15,11 @@
 #import "ShareEngine.h"
 #import "Contants.h"
 #import "MainView2Controller.h"
+#import "GuideView2Controller.h"
 
 @implementation AppDelegate {
     GuideViewController *guideViewController;
+    GuideView2Controller *guideView2Controller;
     UserLogonViewController *logonViewController;
     MainViewController *mainViewController;
     MainView2Controller *mainView2Controller;
@@ -67,12 +69,11 @@
             logonViewController.database = database;
             logonViewController.deviceToken = token;
             
-            guideViewController = [GuideViewController new];
-            guideViewController.logonViewController = logonViewController;
-            guideViewController.destination = Destination_logon;
+            guideView2Controller = [GuideView2Controller new];
+            guideView2Controller.logonViewController = logonViewController;
+            guideView2Controller.destination = Destination_logon;
             
-            //navigation = [[UINavigationController alloc] initWithRootViewController:logonViewController];
-            self.window.rootViewController = guideViewController;
+            self.window.rootViewController = guideView2Controller;
             
         } else {
             NSLog(@"Tables cannot be created!");
@@ -88,11 +89,11 @@
                 logonViewController = [UserLogonViewController new];
                 logonViewController.database = database;
                 logonViewController.deviceToken = token;
-                guideViewController = [GuideViewController new];
-                guideViewController.logonViewController = logonViewController;
-                guideViewController.destination = Destination_logon;
+                guideView2Controller = [GuideView2Controller new];
+                guideView2Controller.logonViewController = logonViewController;
+                guideView2Controller.destination = Destination_logon;
                 
-                navigation = [[UINavigationController alloc] initWithRootViewController:guideViewController];
+                navigation = [[UINavigationController alloc] initWithRootViewController:guideView2Controller];
                 self.window.rootViewController = navigation;
             } else {
                 [database createAllTables];
@@ -103,10 +104,10 @@
                 mainView2Controller.database = database;
                 mainView2Controller.user = user;
                 
-                guideViewController = [GuideViewController new];
-                guideViewController.mainView2Controller = mainView2Controller;
-                guideViewController.destination = Destination_main;
-                navigation = [[UINavigationController alloc] initWithRootViewController:guideViewController];
+                guideView2Controller = [GuideView2Controller new];
+                guideView2Controller.mainView2Controller = mainView2Controller;
+                guideView2Controller.destination = Destination_main;
+                navigation = [[UINavigationController alloc] initWithRootViewController:guideView2Controller];
             }
         } else {
             if (![defaults boolForKey:@"isLogin"]) {
@@ -122,7 +123,7 @@
                 mainView2Controller = [MainView2Controller new];
                 mainView2Controller.database = database;
                 mainView2Controller.user = user;
-                
+
                 navigation = [[UINavigationController alloc] initWithRootViewController:mainView2Controller];
                 
             }
@@ -298,6 +299,7 @@
     //Update on 2014-12-11
     //v 1.11
     //christmas 1
+    
     TemplateInfo *template_christmas_1 = [TemplateInfo new];
     template_christmas_1.ID = @"7095bc04-0949-4985-801e-e9340c9e756c";
     template_christmas_1.name = @"Christmas_1";
@@ -324,7 +326,7 @@
     template_christmas_3.category = @"GreetingCard_Christmas";
     template_christmas_3.recommendation = 8.5;
     [basicTemplates addObject:template_christmas_3];
-    //christmas 1
+    //christmas 4
     TemplateInfo *template_christmas_4 = [TemplateInfo new];
     template_christmas_4.ID = @"cb99c1f7-3dc4-4848-b080-296ed0a4c254";
     template_christmas_4.name = @"Christmas_4";
@@ -369,7 +371,82 @@
     template_nyd_4.category = @"GreetingCard_NewYearDay";
     template_nyd_4.recommendation = 8.5;
     [basicTemplates addObject:template_nyd_4];
-
+    
+    
+    //updated on 2015-01-26
+    TemplateInfo *template_greeting_1 = [TemplateInfo new];
+    template_greeting_1.ID = @"valentine_day_zxy_01";
+    template_greeting_1.name = @"valentine_day_zxy_01";
+    template_greeting_1.desc = @"valentine_day_zxy_01";
+    template_greeting_1.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"valentine_day_zxy_01_362_570.jpg"]);
+    template_greeting_1.category = @"GreetingCard_Valentine";
+    template_greeting_1.recommendation = 8.5;
+    [basicTemplates addObject:template_greeting_1];
+    
+    TemplateInfo *template_greeting_2 = [TemplateInfo new];
+    template_greeting_2.ID = @"valentine_day_zxy_02";
+    template_greeting_2.name = @"valentine_day_zxy_02";
+    template_greeting_2.desc = @"valentine_day_zxy_02";
+    template_greeting_2.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"valentine_day_zxy_02_362_570.jpg"]);
+    template_greeting_2.category = @"GreetingCard_Valentine";
+    template_greeting_2.recommendation = 8.5;
+    [basicTemplates addObject:template_greeting_2];
+    
+    TemplateInfo *template_greeting_3 = [TemplateInfo new];
+    template_greeting_3.ID = @"valentine_day_rey_01";
+    template_greeting_3.name = @"valentine_day_rey_01";
+    template_greeting_3.desc = @"valentine_day_rey_01";
+    template_greeting_3.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"valentine_day_rey_01_362_570.jpg"]);
+    template_greeting_3.category = @"GreetingCard_Valentine";
+    template_greeting_3.recommendation = 8.5;
+    [basicTemplates addObject:template_greeting_3];
+    
+    TemplateInfo *template_greeting_4 = [TemplateInfo new];
+    template_greeting_4.ID = @"valentine_day_zoe_01";
+    template_greeting_4.name = @"valentine_day_zoe_01";
+    template_greeting_4.desc = @"valentine_day_zoe_01";
+    template_greeting_4.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"valentine_day_zoe_01_362_570.jpg"]);
+    template_greeting_4.category = @"GreetingCard_Valentine";
+    template_greeting_4.recommendation = 8.5;
+    [basicTemplates addObject:template_greeting_4];
+    
+    
+    TemplateInfo *template_greeting_5 = [TemplateInfo new];
+    template_greeting_5.ID = @"spring_festival_zoe_01";
+    template_greeting_5.name = @"spring_festival_zoe_01";
+    template_greeting_5.desc = @"spring_festival_zoe_01";
+    template_greeting_5.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"spring_festival_zoe_01_362_570.jpg"]);
+    template_greeting_5.category = @"GreetingCard_Spring";
+    template_greeting_5.recommendation = 8.5;
+    [basicTemplates addObject:template_greeting_5];
+    
+    TemplateInfo *template_greeting_6 = [TemplateInfo new];
+    template_greeting_6.ID = @"spring_festival_rey_01";
+    template_greeting_6.name = @"spring_festival_rey_01";
+    template_greeting_6.desc = @"spring_festival_rey_01";
+    template_greeting_6.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"spring_festival_rey_01_362_570.jpg"]);
+    template_greeting_6.category = @"GreetingCard_Spring";
+    template_greeting_6.recommendation = 8.5;
+    [basicTemplates addObject:template_greeting_6];
+    
+    TemplateInfo *template_greeting_7 = [TemplateInfo new];
+    template_greeting_7.ID = @"spring_festival_hy_01";
+    template_greeting_7.name = @"spring_festival_hy_01";
+    template_greeting_7.desc = @"spring_festival_hy_01";
+    template_greeting_7.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"spring_festival_hy_01_362_570.jpg"]);
+    template_greeting_7.category = @"GreetingCard_Spring";
+    template_greeting_7.recommendation = 8.5;
+    [basicTemplates addObject:template_greeting_7];
+    
+    TemplateInfo *template_greeting_8 = [TemplateInfo new];
+    template_greeting_8.ID = @"spring_festival_hy_02";
+    template_greeting_8.name = @"spring_festival_hy_02";
+    template_greeting_8.desc = @"spring_festival_hy_02";
+    template_greeting_8.thumbnail = UIImagePNGRepresentation([UIImage imageNamed:@"spring_festival_hy_02_362_570.jpg"]);
+    template_greeting_8.category = @"GreetingCard_Spring";
+    template_greeting_8.recommendation = 8.5;
+    [basicTemplates addObject:template_greeting_8];
+    
     
     return basicTemplates;
 }
